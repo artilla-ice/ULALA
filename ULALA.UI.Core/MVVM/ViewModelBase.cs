@@ -7,12 +7,17 @@ using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.Collections;
 using ULALA.UI.Core.Contracts.MVVM;
+using Xamarin.Forms;
+using ULALA.UI.Core.Contracts.Navigation;
 
 namespace ULALA.UI.Core.MVVM
 {
     public class ViewModelBase : IViewModelBase, INotifyPropertyChanged, INotifyDataErrorInfo
     {
-       
+        [Unity.Dependency]
+        public INavigationManager NavigationManager { get; set; }
+
+        public Command OnBackCommand { get; set; }
 
         bool m_isBusy = false;
         [Display(AutoGenerateField = false)]
@@ -44,6 +49,8 @@ namespace ULALA.UI.Core.MVVM
 
         public void HandleActivated()
         {
+            this.OnBackCommand = new Command(OnGoBack);
+
             OnActivated();
         }
 
@@ -114,6 +121,11 @@ namespace ULALA.UI.Core.MVVM
                 }
             }
 
+        }
+
+        private void OnGoBack()
+        {
+            this.NavigationManager.GoBack();
         }
 
         protected void LogErrorMessage(Exception ex)

@@ -132,6 +132,7 @@ namespace ULALA
         {
             navigationManager.RegisterView(ViewNames.MainMenu, typeof(MainMenuView));
             navigationManager.RegisterView(ViewNames.WithdrawStacker, typeof(WithdrawStackerView));
+            navigationManager.RegisterView(ViewNames.CashFunds, typeof(CashFundsView));
         }
 
 

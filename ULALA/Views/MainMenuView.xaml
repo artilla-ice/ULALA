@@ -17,7 +17,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Frame Background="DarkBlue" MinHeight="100" VerticalAlignment="Top">
+        <Frame Background="CornflowerBlue" MinHeight="100" VerticalAlignment="Top">
             <Grid>
                 <TextBlock Text="MiddleOffice" HorizontalAlignment="Center" VerticalAlignment="Center"
                            FontSize="36" Foreground="WhiteSmoke" FontWeight="SemiBold"/>
@@ -81,7 +81,7 @@
             </controls:AdaptiveGridView.ItemTemplate>
         </controls:AdaptiveGridView>
 
-        <Frame Grid.Row="2" MinHeight="80" Background="DarkBlue" VerticalAlignment="Bottom">
+        <Frame Grid.Row="2" MinHeight="80" Background="CornflowerBlue" VerticalAlignment="Bottom">
             <Grid ColumnSpacing="40" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />

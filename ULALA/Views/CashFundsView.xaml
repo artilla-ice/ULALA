@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
     mvvm:ViewModelLocator.AutoWireViewModel="True"
-    x:Class="ULALA.Views.WithdrawStackerView"
+    x:Class="ULALA.Views.CashFundsView"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
@@ -22,7 +22,7 @@
                 <Button VerticalAlignment="Top" HorizontalAlignment="Left" Command="{Binding OnBackCommand}"
                         Style="{StaticResource NavigationBackButtonNormalStyle}"/>
                 
-                <TextBlock Text="Retirar del Stacker" HorizontalAlignment="Center" VerticalAlignment="Center"
+                <TextBlock Text="Fondos de Caja" HorizontalAlignment="Center" VerticalAlignment="Center"
                            FontSize="36" Foreground="WhiteSmoke" FontWeight="SemiBold"/>
 
                 <ToggleSwitch OffContent="Modo Oscuro" OnContent="Modo Claro" Margin="12"
