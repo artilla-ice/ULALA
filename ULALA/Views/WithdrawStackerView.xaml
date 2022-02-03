@@ -19,6 +19,9 @@
 
         <Frame Background="DarkBlue" MinHeight="100" VerticalAlignment="Top">
             <Grid>
+                <Button VerticalAlignment="Top" HorizontalAlignment="Left" 
+                        Style="{StaticResource NavigationBackButtonNormalStyle}"/>
+                
                 <TextBlock Text="Retirar del Stacker" HorizontalAlignment="Center" VerticalAlignment="Center"
                            FontSize="36" Foreground="WhiteSmoke" FontWeight="SemiBold"/>
 
