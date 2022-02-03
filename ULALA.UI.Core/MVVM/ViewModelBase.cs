@@ -19,6 +19,11 @@ namespace ULALA.UI.Core.MVVM
 
         public Command OnBackCommand { get; set; }
 
+        public ViewModelBase()
+        {
+            this.OnBackCommand = new Command(OnGoBack);
+        }
+
         bool m_isBusy = false;
         [Display(AutoGenerateField = false)]
         public bool IsBusy
@@ -49,8 +54,6 @@ namespace ULALA.UI.Core.MVVM
 
         public void HandleActivated()
         {
-            this.OnBackCommand = new Command(OnGoBack);
-
             OnActivated();
         }
 
@@ -74,6 +77,11 @@ namespace ULALA.UI.Core.MVVM
         protected Task WrapAsyncCall(Func<Task> asynchCallback, bool setIsBusy = true, Action<Exception> onErrorCallback = null)
         {
             return InternalHandleAsyncCall(asynchCallback, setIsBusy, onErrorCallback);
+        }
+
+        private void OnGoBack()
+        {
+            this.NavigationManager.GoBack();
         }
 
         private async Task InternalHandleAsyncCall(Func<Task> asynchCallback, bool setIsBusy, Action<Exception> onErrorCallback)
@@ -121,11 +129,6 @@ namespace ULALA.UI.Core.MVVM
                 }
             }
 
-        }
-
-        private void OnGoBack()
-        {
-            this.NavigationManager.GoBack();
         }
 
         protected void LogErrorMessage(Exception ex)

@@ -19,7 +19,7 @@
 
         <Frame Background="CornflowerBlue" MinHeight="100" VerticalAlignment="Top">
             <Grid>
-                <Button VerticalAlignment="Top" HorizontalAlignment="Left" Command="{Binding OnBackCommand}"
+                <Button VerticalAlignment="Center" HorizontalAlignment="Left" Command="{Binding OnBackCommand}"
                         Style="{StaticResource NavigationBackButtonNormalStyle}"/>
                 
                 <TextBlock Text="Retirar del Stacker" HorizontalAlignment="Center" VerticalAlignment="Center"
