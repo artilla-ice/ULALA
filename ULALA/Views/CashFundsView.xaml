@@ -38,9 +38,9 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <Button Content="Detener" Height="40" Width="120"/>
-                <Button Grid.Column="1" Content="Config" Height="40" Width="120"/>
-                <Button Grid.Column="2" Content="Salir" Height="40" Width="120"/>
+                <Button Content="Retirar Excedente" Height="40" Width="120"/>
+                <Button Grid.Column="1" Content="Añadir Cambio" Height="40" Width="120"/>
+                <Button Grid.Column="2" Content="Corte de Caja" Height="40" Width="120"/>
             </Grid>
         </Frame>
     </Grid>
