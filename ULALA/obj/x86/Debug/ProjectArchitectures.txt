@@ -1,0 +1,8 @@
+C:\Users\Windows\source\repos\ULALA\ULALA.Core.Contracts\ULALA.Core.Contracts.csproj;x86
+C:\Users\Windows\source\repos\ULALA\ULALA.Infrastructure\ULALA.Infrastructure.csproj;x86
+C:\Users\Windows\source\repos\ULALA\ULALA.Infrastructure\ULALA.Infrastructure.csproj;x86
+C:\Users\Windows\source\repos\ULALA\ULALA.Infrastructure\ULALA.Infrastructure.csproj;x86
+C:\Users\Windows\source\repos\ULALA\ULALA.UI.Core.Contracts\ULALA.UI.Core.Contracts.csproj;x86
+C:\Users\Windows\source\repos\ULALA\ULALA.UI.Core.Contracts\ULALA.UI.Core.Contracts.csproj;x86
+C:\Users\Windows\source\repos\ULALA\ULALA.UI.Core\ULALA.UI.Core.csproj;x86
+C:\Users\Windows\source\repos\ULALA\ULALA\ULALA.csproj;x86
