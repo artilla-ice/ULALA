@@ -16,5 +16,10 @@ namespace ULALA.ViewModels
         {
 
         }
+
+        protected override void OnActivated()
+        {
+            this.PageIcon = "../Assets/Icons/Estatus.png"; //TODO: agregar path de iconos a archivo de recursos
+        }
     }
 }

@@ -40,6 +40,14 @@ namespace ULALA.UI.Core.MVVM
             set { SetProperty(ref m_Title, value); }
         }
 
+        string m_pageIcon = string.Empty;
+        [Display(AutoGenerateField = false)]
+        public string PageIcon
+        {
+            get { return m_pageIcon; }
+            set { SetProperty(ref m_pageIcon, value); }
+        }
+
         protected bool SetProperty<T>(ref T backingStore, T value,[CallerMemberName] string propertyName = "",Action onChanged = null)
         {
             if (EqualityComparer<T>.Default.Equals(backingStore, value))

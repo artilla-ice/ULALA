@@ -21,12 +21,15 @@
             <Grid>
                 <Button VerticalAlignment="Center" HorizontalAlignment="Left" Command="{Binding OnBackCommand}"
                         Style="{StaticResource NavigationBackButtonNormalStyle}"/>
-                
-                <TextBlock Text="Fondos de Caja" HorizontalAlignment="Center" VerticalAlignment="Center"
-                           FontSize="36" Foreground="WhiteSmoke" FontWeight="SemiBold"/>
 
-                <ToggleSwitch OffContent="Modo Oscuro" OnContent="Modo Claro" Margin="12"
-                            VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="White" />
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20">
+                    <Image Source="{Binding PageIcon}"  HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                   Height="40" Width="40" 
+                                                   MinHeight="40" MinWidth="40"/>
+
+                    <TextBlock Text="Fondos de Caja" HorizontalAlignment="Center" VerticalAlignment="Center"
+                               FontSize="36" Foreground="WhiteSmoke" FontWeight="SemiBold"/>
+                </StackPanel>
             </Grid>
         </Frame>
 

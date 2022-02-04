@@ -45,7 +45,7 @@ namespace ULALA.ViewModels
                 new MenuItemModel("../Assets/Icons/Cobrar.png", "Estadisticas Red", Color.Blue.Name, null),
                 new MenuItemModel("../Assets/Icons/Estatus.png", "Mantenimiento", Color.Violet.Name, null),
                 new MenuItemModel("../Assets/Icons/AddCambios.png", "Logs", Color.Red.Name, null),};
-
+            
             this.MenuItems = new ObservableCollection<MenuItemModel>(menuItems);
         }
 

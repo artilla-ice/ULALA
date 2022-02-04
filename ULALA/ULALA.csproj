@@ -144,6 +144,17 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Icons\Bill100.png" />
+    <Content Include="Assets\Icons\Bill1000.png" />
+    <Content Include="Assets\Icons\Bill20.png" />
+    <Content Include="Assets\Icons\Bill200.png" />
+    <Content Include="Assets\Icons\Bill50.png" />
+    <Content Include="Assets\Icons\Bill500.png" />
+    <Content Include="Assets\Icons\Mon050.png" />
+    <Content Include="Assets\Icons\Mon1.png" />
+    <Content Include="Assets\Icons\Mon10.png" />
+    <Content Include="Assets\Icons\Mon2.png" />
+    <Content Include="Assets\Icons\Mon5.png" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
     <Content Include="Assets\Square150x150Logo.scale-200.png" />

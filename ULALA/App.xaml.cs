@@ -65,8 +65,7 @@ namespace ULALA
             }
 
             InitializeConfiguration();
-                ConfigureNavigationManager();
-
+            
             if (e.PrelaunchActivated == false)
             {
                 if (rootFrame.Content == null)
@@ -76,7 +75,6 @@ namespace ULALA
 
                 // Ensure the current window is active
 
-                OnConfigureWindowApplication();
                 Window.Current.Activate();
 
             }
@@ -108,6 +106,9 @@ namespace ULALA
                 //m_container.RegisterType<ITestService, TestService>();
                 //m_container.RegisterType<ITestManage, TestManager>(new ContainerControlledLifetimeManager());
             }
+
+            ConfigureWindowApplication();
+            ConfigureNavigationManager();
         }
 
         private void InitializeManager<T>()
@@ -136,7 +137,7 @@ namespace ULALA
         }
 
 
-        private void OnConfigureWindowApplication()
+        private void ConfigureWindowApplication()
         {
             ApplicationView.PreferredLaunchViewSize = new Size(880, 710);
             ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(880, 710));

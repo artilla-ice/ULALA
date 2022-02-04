@@ -16,5 +16,10 @@ namespace ULALA.ViewModels
         {
 
         }
+
+        protected override void OnActivated()
+        {
+            this.PageIcon = "../Assets/Icons/Cobrar.png";
+        }
     }
 }
