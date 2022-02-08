@@ -74,6 +74,7 @@ namespace ULALA
                 }
 
                 // Ensure the current window is active
+                ConfigureWindowApplication();
 
                 Window.Current.Activate();
 
@@ -107,7 +108,6 @@ namespace ULALA
                 //m_container.RegisterType<ITestManage, TestManager>(new ContainerControlledLifetimeManager());
             }
 
-            ConfigureWindowApplication();
             ConfigureNavigationManager();
         }
 
@@ -140,7 +140,7 @@ namespace ULALA
         private void ConfigureWindowApplication()
         {
             ApplicationView.PreferredLaunchViewSize = new Size(880, 710);
-            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(880, 710));
+            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(980, 710));
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
 
             //Set window title bar transparent

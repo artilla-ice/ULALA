@@ -31,13 +31,13 @@
             
                     <TextBlock Text="{Binding Title}" VerticalAlignment="Center" FontWeight="SemiBold"/>
                     <Image Grid.Column="1" Source="{Binding DenominationIcon}" VerticalAlignment="Center" Height="40" Width="{Binding DenominationIconSize}"/>
-                    <TextBox Grid.Column="2" Text="{Binding RecyclerQuantity}" IsEnabled="False" HorizontalTextAlignment="Center"/>
-                    <TextBox Grid.Column="3" Text="{Binding RecyclerAmount}" IsEnabled="False" HorizontalTextAlignment="Center"/>
-                    <Button Grid.Column="4" FontFamily="Segoe MDL2 Assets"  Content="&#xE72A;" Height="40"/>
-                    <TextBox Grid.Column="5" Text="{Binding CashierQuantity}" HorizontalTextAlignment="Center"/>
-                    <TextBox Grid.Column="6" Text="{Binding CashierAmount}" IsEnabled="False" HorizontalTextAlignment="Center"/>
-                    <TextBox Grid.Column="7" Text="{Binding MissingAmount}" IsEnabled="False" HorizontalTextAlignment="Center"/>
-                    <TextBox Grid.Column="8" Text="{Binding SurplusAmount}" IsEnabled="False" HorizontalTextAlignment="Center"/>
+                    <TextBox Style="{StaticResource GridTextBox}" Grid.Column="2"  Text="{Binding RecyclerQuantity}" IsEnabled="False"/>
+                    <TextBox Style="{StaticResource GridTextBox}"  Grid.Column="3"  Text="{Binding RecyclerAmount}" IsEnabled="False"/>
+                    <Button Style="{StaticResource ForwardButton}"  Grid.Column="4"/>
+                    <TextBox Style="{StaticResource GridTextBox}"  Grid.Column="5"  Text="{Binding CashierQuantity}" HorizontalTextAlignment="Center"/>
+                    <TextBox Style="{StaticResource GridTextBox}"  Grid.Column="6"  Text="{Binding CashierAmount}" IsEnabled="False"/>
+                    <TextBox Style="{StaticResource GridTextBox}"  Grid.Column="7"  Text="{Binding MissingAmount}" IsEnabled="False"/>
+                    <TextBox Style="{StaticResource GridTextBox}"  Grid.Column="8"  Text="{Binding SurplusAmount}" IsEnabled="False"/>
                 </Grid>
             </DataTemplate>
             <DataTemplate x:Key="CashFundsDataTemplatedHeader">
@@ -86,12 +86,9 @@
                         Style="{StaticResource NavigationBackButtonNormalStyle}"/>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20">
-                    <Image Source="{Binding PageIcon}"  HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                   Height="40" Width="40" 
-                                                   MinHeight="40" MinWidth="40"/>
+                    <Image Source="{Binding PageIcon}"  Style="{StaticResource IconPage}"/>
 
-                    <TextBlock Text="Fondos de Caja" HorizontalAlignment="Center" VerticalAlignment="Center"
-                               FontSize="36" Foreground="WhiteSmoke" FontWeight="SemiBold"/>
+                    <TextBlock Text="Fondos de Caja" Style="{StaticResource TitlePage}"/>
                 </StackPanel>
             </Grid>
         </Frame>
@@ -103,7 +100,7 @@
             </Grid.RowDefinitions>
 
             <StackPanel Grid.Row="0">
-                <TextBlock Text="Genera reporte de corte" FontSize="18" FontWeight="Bold"/>
+                <TextBlock Text="Genera reporte de corte" Style="{StaticResource SubtitlePage}"/>
                 <TextBlock Text="(Solo el ADMINISTRADOR puede retirar los excedentes)" />
             </StackPanel>
 
@@ -115,6 +112,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <ListView ItemTemplate="{StaticResource CashFundsDataTemplated}" HeaderTemplate="{StaticResource CashFundsDataTemplatedHeader}" ItemsSource="{Binding RecyclerAmounts}"
@@ -122,7 +120,32 @@
 
                 </ListView>
 
-                <UControls:Separator Grid.Row="1" Grid.ColumnSpan="2"/>
+                <UControls:Separator Grid.Row="1"/>
+
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Importes totales:" FontSize="18" FontWeight="Bold" VerticalAlignment="Center"/>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <TextBox Text="$0" Width="150" Background="SkyBlue" TextAlignment="Center" FontSize="18" FontWeight="SemiBold"/>
+                        <Button Grid.Column="4" FontFamily="Segoe MDL2 Assets"  Content="&#xE72A;" Height="40"/>
+                        <TextBox Text="$0" Width="150" Background="SkyBlue" TextAlignment="Center" FontSize="18" FontWeight="SemiBold"/>
+                    </StackPanel>
+
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="*El Reciclador está casi lleno" Foreground="SkyBlue" FontWeight="SemiBold"/>
+                </Grid>
+
+                <StackPanel Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Center">
+                    <TextBox Text="$0" Header="Fondo automático" Style="{StaticResource TextBoxWHeader}" Width="180"/>
+                    <Button Content="Fondo automático" Width="180" Height="40"/>
+                    <Button Content="Inicializar fondo" Width="180" Height="40"/>
+                </StackPanel>
             </Grid>
         </Grid>
 
