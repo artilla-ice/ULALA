@@ -28,10 +28,10 @@
         </Frame>
 
         <controls:AdaptiveGridView  Grid.Row="1" HorizontalAlignment="Center" ItemsSource="{Binding MenuItems}" Margin="12" VerticalContentAlignment="Center"
-                               HorizontalContentAlignment="Center"
+                               HorizontalContentAlignment="Stretch"
                                VerticalAlignment="Stretch" 
                                SelectionMode="Single"
-                               ItemHeight="160" DesiredWidth="200" 
+                               ItemHeight="180" DesiredWidth="220" 
                                SelectedItem="{Binding SelectedMenuItem, Mode=TwoWay}" IsItemClickEnabled="True">
             <controls:AdaptiveGridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
@@ -52,9 +52,9 @@
             <controls:AdaptiveGridView.ItemTemplate>
                 <DataTemplate>
                     <Viewbox VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                             MinWidth="80" MinHeight="40" Width="200" Height="160">
+                             MinWidth="80" MinHeight="40" Width="220" Height="180">
                         <Frame CornerRadius="10" Padding="10" Background="{Binding Color}"
-                               MinWidth="80" MinHeight="40" Width="200" Height="160"
+                               MinWidth="80" MinHeight="40" Width="220" Height="180"
                                VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                             <Grid>
                                 <Grid.RowDefinitions>

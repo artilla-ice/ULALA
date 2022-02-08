@@ -7,14 +7,17 @@ using System.Text;
 using System.Threading.Tasks;
 using ULALA.Models;
 using ULALA.UI.Core.MVVM;
+using ULALA.Views;
+using Xamarin.Forms;
 
 namespace ULALA.ViewModels
 {
     public class CashFundsViewModel : ViewModelBase
     {
+        public Command CashOutCommand { get; set; }
         public CashFundsViewModel()
         {
-
+            this.CashOutCommand = new Command(OnCashOut);
         }
 
         protected override void OnActivated()
@@ -22,6 +25,11 @@ namespace ULALA.ViewModels
             this.PageIcon = "../Assets/Icons/Estatus.png"; //TODO: agregar path de iconos a archivo de recursos
 
             OnLoadRecyclerAmounts();
+        }
+
+        private void OnCashOut()
+        {
+            this.NavigationManager.NavigateTo(ViewNames.CashOut);
         }
 
         private void OnLoadRecyclerAmounts()
