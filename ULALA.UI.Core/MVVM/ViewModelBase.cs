@@ -209,8 +209,6 @@ namespace ULALA.UI.Core.MVVM
             //if (!propertyName.Equals("Title"))
             //    return list;
 
-            //if (this.Title.Contains("Marketing"))
-            //    list.Add("Marketing is not allowed");
             return list;
         }
         #endregion

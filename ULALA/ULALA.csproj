@@ -123,6 +123,7 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\MenuItemModel.cs" />
+    <Compile Include="Models\RecyclerToCashierFundsModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CashFundsViewModels.cs" />
     <Compile Include="ViewModels\WithdrawStackerViewModel.cs" />

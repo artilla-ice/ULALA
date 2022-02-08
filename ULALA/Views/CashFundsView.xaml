@@ -4,11 +4,74 @@
     xmlns:local="using:ULALA"
     xmlns:mvvm="using:ULALA.UI.Core.MVVM"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:model="using:ULALA.Models" 
+    xmlns:UControls="using:ULALA.UI.Core.Controls"
     mc:Ignorable="d"
     mvvm:ViewModelLocator.AutoWireViewModel="True"
     x:Class="ULALA.Views.CashFundsView"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="CashFundsDataTemplated" x:DataType="model:RecyclerToCashierFundsModel">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="110"/>
+                      <ColumnDefinition Width="80"/>
+                      <ColumnDefinition Width="Auto"/>
+                      <ColumnDefinition Width="80"/>
+                      <ColumnDefinition Width="Auto"/>
+                      <ColumnDefinition Width="Auto"/>
+                      <ColumnDefinition Width="80"/>
+                      <ColumnDefinition Width="Auto"/>
+                      <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+            
+                    <TextBlock Text="{Binding Title}" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                    <Image Grid.Column="1" Source="{Binding DenominationIcon}" VerticalAlignment="Center" Height="40" Width="{Binding DenominationIconSize}"/>
+                    <TextBox Grid.Column="2" Text="{Binding RecyclerQuantity}" IsEnabled="False" HorizontalTextAlignment="Center"/>
+                    <TextBox Grid.Column="3" Text="{Binding RecyclerAmount}" IsEnabled="False" HorizontalTextAlignment="Center"/>
+                    <Button Grid.Column="4" FontFamily="Segoe MDL2 Assets"  Content="&#xE72A;" Height="40"/>
+                    <TextBox Grid.Column="5" Text="{Binding CashierQuantity}" HorizontalTextAlignment="Center"/>
+                    <TextBox Grid.Column="6" Text="{Binding CashierAmount}" IsEnabled="False" HorizontalTextAlignment="Center"/>
+                    <TextBox Grid.Column="7" Text="{Binding MissingAmount}" IsEnabled="False" HorizontalTextAlignment="Center"/>
+                    <TextBox Grid.Column="8" Text="{Binding SurplusAmount}" IsEnabled="False" HorizontalTextAlignment="Center"/>
+                </Grid>
+            </DataTemplate>
+            <DataTemplate x:Key="CashFundsDataTemplatedHeader">
+                <Grid HorizontalAlignment="Center" Margin="180,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="70"/>
+
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.ColumnSpan="2" Text="Reciclador" HorizontalTextAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                    <TextBlock  Grid.Column="3" Grid.ColumnSpan="2" Text="Fondo de Caja" HorizontalTextAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                    <TextBlock  Grid.Column="5" Grid.ColumnSpan="2" Text="Saldo" HorizontalTextAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold"/>
+
+                    <TextBlock Grid.Row="1" Text="Cantidad" HorizontalTextAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="Monto" HorizontalTextAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                    <TextBlock Grid.Row="1" Grid.Column="3" Text="Cantidad" HorizontalTextAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                    <TextBlock Grid.Row="1" Grid.Column="4" Text="Monto" HorizontalTextAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                    <TextBlock Grid.Row="1" Grid.Column="5" Text="Faltante" HorizontalTextAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                    <TextBlock Grid.Row="1" Grid.Column="6" Text="Excedente" HorizontalTextAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold"/>
+
+                </Grid>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Page.Resources>
 
     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
         <Grid.RowDefinitions>
@@ -33,6 +96,38 @@
             </Grid>
         </Frame>
 
+        <Grid Grid.Row="1" Margin="12" HorizontalAlignment="Stretch">
+          <Grid.RowDefinitions>
+              <RowDefinition Height="60"/>
+              <RowDefinition Height="*"/>
+          </Grid.RowDefinitions>
+        
+          <StackPanel Grid.Row="0">
+              <TextBlock Text="Genera reporte de corte" FontSize="18" FontWeight="Bold"/>
+              <TextBlock Text="(Solo el ADMINISTRADOR puede retirar los excedentes)" />
+          </StackPanel>
+
+          <Grid Grid.Row="1">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+              </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <ListView ItemTemplate="{StaticResource CashFundsDataTemplated}" HeaderTemplate="{StaticResource CashFundsDataTemplatedHeader}" ItemsSource="{Binding RecyclerAmounts}"
+                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionMode="None">
+
+                </ListView>
+                <UControls:Separator Grid.Row="1" Grid.ColumnSpan="2"/>
+
+            </Grid>
+        </Grid>
+
+        
+      
         <Frame Grid.Row="2" MinHeight="80" Background="CornflowerBlue" VerticalAlignment="Bottom">
             <Grid ColumnSpacing="40" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
@@ -41,7 +136,7 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <Button Content="Retirar Excedente" Height="40" Width="120"/>
+                <Button Content="Retirar Excedente" Height="40" Width="140"/>
                 <Button Grid.Column="1" Content="Añadir Cambio" Height="40" Width="120"/>
                 <Button Grid.Column="2" Content="Corte de Caja" Height="40" Width="120"/>
             </Grid>
