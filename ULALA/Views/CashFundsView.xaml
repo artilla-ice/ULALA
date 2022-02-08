@@ -122,7 +122,7 @@
 
                 </ListView>
 
-                <UControls:Separator Grid.Row="1" Grid.ColumnSpan="2"/>
+                
             </Grid>
         </Grid>
 
