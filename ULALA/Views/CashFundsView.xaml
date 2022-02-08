@@ -31,13 +31,13 @@
             
                     <TextBlock Text="{Binding Title}" VerticalAlignment="Center" FontWeight="SemiBold"/>
                     <Image Grid.Column="1" Source="{Binding DenominationIcon}" VerticalAlignment="Center" Height="40" Width="{Binding DenominationIconSize}"/>
-                    <TextBox Style="{StaticResource GridTextBox}" Grid.Column="2"  Text="{Binding RecyclerQuantity}" IsEnabled="False"/>
-                    <TextBox Style="{StaticResource GridTextBox}"  Grid.Column="3"  Text="{Binding RecyclerAmount}" IsEnabled="False"/>
+                    <TextBox Style="{StaticResource GridTextBoxReadOnly}" Grid.Column="2"  Text="{Binding RecyclerQuantity}"/>
+                    <TextBox Style="{StaticResource GridTextBoxReadOnly}"  Grid.Column="3"  Text="{Binding RecyclerAmount}"/>
                     <Button Style="{StaticResource ForwardButton}"  Grid.Column="4"/>
                     <TextBox Style="{StaticResource GridTextBox}"  Grid.Column="5"  Text="{Binding CashierQuantity}" HorizontalTextAlignment="Center"/>
-                    <TextBox Style="{StaticResource GridTextBox}"  Grid.Column="6"  Text="{Binding CashierAmount}" IsEnabled="False"/>
-                    <TextBox Style="{StaticResource GridTextBox}"  Grid.Column="7"  Text="{Binding MissingAmount}" IsEnabled="False"/>
-                    <TextBox Style="{StaticResource GridTextBox}"  Grid.Column="8"  Text="{Binding SurplusAmount}" IsEnabled="False"/>
+                    <TextBox Style="{StaticResource GridTextBoxReadOnly}"  Grid.Column="6"  Text="{Binding CashierAmount}"/>
+                    <TextBox Style="{StaticResource GridTextBoxReadOnly}"  Grid.Column="7"  Text="{Binding MissingAmount}"/>
+                    <TextBox Style="{StaticResource GridTextBoxReadOnly}"  Grid.Column="8"  Text="{Binding SurplusAmount}"/>
                 </Grid>
             </DataTemplate>
             <DataTemplate x:Key="CashFundsDataTemplatedHeader">
@@ -104,7 +104,7 @@
                 <TextBlock Text="(Solo el ADMINISTRADOR puede retirar los excedentes)" />
             </StackPanel>
 
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="1" ColumnSpacing="12">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>

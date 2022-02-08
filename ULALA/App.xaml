@@ -23,6 +23,11 @@
             <Style TargetType="TextBox" x:Key="GridTextBox">
                 <Setter Property="Height" Value="35" />
             </Style>
+            <Style TargetType="TextBox" x:Key="GridTextBoxReadOnly">
+                <Setter Property="Height" Value="35" />
+                <Setter Property="IsEnabled" Value="False" /> <!--TODO: Checar si es necesario el IsEnabled-->
+                <Setter Property="IsReadOnly" Value="True" />
+            </Style>
 
             <Style TargetType="TextBox">
                 <Setter Property="TextAlignment" Value="Center" />
