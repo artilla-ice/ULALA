@@ -2,26 +2,115 @@
     x:Class="ULALA.Views.AddExchangeView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:UControls="using:ULALA.UI.Core.Controls"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:ULALA"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:ULALA.Models"
     xmlns:mvvm="using:ULALA.UI.Core.MVVM"
     mvvm:ViewModelLocator.AutoWireViewModel="True"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="100" />
-            <RowDefinition Height="650" />
-            <RowDefinition Height="100" />
+    <Page.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="CashFundsDataTemplated" x:DataType="model:RecyclerToCashierFundsModel">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="110" />
+                        <ColumnDefinition Width="220" />
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
-            <RowDefinition Height="250" />
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontWeight="SemiBold"
+                        Text="{Binding Title}" />
+                    <Image
+                        Grid.Column="1"
+                        Width="{Binding DenominationIconSize}"
+                        Height="40"
+                        Margin="1,1,1,1"
+                        VerticalAlignment="Center"
+                        Source="{Binding DenominationIcon}" />
+                    <TextBox
+                        
+                        Margin="1,1,10,1"
+                        Grid.Column="2"
+                        HorizontalTextAlignment="Center"
+                        Text="0" />
+                    <TextBox
+                        Grid.Column="3"
+                        HorizontalTextAlignment="Center"
+                        IsEnabled="False"
+                        Text="{Binding RecyclerAmount}" />
+                   
+                    
+                </Grid>
+            </DataTemplate>
+            <DataTemplate x:Key="CashFundsDataTemplatedHeader">
+                <Grid Margin="180,0,0,0" HorizontalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60" />
+                        <ColumnDefinition Width="60" />
+                        <ColumnDefinition Width="60" />
+                        <ColumnDefinition Width="60" />
+                        <ColumnDefinition Width="60" />
+                        <ColumnDefinition Width="60" />
+                        <ColumnDefinition Width="70" />
+
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="50" />
+                    </Grid.RowDefinitions>
+
+                   
+                    <TextBlock
+                        Grid.Column="3"
+                        Grid.ColumnSpan="3"
+                        VerticalAlignment="Center"
+                        FontWeight="SemiBold"
+                        HorizontalTextAlignment="Left"
+                        Text="Importe Introducido" />
+                    
+
+                   
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="3"
+                        VerticalAlignment="Center"
+                        FontWeight="SemiBold"
+                        HorizontalTextAlignment="Center"
+                        Text="Cantidad" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="5"
+                        VerticalAlignment="Center"
+                        FontWeight="SemiBold"
+                        HorizontalTextAlignment="Center"
+                        Text="Monto" />
+                    
+
+                </Grid>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <!--  Top  -->
+
         <Frame
-            Height="100"
             MinHeight="100"
             VerticalAlignment="Top"
             Background="CornflowerBlue">
@@ -56,557 +145,81 @@
                 </StackPanel>
             </Grid>
         </Frame>
-        <!--  center top  -->
+
+        <Grid
+            Grid.Row="1"
+            Margin="12"
+            HorizontalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0">
+                <TextBlock
+                    FontSize="18"
+                    FontWeight="Bold"
+                    Text="Introduzca Los cambios en la máquina" />
+                <TextBlock  Text="( Una vez introducidos, pulse ← )" />
+            </StackPanel>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <ListView
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    HeaderTemplate="{StaticResource CashFundsDataTemplatedHeader}"
+                    ItemTemplate="{StaticResource CashFundsDataTemplated}"
+                    ItemsSource="{Binding RecyclerAmounts}"
+                    SelectionMode="None" />
+
+                <!--Importes-->
+                <StackPanel
+                    Grid.Row="2"
+                    
+                    Grid.ColumnSpan="2"
+                    Orientation="Vertical">
+                    <Line
+                        Stroke="Black"
+                        StrokeThickness=".3"
+                        X1="10"
+                        X2="660"
+                        Y1="30"
+                        Y2="30" />
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Margin="10,10,0,20"
+                            FontSize="20"
+                            FontWeight="Bold"
+                            Text="Importes Totales:" />
+                        <TextBox
+                            
+                            Width="250"
+                            Height="40"
+                            FontSize="20"
+                            Margin="150,0,0,0"
+                            PlaceholderText="$00,00" />
+                    </StackPanel>
+                    
+                </StackPanel>
+            </Grid>
+        </Grid>
+
         <Frame
             Grid.Row="1"
-            VerticalAlignment="Top"
-            Background="LightGray">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100" />
-                    <ColumnDefinition Width="350" />
-                    <ColumnDefinition Width="200" />
-                    <ColumnDefinition Width="200" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="100" />
-
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="50" />
-                    <RowDefinition Height="630" />
-
-                </Grid.RowDefinitions>
-
-
-
-                <StackPanel
-                    x:Name="StackPanel_0"
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    Grid.ColumnSpan="5"
-                    MinHeight="100"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal">
-                    <TextBlock
-                        x:Name="SP_0_TB1"
-                        Margin="0,10,360,0"
-                        Padding="30"
-                        FontSize="20"
-                        Text="Indtroduzca los cambios en la máquina" />
-                    <TextBlock
-                        x:Name="SP_0_TB2"
-                        Width="400"
-                        Padding="30"
-                        HorizontalAlignment="Center"
-                        FontSize="20"
-                        Text="Importe Introducido" />
-                </StackPanel>
-
-                <StackPanel
-                    x:Name="StackPanel_1"
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Top"
-                    Orientation="Vertical">
-                    <TextBlock
-                        x:Name="SP_1_TB1"
-                        Width="500"
-                        Padding="15"
-                        HorizontalAlignment="Left"
-                        FontSize="20"
-                        Text="Una Vez introducidos, pulse Salir" />
-                    <TextBlock
-                        x:Name="SP_1_TB2"
-                        Height="50"
-                        Padding="15"
-                        HorizontalAlignment="Left"
-                        FontSize="20"
-                        Text="Billetes de $1000 pesos:" />
-                    <TextBlock
-                        x:Name="SP_1_TB3"
-                        Height="50"
-                        Padding="15"
-                        HorizontalAlignment="Left"
-                        FontSize="20"
-                        Text="Billetes de $500 pesos:" />
-                    <TextBlock
-                        x:Name="SP_1_TB4"
-                        Height="50"
-                        Padding="15"
-                        HorizontalAlignment="Left"
-                        FontSize="20"
-                        Text="Billetes de $200 pesos:" />
-                    <TextBlock
-                        x:Name="SP_1_TB5"
-                        Height="50"
-                        Padding="15"
-                        HorizontalAlignment="Left"
-                        FontSize="20"
-                        Text="Billetes de $100 pesos:" />
-                    <TextBlock
-                        x:Name="SP_1_TB6"
-                        Height="50"
-                        Padding="15"
-                        HorizontalAlignment="Left"
-                        FontSize="20"
-                        Text="Billetes de $50 pesos:" />
-                    <TextBlock
-                        x:Name="SP_1_TB7"
-                        Height="50"
-                        Padding="15"
-                        HorizontalAlignment="Left"
-                        FontSize="20"
-                        Text="Billetes de $20 pesos:" />
-                    <TextBlock
-                        x:Name="SP_1_TB8"
-                        Height="50"
-                        Padding="15"
-                        HorizontalAlignment="Left"
-                        FontSize="20"
-                        Text="Monedas de $10 pesos:" />
-                    <TextBlock
-                        x:Name="SP_1_TB9"
-                        Height="50"
-                        Padding="15"
-                        HorizontalAlignment="Left"
-                        FontSize="20"
-                        Text="Monedas de $5 pesos:" />
-                    <TextBlock
-                        x:Name="SP_1_TB10"
-                        Height="50"
-                        Padding="15"
-                        HorizontalAlignment="Left"
-                        FontSize="20"
-                        Text="Monedas de $2 pesos:" />
-                    <TextBlock
-                        x:Name="SP_1_TB11"
-                        Height="50"
-                        Padding="15"
-                        HorizontalAlignment="Left"
-                        FontSize="20"
-                        Text="Monedas de $1 peso:" />
-                    <TextBlock
-                        x:Name="SP_1_TB12"
-                        Height="50"
-                        Padding="15"
-                        HorizontalAlignment="Left"
-                        FontSize="20"
-                        Text="Monedas de 50 centavos:" />
-                </StackPanel>
-
-                <StackPanel
-                    x:Name="StackPanel_2"
-                    Grid.Row="1"
-                    Grid.Column="2"
-                    MinWidth="300"
-                    MinHeight="800"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Top"
-                    Orientation="Vertical">
-                    <Image
-                        x:Name="SP_2_TB1"
-                        Height="41"
-                        Margin="5" />
-                    <Image
-                        x:Name="SP_2_TB2"
-                        Height="41"
-                        Margin="5"
-                        Source="/Assets/Icons/Bill500.png" />
-                    <Image
-                        x:Name="SP_2_TB3"
-                        Height="41"
-                        Margin="5"
-                        Source="/Assets/Icons/Bill500.png" />
-                    <Image
-                        x:Name="SP_2_TB4"
-                        Height="41"
-                        Margin="5"
-                        Source="/Assets/Icons/Bill500.png" />
-                    <Image
-                        x:Name="SP_2_TB5"
-                        Height="41"
-                        Margin="5"
-                        Source="/Assets/Icons/Bill500.png" />
-                    <Image
-                        x:Name="SP_2_TB6"
-                        Height="41"
-                        Margin="5"
-                        Source="/Assets/Icons/Bill500.png" />
-                    <Image
-                        x:Name="SP_2_TB7"
-                        Height="41"
-                        Margin="5"
-                        Source="/Assets/Icons/Bill500.png" />
-                    <Image
-                        x:Name="SP_2_TB8"
-                        Height="41"
-                        Margin="5"
-                        Source="/Assets/Icons/Bill500.png" />
-                    <Image
-                        x:Name="SP_2_TB9"
-                        Height="41"
-                        Margin="5"
-                        Source="/Assets/Icons/Bill500.png" />
-                    <Image
-                        x:Name="SP_2_TB10"
-                        Height="41"
-                        Margin="5"
-                        Source="/Assets/Icons/Bill500.png" />
-                    <Image
-                        x:Name="SP_2_TB11"
-                        Height="41"
-                        Margin="5"
-                        Source="/Assets/Icons/Bill500.png" />
-                    <Image
-                        x:Name="SP_2_TB12"
-                        Height="41"
-                        Margin="5"
-                        Source="/Assets/Icons/Bill500.png" />
-                </StackPanel>
-
-                <StackPanel
-                    x:Name="StackPanel_3"
-                    Grid.Row="1"
-                    Grid.Column="3"
-                    MinHeight="800"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Top"
-                    Orientation="Vertical">
-                    <TextBlock
-                        x:Name="SP_3_TB1"
-                        Height="41"
-                        Margin="0"
-                        HorizontalAlignment="Center"
-                        FontSize="20"
-                        Text="Cantidad:" />
-                    <TextBox
-                        x:Name="SP_3_TB2"
-                        Width="150"
-                        Height="41"
-                        Margin="5"
-                        FontSize="20"
-                        PlaceholderForeground="Black"
-                        PlaceholderText="0"
-                        TextAlignment="center" />
-                    <TextBox
-                        x:Name="SP_3_TB3"
-                        Width="150"
-                        Height="41"
-                        Margin="5"
-                        FontSize="20"
-                        PlaceholderForeground="Black"
-                        PlaceholderText="0"
-                        TextAlignment="center" />
-                    <TextBox
-                        x:Name="SP_3_TB4"
-                        Width="150"
-                        Height="41"
-                        Margin="5"
-                        FontSize="20"
-                        PlaceholderForeground="Black"
-                        PlaceholderText="0"
-                        TextAlignment="center" />
-                    <TextBox
-                        x:Name="SP_3_TB5"
-                        Width="150"
-                        Height="41"
-                        Margin="5"
-                        FontSize="20"
-                        PlaceholderForeground="Black"
-                        PlaceholderText="0"
-                        TextAlignment="center" />
-                    <TextBox
-                        x:Name="SP_3_TB6"
-                        Width="150"
-                        Height="41"
-                        Margin="5"
-                        FontSize="20"
-                        PlaceholderForeground="Black"
-                        PlaceholderText="0"
-                        TextAlignment="center" />
-                    <TextBox
-                        x:Name="SP_3_TB7"
-                        Width="150"
-                        Height="41"
-                        Margin="5"
-                        FontSize="20"
-                        PlaceholderForeground="Black"
-                        PlaceholderText="0"
-                        TextAlignment="center" />
-                    <TextBox
-                        x:Name="SP_3_TB8"
-                        Width="150"
-                        Height="41"
-                        Margin="5"
-                        FontSize="20"
-                        PlaceholderForeground="Black"
-                        PlaceholderText="0"
-                        TextAlignment="center" />
-                    <TextBox
-                        x:Name="SP_3_TB9"
-                        Width="150"
-                        Height="41"
-                        Margin="5"
-                        FontSize="20"
-                        PlaceholderForeground="Black"
-                        PlaceholderText="0"
-                        TextAlignment="center" />
-                    <TextBox
-                        x:Name="SP_3_TB10"
-                        Width="150"
-                        Height="41"
-                        Margin="5"
-                        FontSize="20"
-                        PlaceholderForeground="Black"
-                        PlaceholderText="0"
-                        TextAlignment="center" />
-                    <TextBox
-                        x:Name="SP_3_TB11"
-                        Width="150"
-                        Height="41"
-                        Margin="5"
-                        FontSize="20"
-                        PlaceholderForeground="Black"
-                        PlaceholderText="0"
-                        TextAlignment="center" />
-                    <TextBox
-                        x:Name="SP_3_TB12"
-                        Width="150"
-                        Height="41"
-                        Margin="5"
-                        FontSize="20"
-                        PlaceholderForeground="Black"
-                        PlaceholderText="0"
-                        TextAlignment="center" />
-                </StackPanel>
-
-                <StackPanel
-                    x:Name="StackPanel_4"
-                    Grid.Row="1"
-                    Grid.Column="4"
-                    MinWidth="300"
-                    MinHeight="800"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Top"
-                    Orientation="Vertical">
-                    <TextBlock
-                        x:Name="SP_4_TB1"
-                        Padding="5"
-                        HorizontalAlignment="Center"
-                        FontSize="20"
-                        Text="Monto:" />
-                    <TextBox
-                        x:Name="SP_4_TB2"
-                        Width="150"
-                        Height="41"
-                        Margin="5"
-                        FontSize="20"
-                        PlaceholderForeground="Black"
-                        PlaceholderText="$0.00"
-                        TextAlignment="center" />
-                    <TextBox
-                        x:Name="SP_4_TB3"
-                        Width="150"
-                        Height="41"
-                        Margin="5"
-                        FontSize="20"
-                        PlaceholderForeground="Black"
-                        PlaceholderText="$0.00"
-                        TextAlignment="center" />
-                    <TextBox
-                        x:Name="SP_4_TB4"
-                        Width="150"
-                        Height="41"
-                        Margin="5"
-                        FontSize="20"
-                        PlaceholderForeground="Black"
-                        PlaceholderText="$0.00"
-                        TextAlignment="center" />
-                    <TextBox
-                        x:Name="SP_4_TB5"
-                        Width="150"
-                        Height="41"
-                        Margin="5"
-                        FontSize="20"
-                        PlaceholderForeground="Black"
-                        PlaceholderText="$0.00"
-                        TextAlignment="center" />
-                    <TextBox
-                        x:Name="SP_4_TB6"
-                        Width="150"
-                        Height="41"
-                        Margin="5"
-                        FontSize="20"
-                        PlaceholderForeground="Black"
-                        PlaceholderText="$0.00"
-                        TextAlignment="center" />
-                    <TextBox
-                        x:Name="SP_4_TB7"
-                        Width="150"
-                        Height="41"
-                        Margin="5"
-                        FontSize="20"
-                        PlaceholderForeground="Black"
-                        PlaceholderText="$0.00"
-                        TextAlignment="center" />
-                    <TextBox
-                        x:Name="SP_4_TB8"
-                        Width="150"
-                        Height="41"
-                        Margin="5"
-                        FontSize="20"
-                        PlaceholderForeground="Black"
-                        PlaceholderText="$0.00"
-                        TextAlignment="center" />
-                    <TextBox
-                        x:Name="SP_4_TB9"
-                        Width="150"
-                        Height="41"
-                        Margin="5"
-                        FontSize="20"
-                        PlaceholderForeground="Black"
-                        PlaceholderText="$0.00"
-                        TextAlignment="center" />
-                    <TextBox
-                        x:Name="SP_4_TB10"
-                        Width="150"
-                        Height="41"
-                        Margin="5"
-                        FontSize="20"
-                        PlaceholderForeground="Black"
-                        PlaceholderText="$0.00"
-                        TextAlignment="center" />
-                    <TextBox
-                        x:Name="SP_4_TB11"
-                        Width="150"
-                        Height="41"
-                        Margin="5"
-                        FontSize="20"
-                        PlaceholderForeground="Black"
-                        PlaceholderText="$0.00"
-                        TextAlignment="center" />
-                    <TextBox
-                        x:Name="SP_4_TB12"
-                        Width="150"
-                        Height="41"
-                        Margin="5"
-                        FontSize="20"
-                        PlaceholderForeground="Black"
-                        PlaceholderText="$0.00"
-                        TextAlignment="center" />
-                </StackPanel>
-
-
-            </Grid>
-
-        </Frame>
-        <!--  center bottom  -->
-        <Frame
-            Grid.Row="2"
-            MinHeight="100"
-            VerticalAlignment="Top"
-            Background="LightGray">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1600" />
-
-
-                </Grid.ColumnDefinitions>
-
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="30" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-
-                </Grid.RowDefinitions>
-
-
-                <StackPanel
-                    x:Name="StackPanel_5"
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    Margin="0,0,0,10"
-                    Padding="30,0,30,0"
-                    VerticalAlignment="Top"
-                    Orientation="Horizontal">
-                    <TextBlock
-                        x:Name="SP_5_TB1"
-                        Height="40"
-                        HorizontalAlignment="Left"
-                        FontSize="30"
-                        Text="Importe Introducido" />
-                    <TextBox
-                        x:Name="SP_5_TB2"
-                        Width="300"
-                        Height="40"
-                        Margin="600,0,0,0"
-                        HorizontalAlignment="Right"
-                        Background="LightSkyBlue"
-                        FontSize="30"
-                        PlaceholderForeground="Black"
-                        PlaceholderText="$0.00" />
-                </StackPanel>
-
-                <StackPanel
-                    x:Name="StackPanel_6"
-                    Grid.Row="2"
-                    Grid.Column="1"
-                    Margin="0,0,0,10"
-                    Padding="30,0,30,0"
-                    VerticalAlignment="Top"
-                    Orientation="Horizontal">
-                    <TextBlock
-                        x:Name="SP_6_TB1"
-                        Height="40"
-                        Margin="0,0,0,0"
-                        FontSize="15"
-                        Foreground="Blue"
-                        Text="El reciclador esta casi lleno." />
-                    <TextBlock
-                        x:Name="SP_6_TB2"
-                        Height="40"
-                        Margin="400,0,0,00"
-                        FontSize="15"
-                        Foreground="Orange"
-                        Text="El reciclador esta casi lleno." />
-                    <TextBlock
-                        x:Name="SP_6_TB3"
-                        Height="40"
-                        Margin="400,0,0,00"
-                        FontSize="15"
-                        Foreground="red"
-                        Text="El reciclador esta casi lleno." />
-
-                </StackPanel>
-                <Line
-                    Stroke="black"
-                    StrokeThickness="5"
-                    X1="-50"
-                    X2="11110"
-                    Y1="25"
-                    Y2="25" />
-                <Line
-                    Stroke="black"
-                    StrokeThickness="2"
-                    X1="-50"
-                    X2="11110"
-                    Y1="18"
-                    Y2="18" />
-
-
-
-
-
-            </Grid>
-        </Frame>
-        <Frame
-            Grid.Row="3"
-            MinHeight="150"
-            VerticalAlignment="Top"
+            MinHeight="80"
+            VerticalAlignment="Bottom"
             Background="CornflowerBlue">
-
             <Grid
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
@@ -618,15 +231,12 @@
                 </Grid.ColumnDefinitions>
 
                 <Button
-                    Width="120"
+                    Width="140"
                     Height="40"
                     Content="Cancelar" />
-
-
-
+                
+                
             </Grid>
-
-
         </Frame>
     </Grid>
 </Page>

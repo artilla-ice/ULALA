@@ -126,6 +126,7 @@
     <Compile Include="Models\RecyclerToCashierFundsModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CashFundsViewModels.cs" />
+    <Compile Include="ViewModels\AddExchangeViewModel.cs" />
     <Compile Include="ViewModels\WithdrawStackerViewModel.cs" />
     <Compile Include="ViewModels\WithdrawCashViewModel.cs" />
     <Compile Include="ViewModels\MainMenuViewModel.cs" />

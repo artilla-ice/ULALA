@@ -251,6 +251,7 @@
                     ItemsSource="{Binding RecyclerAmounts}"
                     SelectionMode="None" />
 
+                    <!--Importes-->
                 <StackPanel
                     Grid.Row="2"
                     Grid.Column="0"
@@ -314,63 +315,54 @@
                     Grid.Row="1"
                     Grid.Column="0"
                     VerticalAlignment="Center"
-                    Click="SubscribeButton_Click"
                     Content="7"
                     FontWeight="SemiBold" />
                 <Button
                     Grid.Row="2"
                     Grid.Column="0"
                     VerticalAlignment="Center"
-                    Click="SubscribeButton_Click"
                     Content="4"
                     FontWeight="SemiBold" />
                 <Button
                     Grid.Row="3"
                     Grid.Column="0"
                     VerticalAlignment="Center"
-                    Click="SubscribeButton_Click"
                     Content="1"
                     FontWeight="SemiBold" />
                 <Button
                     Grid.Row="1"
                     Grid.Column="1"
                     VerticalAlignment="Center"
-                    Click="SubscribeButton_Click"
                     Content="8"
                     FontWeight="SemiBold" />
                 <Button
                     Grid.Row="2"
                     Grid.Column="1"
                     VerticalAlignment="Center"
-                    Click="SubscribeButton_Click"
                     Content="5"
                     FontWeight="SemiBold" />
                 <Button
                     Grid.Row="3"
                     Grid.Column="1"
                     VerticalAlignment="Center"
-                    Click="SubscribeButton_Click"
                     Content="2"
                     FontWeight="SemiBold" />
                 <Button
                     Grid.Row="1"
                     Grid.Column="2"
                     VerticalAlignment="Center"
-                    Click="SubscribeButton_Click"
                     Content="9"
                     FontWeight="SemiBold" />
                 <Button
                     Grid.Row="2"
                     Grid.Column="2"
                     VerticalAlignment="Center"
-                    Click="SubscribeButton_Click"
                     Content="6"
                     FontWeight="SemiBold" />
                 <Button
                     Grid.Row="3"
                     Grid.Column="2"
                     VerticalAlignment="Center"
-                    Click="SubscribeButton_Click"
                     Content="3"
                     FontWeight="SemiBold" />
 
@@ -449,7 +441,6 @@
                     Grid.ColumnSpan="4"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    Click="SubscribeButton_Click"
                     Content="Retiro Automatico"
                     FontWeight="SemiBold" />
 
