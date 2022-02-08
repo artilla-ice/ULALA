@@ -97,21 +97,21 @@
         </Frame>
 
         <Grid Grid.Row="1" Margin="12" HorizontalAlignment="Stretch">
-          <Grid.RowDefinitions>
-              <RowDefinition Height="60"/>
-              <RowDefinition Height="*"/>
-          </Grid.RowDefinitions>
-        
-          <StackPanel Grid.Row="0">
-              <TextBlock Text="Genera reporte de corte" FontSize="18" FontWeight="Bold"/>
-              <TextBlock Text="(Solo el ADMINISTRADOR puede retirar los excedentes)" />
-          </StackPanel>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-          <Grid Grid.Row="1">
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-              </Grid.ColumnDefinitions>
+            <StackPanel Grid.Row="0">
+                <TextBlock Text="Genera reporte de corte" FontSize="18" FontWeight="Bold"/>
+                <TextBlock Text="(Solo el ADMINISTRADOR puede retirar los excedentes)" />
+            </StackPanel>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -121,13 +121,11 @@
                           HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionMode="None">
 
                 </ListView>
-                <UControls:Separator Grid.Row="1" Grid.ColumnSpan="2"/>
 
+                <UControls:Separator Grid.Row="1" Grid.ColumnSpan="2"/>
             </Grid>
         </Grid>
 
-        
-      
         <Frame Grid.Row="2" MinHeight="80" Background="CornflowerBlue" VerticalAlignment="Bottom">
             <Grid ColumnSpacing="40" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>

@@ -7,11 +7,11 @@
     <controls:Page.Content>
         <controls:Grid HorizontalAlignment="Stretch" Margin="0,12,0,12">
             <Grid.RowDefinitions>
-                <RowDefinition Height="16"/>
+                <RowDefinition Height="12"/>
                 <RowDefinition Height="8"/>
             </Grid.RowDefinitions>
-            <controls:Frame Height="10" Background="Black"/>
-            <controls:Frame Grid.Row="1" Height="6" Background="Black"/>
+            <controls:Frame Height="8" Background="Black"/>
+            <controls:Frame Grid.Row="1" Height="4" Background="Black"/>
         </controls:Grid>
     </controls:Page.Content>
 </controls:Page>
