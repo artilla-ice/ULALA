@@ -62,13 +62,19 @@
             Background="LightGray">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="800" />
-                    <ColumnDefinition Width="300" />
-
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="250"/>
+                    <ColumnDefinition Width="250"/>
+                    <ColumnDefinition Width="250"/>
+                    <ColumnDefinition Width="250"/>
+                    <ColumnDefinition Width="350"/>
+                    <ColumnDefinition Width="0"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50" />
-
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="50" />
 
                 </Grid.RowDefinitions>
 
@@ -76,13 +82,11 @@
 
                 <StackPanel
                     x:Name="StackPanel_0"
-                    Grid.Row="0"
                     Grid.Column="1"
-                    Grid.ColumnSpan="5"
                     MinHeight="100"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Orientation="Horizontal">
+                    Orientation="Horizontal" Height="100" Width="0">
                     <Grid />
                 </StackPanel>
 
