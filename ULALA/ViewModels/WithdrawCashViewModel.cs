@@ -10,16 +10,16 @@ using ULALA.UI.Core.MVVM;
 
 namespace ULALA.ViewModels
 {
-    public class AddExchangeViewModel : ViewModelBase
+    public class WithdrawCashViewModel : ViewModelBase
     {
-        public AddExchangeViewModel()
+        public WithdrawCashViewModel()
         {
 
         }
 
         protected override void OnActivated()
         {
-            this.PageIcon = "../Assets/Icons/AddCambios.png";
+            this.PageIcon = "../Assets/Icons/RetirarEfectivo.png";
         }
     }
 }

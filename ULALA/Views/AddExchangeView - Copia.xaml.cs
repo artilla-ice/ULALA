@@ -9,13 +9,11 @@ using Windows.UI.Xaml.Controls;
 
 namespace ULALA.Views
 {
-    public partial class AddExchangeView : Page
+    public partial class WithdrawCashView : Page
     {
-        public AddExchangeView()
+        public WithdrawCashView()
         {
             this.InitializeComponent();
         }
-
-       
     }
 }
