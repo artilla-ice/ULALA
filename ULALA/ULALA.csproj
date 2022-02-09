@@ -126,11 +126,15 @@
     <Compile Include="Models\CashOutModel.cs" />
     <Compile Include="Models\RecyclerToCashierFundsModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\AddExchangeViewModel.cs" />
     <Compile Include="ViewModels\CashOutViewModel.cs" />
     <Compile Include="ViewModels\CashFundsViewModel.cs" />
     <Compile Include="ViewModels\WithdrawStackerViewModel.cs" />
     <Compile Include="ViewModels\WithdrawCashViewModel.cs" />
     <Compile Include="ViewModels\MainMenuViewModel.cs" />
+    <Compile Include="Views\AddExchangeView.xaml.cs">
+      <DependentUpon>AddExchangeView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CashOutView.xaml.cs">
       <DependentUpon>CashOutView.xaml</DependentUpon>
     </Compile>
@@ -186,6 +190,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AddExchangeView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

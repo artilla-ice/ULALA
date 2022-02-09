@@ -288,13 +288,13 @@
             </Grid>
 
             <!--  Calculator section  -->
-            <Grid Grid.Row="1" Grid.Column="1">
+            <Grid Grid.Row="1" Grid.Column="1" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30" />
                     <RowDefinition Height="40" />
                     <RowDefinition Height="40" />
                     <RowDefinition Height="40" />
-                    <RowDefinition Height="40" />
+                    <RowDefinition Height="65" />
 
                     <RowDefinition Height="50" />
                     <RowDefinition Height="20" />
@@ -303,110 +303,15 @@
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="40" />
-                    <ColumnDefinition Width="40" />
-                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="40" />
                 </Grid.ColumnDefinitions>
 
 
 
-                <Button
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    VerticalAlignment="Center"
-                    Content="7"
-                    FontWeight="SemiBold" />
-                <Button
-                    Grid.Row="2"
-                    Grid.Column="0"
-                    VerticalAlignment="Center"
-                    Content="4"
-                    FontWeight="SemiBold" />
-                <Button
-                    Grid.Row="3"
-                    Grid.Column="0"
-                    VerticalAlignment="Center"
-                    Content="1"
-                    FontWeight="SemiBold" />
-                <Button
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    VerticalAlignment="Center"
-                    Content="8"
-                    FontWeight="SemiBold" />
-                <Button
-                    Grid.Row="2"
-                    Grid.Column="1"
-                    VerticalAlignment="Center"
-                    Content="5"
-                    FontWeight="SemiBold" />
-                <Button
-                    Grid.Row="3"
-                    Grid.Column="1"
-                    VerticalAlignment="Center"
-                    Content="2"
-                    FontWeight="SemiBold" />
-                <Button
-                    Grid.Row="1"
-                    Grid.Column="2"
-                    VerticalAlignment="Center"
-                    Content="9"
-                    FontWeight="SemiBold" />
-                <Button
-                    Grid.Row="2"
-                    Grid.Column="2"
-                    VerticalAlignment="Center"
-                    Content="6"
-                    FontWeight="SemiBold" />
-                <Button
-                    Grid.Row="3"
-                    Grid.Column="2"
-                    VerticalAlignment="Center"
-                    Content="3"
-                    FontWeight="SemiBold" />
-
-                <Button
-                    Grid.Row="4"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="2"
-                    Width="75"
-                    VerticalAlignment="Center"
-                    Content="0"
-                    FontWeight="SemiBold" />
-                <Button
-                    Grid.Row="4"
-                    Grid.Column="2"
-                    Height="35"
-                    Content="."
-                    FontSize="20"
-                    FontWeight="SemiBold" />
-
-                <Button
-                    Grid.Row="1"
-                    Grid.Column="3"
-                    VerticalAlignment="Center"
-                    Background="DarkRed"
-                    Content="Ac"
-                    FontWeight="SemiBold"
-                    Foreground="White" />
-                <Button
-                    Grid.Row="2"
-                    Grid.Column="3"
-                    VerticalAlignment="Center"
-                    Background="DarkRed"
-                    Content="C"
-                    FontWeight="SemiBold"
-                    Foreground="White" />
-                <Button
-                    Grid.Row="3"
-                    Grid.RowSpan="2"
-                    Grid.Column="3"
-                    Height="75"
-                    VerticalAlignment="Center"
-                    Content="↳"
-                    FontSize="33"
-                    FontWeight="SemiBold" />
+                <UControls:NumericVirtualKeyboard Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Grid.RowSpan="7" Width="250"/>
 
 
 
