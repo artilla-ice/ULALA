@@ -149,7 +149,7 @@ namespace ULALA
             navigationManager.RegisterView(ViewNames.WithdrawStacker, typeof(WithdrawStackerView));
             navigationManager.RegisterView(ViewNames.CashFunds, typeof(CashFundsView));
             navigationManager.RegisterView(ViewNames.CashOut, typeof(CashOutView));
-
+            navigationManager.RegisterView(ViewNames.Logs, typeof(LogsView));
             navigationManager.RegisterView(ViewNames.AddExchange, typeof(AddExchangeView));
             navigationManager.RegisterView(ViewNames.WithdrawCash, typeof(WithdrawCashView));
         }
