@@ -38,7 +38,22 @@
                     Background="DarkRed"
                     Content="AC" 
                     FontWeight="SemiBold"
-                    Foreground="White" />
+                    Foreground="White">
+                <Button.Resources>
+                    <ResourceDictionary>
+                        <ResourceDictionary.ThemeDictionaries>
+                            <ResourceDictionary x:Key="Dark">
+                                <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White"/>
+                                <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Red"/>
+                            </ResourceDictionary>
+                            <ResourceDictionary x:Key="Light">
+                                <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White"/>
+                                <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Red"/>
+                            </ResourceDictionary>
+                        </ResourceDictionary.ThemeDictionaries>
+                    </ResourceDictionary>
+                </Button.Resources>
+            </Button>
             
             <!--Second row-->
             <Button Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
@@ -56,9 +71,24 @@
             <Button Grid.Row="1" Grid.Column="3"
                     VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                     Background="DarkRed"
-                    Content="C" 
+                    Content="&#xE750;" FontFamily="Segoe MDL2 Assets"
                     FontWeight="SemiBold"
-                    Foreground="White" />
+                    Foreground="White">
+                <Button.Resources>
+                    <ResourceDictionary>
+                        <ResourceDictionary.ThemeDictionaries>
+                            <ResourceDictionary x:Key="Dark">
+                                <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White"/>
+                                <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Red"/>
+                            </ResourceDictionary>
+                            <ResourceDictionary x:Key="Light">
+                                <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White"/>
+                                <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Red"/> 
+                            </ResourceDictionary>
+                        </ResourceDictionary.ThemeDictionaries>
+                    </ResourceDictionary>
+                </Button.Resources>
+            </Button>
 
             <!--Third row-->
             <Button Grid.Row="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
@@ -78,7 +108,22 @@
                     Background="DarkSlateGray" FontSize="18"
                     Content="&#xE751;" FontFamily="Segoe MDL2 Assets"
                     FontWeight="SemiBold"
-                    Foreground="White" />
+                    Foreground="White">
+                <Button.Resources>
+                    <ResourceDictionary>
+                        <ResourceDictionary.ThemeDictionaries>
+                            <ResourceDictionary x:Key="Dark">
+                                <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White"/>
+                                <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="SlateGray"/>
+                            </ResourceDictionary>
+                            <ResourceDictionary x:Key="Light">
+                                <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White"/>
+                                <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="SlateGray"/>
+                            </ResourceDictionary>
+                        </ResourceDictionary.ThemeDictionaries>
+                    </ResourceDictionary>
+                </Button.Resources>
+            </Button>
 
             <!--Four row-->
             <Button Grid.Row="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
