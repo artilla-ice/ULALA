@@ -7,12 +7,22 @@ using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.Collections;
 using ULALA.UI.Core.Contracts.MVVM;
+using Xamarin.Forms;
+using ULALA.UI.Core.Contracts.Navigation;
 
 namespace ULALA.UI.Core.MVVM
 {
     public class ViewModelBase : IViewModelBase, INotifyPropertyChanged, INotifyDataErrorInfo
     {
-       
+        [Unity.Dependency]
+        public INavigationManager NavigationManager { get; set; }
+
+        public Command OnBackCommand { get; set; }
+
+        public ViewModelBase()
+        {
+            this.OnBackCommand = new Command(OnGoBack);
+        }
 
         bool m_isBusy = false;
         [Display(AutoGenerateField = false)]
@@ -28,6 +38,14 @@ namespace ULALA.UI.Core.MVVM
         {
             get { return m_Title; }
             set { SetProperty(ref m_Title, value); }
+        }
+
+        string m_pageIcon = string.Empty;
+        [Display(AutoGenerateField = false)]
+        public string PageIcon
+        {
+            get { return m_pageIcon; }
+            set { SetProperty(ref m_pageIcon, value); }
         }
 
         protected bool SetProperty<T>(ref T backingStore, T value,[CallerMemberName] string propertyName = "",Action onChanged = null)
@@ -67,6 +85,11 @@ namespace ULALA.UI.Core.MVVM
         protected Task WrapAsyncCall(Func<Task> asynchCallback, bool setIsBusy = true, Action<Exception> onErrorCallback = null)
         {
             return InternalHandleAsyncCall(asynchCallback, setIsBusy, onErrorCallback);
+        }
+
+        private void OnGoBack()
+        {
+            this.NavigationManager.GoBack();
         }
 
         private async Task InternalHandleAsyncCall(Func<Task> asynchCallback, bool setIsBusy, Action<Exception> onErrorCallback)
@@ -186,8 +209,6 @@ namespace ULALA.UI.Core.MVVM
             //if (!propertyName.Equals("Title"))
             //    return list;
 
-            //if (this.Title.Contains("Marketing"))
-            //    list.Add("Marketing is not allowed");
             return list;
         }
         #endregion

@@ -6,11 +6,12 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using ULALA.UI.Core.MVVM;
 using Xamarin.Forms;
 
 namespace ULALA.Models
 {
-    public class MenuItemModel : INotifyPropertyChanged
+    public class MenuItemModel : ModelBase
     {
         public MenuItemModel(string icon, string name, string color, string viewName)
         {
@@ -50,28 +51,5 @@ namespace ULALA.Models
             get { return m_viewName; }
             set { SetProperty(ref m_viewName, value); }
         }
-
-        protected bool SetProperty<T>(ref T backingStore, T value, [CallerMemberName] string propertyName = "", Action onChanged = null)
-        {
-            if (EqualityComparer<T>.Default.Equals(backingStore, value))
-                return false;
-
-            backingStore = value;
-            onChanged?.Invoke();
-            OnPropertyChanged(propertyName);
-            return true;
-        }
-
-        #region INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            var changed = PropertyChanged;
-            if (changed == null)
-                return;
-
-            changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        #endregion
     }
 }

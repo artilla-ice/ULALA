@@ -10,16 +10,17 @@ using ULALA.UI.Core.MVVM;
 
 namespace ULALA.ViewModels
 {
-    public class WithdrawStackerViewModel : ViewModelBase
+    public class LogsViewModel : ViewModelBase
     {
-        public WithdrawStackerViewModel()
+        public LogsViewModel()
         {
 
         }
 
         protected override void OnActivated()
         {
-            this.PageIcon = "../Assets/Icons/Cobrar.png";
+            this.PageIcon = "../Assets/Icons/CashRegister.png"; //TODO: agregar path de iconos a archivo de recursos
+
         }
     }
 }

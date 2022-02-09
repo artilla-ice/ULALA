@@ -1,0 +1,17 @@
+﻿<controls:Page  xmlns:controls="using:Windows.UI.Xaml.Controls"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:ULALA.UI.Core.Controls;assembly=ULALA.UI.Core"
+    x:Class="ULALA.UI.Core.Controls.Separator"
+    x:Name="_Separator">
+    <controls:Page.Content>
+        <controls:Grid HorizontalAlignment="Stretch" Margin="0,12,0,12">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="12"/>
+                <RowDefinition Height="8"/>
+            </Grid.RowDefinitions>
+            <controls:Frame Height="8" Background="CornflowerBlue"/>
+            <controls:Frame Grid.Row="1" Height="4" Background="CornflowerBlue"/>
+        </controls:Grid>
+    </controls:Page.Content>
+</controls:Page>

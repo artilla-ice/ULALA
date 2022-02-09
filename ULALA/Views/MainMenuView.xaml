@@ -1,37 +1,51 @@
 ﻿<Page
+    x:Class="ULALA.Views.MainMenuView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:ULALA"
-    xmlns:mvvm="using:ULALA.UI.Core.MVVM"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    mc:Ignorable="d"
+    xmlns:local="using:ULALA"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mvvm="using:ULALA.UI.Core.MVVM"
     mvvm:ViewModelLocator.AutoWireViewModel="True"
-    x:Class="ULALA.Views.MainMenuView"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
 
-    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Frame Background="DarkBlue" MinHeight="100" VerticalAlignment="Top">
+        <Frame
+            MinHeight="100"
+            VerticalAlignment="Top"
+            Background="CornflowerBlue">
             <Grid>
-                <TextBlock Text="MiddleOffice" HorizontalAlignment="Center" VerticalAlignment="Center"
-                           FontSize="36" Foreground="WhiteSmoke" FontWeight="SemiBold"/>
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="36"
+                    FontWeight="SemiBold"
+                    Foreground="WhiteSmoke"
+                    Text="MiddleOffice" />
 
-                <ToggleSwitch OffContent="Modo Oscuro" OnContent="Modo Claro" Margin="12"
-                            VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="White" />
+                <ToggleSwitch
+                    Margin="12"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Foreground="White"
+                    OffContent="Modo Oscuro"
+                    OnContent="Modo Claro" />
             </Grid>
         </Frame>
 
         <controls:AdaptiveGridView  Grid.Row="1" HorizontalAlignment="Center" ItemsSource="{Binding MenuItems}" Margin="12" VerticalContentAlignment="Center"
-                               HorizontalContentAlignment="Center"
+                               HorizontalContentAlignment="Stretch"
                                VerticalAlignment="Stretch" 
                                SelectionMode="Single"
-                               ItemHeight="160" DesiredWidth="200" 
+                               ItemHeight="180" DesiredWidth="220" 
                                SelectedItem="{Binding SelectedMenuItem, Mode=TwoWay}" IsItemClickEnabled="True">
             <controls:AdaptiveGridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
@@ -39,11 +53,10 @@
                         <Setter.Value>
                             <ControlTemplate TargetType="GridViewItem">
                                 <ListViewItemPresenter
-                                        SelectedBackground="Transparent"
-                                        SelectedPointerOverBackground="Transparent"
-                                        PressedBackground="Transparent"
-                                        SelectedPressedBackground="Transparent"
-                                        />
+                                    PressedBackground="Transparent"
+                                    SelectedBackground="Transparent"
+                                    SelectedPointerOverBackground="Transparent"
+                                    SelectedPressedBackground="Transparent" />
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
@@ -52,27 +65,34 @@
             <controls:AdaptiveGridView.ItemTemplate>
                 <DataTemplate>
                     <Viewbox VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                             MinWidth="80" MinHeight="40" Width="200" Height="160">
+                             MinWidth="80" MinHeight="40" Width="220" Height="180">
                         <Frame CornerRadius="10" Padding="10" Background="{Binding Color}"
-                               MinWidth="80" MinHeight="40" Width="200" Height="160"
+                               MinWidth="80" MinHeight="40" Width="220" Height="180"
                                VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
 
-                                <Image Source="{Binding Icon}"  HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                   Height="80" Width="80" 
-                                                   MinHeight="40" MinWidth="40"/>
+                                <Image
+                                    Width="80"
+                                    Height="80"
+                                    MinWidth="40"
+                                    MinHeight="40"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Source="{Binding Icon}" />
 
-                                <TextBlock Grid.Row="1" Text="{Binding Name}"
-                                        VerticalAlignment="Bottom"
-                                        HorizontalAlignment="Center"
-                                        HorizontalTextAlignment="Center"
-                                        Foreground="White"
-                                        FontSize="16"
-                                        TextWrapping="Wrap"/>
+                                <TextBlock
+                                    Grid.Row="1"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Bottom"
+                                    FontSize="16"
+                                    Foreground="White"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding Name}"
+                                    TextWrapping="Wrap" />
 
                             </Grid>
                         </Frame>
@@ -81,17 +101,35 @@
             </controls:AdaptiveGridView.ItemTemplate>
         </controls:AdaptiveGridView>
 
-        <Frame Grid.Row="2" MinHeight="80" Background="DarkBlue" VerticalAlignment="Bottom">
-            <Grid ColumnSpacing="40" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Frame
+            Grid.Row="2"
+            MinHeight="80"
+            VerticalAlignment="Bottom"
+            Background="CornflowerBlue">
+            <Grid
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                ColumnSpacing="40">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <Button Content="Detener" Height="40" Width="120"/>
-                <Button Grid.Column="1" Content="Config" Height="40" Width="120"/>
-                <Button Grid.Column="2" Content="Salir" Height="40" Width="120"/>
+                <Button
+                    Width="120"
+                    Height="40"
+                    Content="Detener" />
+                <Button
+                    Grid.Column="1"
+                    Width="120"
+                    Height="40"
+                    Content="Config" />
+                <Button
+                    Grid.Column="2"
+                    Width="120"
+                    Height="40"
+                    Content="Salir" />
             </Grid>
         </Frame>
     </Grid>

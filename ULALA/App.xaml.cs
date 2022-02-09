@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading;
 using ULALA.Core.Contracts.Base;
 using ULALA.Infrastructure.IOC;
 using ULALA.Infrastructure.PubSub;
@@ -16,6 +18,7 @@ using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Globalization;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -65,8 +68,7 @@ namespace ULALA
             }
 
             InitializeConfiguration();
-                ConfigureNavigationManager();
-
+            
             if (e.PrelaunchActivated == false)
             {
                 if (rootFrame.Content == null)
@@ -75,11 +77,22 @@ namespace ULALA
                 }
 
                 // Ensure the current window is active
+                ConfigureWindowApplication();
 
-                OnConfigureWindowApplication();
                 Window.Current.Activate();
 
+                LoadCultureApplication();
             }
+        }
+
+        void LoadCultureApplication()
+        {
+            CultureInfo ci = new CultureInfo("en-US");
+            Thread.CurrentThread.CurrentCulture = ci;
+            Thread.CurrentThread.CurrentUICulture = ci;
+            ApplicationLanguages.PrimaryLanguageOverride = "en-US";
+            Windows.ApplicationModel.Resources.Core.ResourceContext.GetForCurrentView().Reset();
+            Windows.ApplicationModel.Resources.Core.ResourceContext.GetForViewIndependentUse().Reset();
         }
 
         void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
@@ -108,6 +121,8 @@ namespace ULALA
                 //m_container.RegisterType<ITestService, TestService>();
                 //m_container.RegisterType<ITestManage, TestManager>(new ContainerControlledLifetimeManager());
             }
+
+            ConfigureNavigationManager();
         }
 
         private void InitializeManager<T>()
@@ -132,13 +147,18 @@ namespace ULALA
         {
             navigationManager.RegisterView(ViewNames.MainMenu, typeof(MainMenuView));
             navigationManager.RegisterView(ViewNames.WithdrawStacker, typeof(WithdrawStackerView));
+            navigationManager.RegisterView(ViewNames.CashFunds, typeof(CashFundsView));
+            navigationManager.RegisterView(ViewNames.CashOut, typeof(CashOutView));
+            navigationManager.RegisterView(ViewNames.Logs, typeof(LogsView));
+            navigationManager.RegisterView(ViewNames.AddExchange, typeof(AddExchangeView));
+            navigationManager.RegisterView(ViewNames.WithdrawCash, typeof(WithdrawCashView));
         }
 
 
-        private void OnConfigureWindowApplication()
+        private void ConfigureWindowApplication()
         {
-            ApplicationView.PreferredLaunchViewSize = new Size(880, 710);
-            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(880, 710));
+            ApplicationView.PreferredLaunchViewSize = new Size(980, 770);
+            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(980, 770));
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
 
             //Set window title bar transparent

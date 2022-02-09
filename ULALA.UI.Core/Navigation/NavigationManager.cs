@@ -83,20 +83,23 @@ namespace ULALA.UI.Core.Navigation
 
         public Task NavigateTo(string viewName, IDictionary<string, object> parameters)
         {
-            if (m_viewsRegistry.TryGetValue(viewName, out Type viewType))
+            if(viewName != null || string.IsNullOrEmpty(viewName))
             {
-                Page view;
-                if (parameters == null)
-                    view = (Page)Activator.CreateInstance(viewType);
+                if (m_viewsRegistry.TryGetValue(viewName, out Type viewType))
+                {
+                    Page view;
+                    if (parameters == null)
+                        view = (Page)Activator.CreateInstance(viewType);
+                    else
+                        view = (Page)Activator.CreateInstance(viewType, parameters);
+
+                    AppFrame.Navigate(m_viewsRegistry[viewName], parameters);
+                }
                 else
-                    view = (Page)Activator.CreateInstance(viewType, parameters);
-
-                AppFrame.Navigate(m_viewsRegistry[viewName], parameters);
-
-                return Task.CompletedTask;
+                    throw new ArgumentException($"NavigationManager, view not registered: {viewName}");
             }
-            else
-                throw new ArgumentException($"NavigationManager, view not registered: {viewName}");
+
+            return Task.CompletedTask;
         }
 
         public void RegisterView(string viewName, Type viewType)

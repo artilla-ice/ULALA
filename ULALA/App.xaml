@@ -2,13 +2,79 @@
     x:Class="ULALA.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:ULALA"
-    >
+    xmlns:local="using:ULALA" 
+    xmlns:cnv="using:ULALA.UI.Core.Converters">
     <Application.Resources>
         <ResourceDictionary>
+            <cnv:StringDateFormatConverter x:Key="StringDateFormat"/>
+            <cnv:StringDateTimeFormatConverter x:Key="StringDateTimeFormat"/>
+            <cnv:StringCurrencyFormatConverter x:Key="StringCurrencyFormat"/>
+
+            <!--TODO: VERIFICAR COMO NO HACER OVERWRITE DE WINUI-->
+            
+            <!--<Style TargetType="Button">
+                <Setter Property="Height" Value="40" />
+            </Style>-->
+            <Style TargetType="Button" x:Key="GridButton">
+                <Setter Property="Height" Value="35" />
+            </Style>
+            <Style TargetType="Button" x:Key="ForwardButton">
+                <Setter Property="Height" Value="35" />
+                <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
+                <Setter Property="Content" Value="&#xE72A;" />
+            </Style>
+            <Style TargetType="TextBox" x:Key="GridTextBox" >
+                <Setter Property="Height" Value="35" />
+                <Setter Property="TextAlignment" Value="End" />
+
+            </Style>
+            <Style TargetType="TextBox" x:Key="GridTextBoxReadOnly">
+                <Setter Property="Height" Value="35" />
+                <Setter Property="TextAlignment" Value="End" />
+                <Setter Property="IsReadOnly" Value="True" />
+            </Style>
+
+            <!--<Style TargetType="TextBox">
+                <Setter Property="TextAlignment" Value="End" />
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+            </Style>-->
+
+            <Style TargetType="TextBox" x:Name="TextBoxWHeader">
+                <Setter Property="TextAlignment" Value="End" />
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+                <Setter Property="HeaderTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <Grid>
+                                <TextBlock Text="{Binding}" FontSize="12" Foreground="Black" FontWeight="SemiBold" />
+                            </Grid>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="Image" x:Key="IconPage">
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Height" Value="40" />
+                <Setter Property="Width" Value="40" />
+            </Style>
+            <Style TargetType="TextBlock" x:Key="TitlePage">
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="FontSize" Value="36" />
+                <Setter Property="Foreground" Value="WhiteSmoke" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+            </Style>
+            <Style TargetType="TextBlock" x:Key="SubtitlePage">
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="FontWeight" Value="Bold" />
+            </Style>
+
+
             <ResourceDictionary.MergedDictionaries>
-                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-                <ResourceDictionary Source="Themes/DefaultTheme.xaml" />
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

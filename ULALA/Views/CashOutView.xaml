@@ -1,0 +1,259 @@
+﻿<Page
+    x:Class="ULALA.Views.CashOutView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:UControls="using:ULALA.UI.Core.Controls"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:ULALA"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:ULALA.Models"
+    xmlns:mvvm="using:ULALA.UI.Core.MVVM"
+    mvvm:ViewModelLocator.AutoWireViewModel="True"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Frame
+            MinHeight="100"
+            VerticalAlignment="Top"
+            Background="CornflowerBlue">
+            <Grid>
+                <Button
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Command="{Binding OnBackCommand}"
+                    Style="{StaticResource NavigationBackButtonNormalStyle}" />
+
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="20">
+                    <Image Source="{Binding PageIcon}" Style="{StaticResource IconPage}" />
+
+                    <TextBlock Style="{StaticResource TitlePage}" Text="Corte de Caja" />
+                </StackPanel>
+            </Grid>
+        </Frame>
+
+        <Grid
+            Grid.Row="1"
+            Margin="12"
+            HorizontalAlignment="Stretch"
+            RowSpacing="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0">
+                <TextBlock Style="{StaticResource SubtitlePage}" Text="Filtros" />
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <TextBlock VerticalAlignment="Center" Text="Desde" />
+                        <StackPanel Orientation="Horizontal">
+                            <CalendarDatePicker PlaceholderText="Pick a date" />
+                            <TimePicker ClockIdentifier="24HourClock" />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <TextBlock VerticalAlignment="Center" Text="Hasta" />
+                        <StackPanel Orientation="Horizontal">
+                            <CalendarDatePicker PlaceholderText="Pick a date" />
+                            <TimePicker ClockIdentifier="24HourClock" />
+                        </StackPanel>
+                    </StackPanel>
+                    <Button
+                        Grid.Column="2"
+                        Width="100"
+                        VerticalAlignment="Bottom">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontFamily="Segoe MDL2 Assets"
+                                Text="&#xE721;" />
+                            <TextBlock VerticalAlignment="Center" Text="Buscar" />
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </StackPanel>
+
+            <Grid Grid.Row="1" ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Spacing="8">
+                    <TextBlock Style="{StaticResource SubtitlePage}" Text="Detalles de Corte de Caja" />
+                    <Grid ColumnSpacing="12" RowSpacing="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="150" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            FontWeight="Medium"
+                            Text="Inicio del corte" />
+                        <TextBox
+                            Grid.Column="1"
+                            Style="{StaticResource GridTextBoxReadOnly}"
+                            Text="{Binding CashOutSelectedMovement.StartedDate, Converter={StaticResource StringDateTimeFormat}}" />
+
+                        <TextBlock
+                            Grid.Row="1"
+                            VerticalAlignment="Center"
+                            FontWeight="Medium"
+                            Text="Fin del corte" />
+                        <TextBox
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Style="{StaticResource GridTextBoxReadOnly}"
+                            Text="{Binding CashOutSelectedMovement.EndDate, Converter={StaticResource StringDateTimeFormat}}" />
+
+                        <TextBlock
+                            Grid.Row="2"
+                            VerticalAlignment="Center"
+                            FontWeight="Medium"
+                            Text="Importe inicial" />
+                        <TextBox
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Style="{StaticResource GridTextBoxReadOnly}"
+                            Text="{Binding CashOutSelectedMovement.InitialAmount, Converter={StaticResource StringCurrencyFormat}}" />
+
+                        <TextBlock
+                            Grid.Row="3"
+                            VerticalAlignment="Center"
+                            FontWeight="Medium"
+                            Text="Cambio agregado" />
+                        <TextBox
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            Style="{StaticResource GridTextBoxReadOnly}"
+                            Text="{Binding CashOutSelectedMovement.IncomingAmount, Converter={StaticResource StringCurrencyFormat}}" />
+
+                        <TextBlock
+                            Grid.Row="4"
+                            VerticalAlignment="Center"
+                            FontWeight="Medium"
+                            Text="Retiros de efectivo" />
+                        <TextBox
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            Style="{StaticResource GridTextBoxReadOnly}"
+                            Text="{Binding CashOutSelectedMovement.WithdrawalAmount, Converter={StaticResource StringCurrencyFormat}}" />
+
+                        <TextBlock
+                            Grid.Row="5"
+                            VerticalAlignment="Center"
+                            FontWeight="Medium"
+                            Text="Ventas" />
+                        <TextBox
+                            Grid.Row="5"
+                            Grid.Column="1"
+                            Style="{StaticResource GridTextBoxReadOnly}"
+                            Text="{Binding CashOutSelectedMovement.SalesAmount, Converter={StaticResource StringCurrencyFormat}}" />
+
+                        <TextBlock
+                            Grid.Row="6"
+                            VerticalAlignment="Center"
+                            FontWeight="Medium"
+                            Text="Importe final" />
+                        <TextBox
+                            Grid.Row="6"
+                            Grid.Column="1"
+                            Style="{StaticResource GridTextBoxReadOnly}"
+                            Text="{Binding CashOutSelectedMovement.FinalAmount, Converter={StaticResource StringCurrencyFormat}}" />
+
+                        <TextBlock
+                            Grid.Row="7"
+                            VerticalAlignment="Center"
+                            FontWeight="Medium"
+                            Text="Saldo final" />
+                        <TextBox
+                            Grid.Row="7"
+                            Grid.Column="1"
+                            Style="{StaticResource GridTextBoxReadOnly}"
+                            Text="{Binding CashOutSelectedMovement.Balance, Converter={StaticResource StringCurrencyFormat}}" />
+                    </Grid>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Spacing="8">
+                    <TextBlock Style="{StaticResource SubtitlePage}" Text="Cortes de Caja" />
+                    <controls:DataGrid
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        AutoGenerateColumns="False"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding CashOutMovements}"
+                        SelectedItem="{Binding CashOutSelectedMovement, Mode=TwoWay}"
+                        SelectionMode="Single">
+                        <controls:DataGrid.Columns>
+                            <controls:DataGridTextColumn Binding="{Binding StartedDate, Converter={StaticResource StringDateFormat}}" />
+                            <controls:DataGridTextColumn Binding="{Binding InitialAmount, Converter={StaticResource StringCurrencyFormat}}" />
+                            <controls:DataGridTextColumn Binding="{Binding IncomingAmount, Converter={StaticResource StringCurrencyFormat}}" />
+                            <controls:DataGridTextColumn Binding="{Binding WithdrawalAmount, Converter={StaticResource StringCurrencyFormat}}" />
+                            <controls:DataGridTextColumn Binding="{Binding SalesAmount, Converter={StaticResource StringCurrencyFormat}}" />
+                            <controls:DataGridTextColumn Binding="{Binding FinalAmount, Converter={StaticResource StringCurrencyFormat}}" />
+                            <controls:DataGridTextColumn Binding="{Binding Balance, Converter={StaticResource StringCurrencyFormat}}" />
+                        </controls:DataGrid.Columns>
+                    </controls:DataGrid>
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+        <Frame
+            Grid.Row="2"
+            MinHeight="80"
+            VerticalAlignment="Bottom"
+            Background="CornflowerBlue">
+            <Grid
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                ColumnSpacing="40">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Button
+                    Width="160"
+                    Height="40"
+                    Content="Generar Reporte" />
+                <Button
+                    Grid.Column="1"
+                    Width="160"
+                    Height="40"
+                    Content="Exportar Detalle" />
+                <Button
+                    Grid.Column="2"
+                    Width="160"
+                    Height="40"
+                    Content="Imprimir Reporte" />
+            </Grid>
+        </Frame>
+    </Grid>
+</Page>
