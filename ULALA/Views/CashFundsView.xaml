@@ -141,10 +141,13 @@
                     <TextBlock Grid.Row="1" Grid.Column="1" Text="*El Reciclador está casi lleno" Foreground="SkyBlue" FontWeight="SemiBold"/>
                 </Grid>
 
-                <StackPanel Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Center">
-                    <TextBox Text="$0" Header="Fondo automático" TextAlignment="End" FontSize="18" FontWeight="SemiBold" Width="180"/>
-                    <Button Content="Fondo automático" Width="180" Height="40"/>
-                    <Button Content="Inicializar fondo" Width="180" Height="40"/>
+                <UControls:NumericVirtualKeyboard Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" 
+                    VerticalAlignment="Stretch" HorizontalAlignment="Center" Margin="0,40,0,0"/>
+
+                <StackPanel VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2">
+                    <TextBox Text="$0" Header="Fondo automático" TextAlignment="End" FontSize="18" FontWeight="SemiBold" HorizontalAlignment="Stretch"/>
+                    <Button Content="Fondo automático" Height="40" HorizontalAlignment="Stretch"/>
+                    <Button Content="Inicializar fondo" Height="40" HorizontalAlignment="Stretch"/>
                 </StackPanel>
             </Grid>
         </Grid>

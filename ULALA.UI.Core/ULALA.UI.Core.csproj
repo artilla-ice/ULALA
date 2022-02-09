@@ -120,6 +120,12 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Controls\NumericVirtualKeyboard.xaml.cs">
+      <DependentUpon>NumericVirtualKeyboard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Separator.xaml.cs">
+      <DependentUpon>Separator.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\StringDateTimeFormatConverter.cs" />
     <Compile Include="Converters\StringDateFormatConverter.cs" />
     <Compile Include="Converters\StringCurrencyFormatConverter.cs" />
@@ -128,7 +134,6 @@
     <Compile Include="MVVM\ViewModelLocator.cs" />
     <Compile Include="Navigation\NavigationManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Controls\Separator.xaml.cs" />
     <EmbeddedResource Include="Properties\ULALA.UI.Core.rd.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -156,9 +161,13 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Controls\Separator.xaml">
+    <Page Include="Controls\NumericVirtualKeyboard.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Separator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup />
