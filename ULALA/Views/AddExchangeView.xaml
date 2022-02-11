@@ -16,80 +16,74 @@
     <Page.Resources>
         <ResourceDictionary>
             <DataTemplate x:Key="CashFundsDataTemplated" x:DataType="model:RecyclerToCashierFundsModel">
-                <Grid>
+                <Grid ColumnSpacing="10">
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
                         <ColumnDefinition Width="110" />
-                        <ColumnDefinition Width="220" />
                         <ColumnDefinition Width="150" />
                         <ColumnDefinition Width="150" />
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock
+                    <TextBlock TextAlignment="End" Height="40" FontSize="24"
                         VerticalAlignment="Center"
                         FontWeight="SemiBold"
                         Text="{Binding Title}" />
-                    <Image
-                        Grid.Column="1"
+                    <Image Grid.Column="1"
                         Width="{Binding DenominationIconSize}"
                         Height="40"
                         Margin="1,1,1,1"
                         VerticalAlignment="Center"
                         Source="{Binding DenominationIcon}" />
-                    <TextBox
-                        
+                    <TextBox 
+                        TextAlignment="End" Height="40" FontSize="16"
                         Margin="1,1,10,1"
                         Grid.Column="2"
                         HorizontalTextAlignment="Center"
                         Text="0" />
-                    <TextBox
+                    <TextBox TextAlignment="End" Height="40" FontSize="16"
                         Grid.Column="3"
                         HorizontalTextAlignment="Center"
                         IsEnabled="False"
-                        Text="{Binding RecyclerAmount}" />
-                   
-                    
+                        Text="{Binding RecyclerAmount, Converter={StaticResource StringCurrencyFormat}}" />
                 </Grid>
             </DataTemplate>
             <DataTemplate x:Key="CashFundsDataTemplatedHeader">
-                <Grid Margin="180,0,0,0" HorizontalAlignment="Center">
+                <Grid Margin="180,0,0,0" HorizontalAlignment="Center" ColumnSpacing="10">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="60" />
-                        <ColumnDefinition Width="60" />
-                        <ColumnDefinition Width="60" />
-                        <ColumnDefinition Width="60" />
-                        <ColumnDefinition Width="60" />
-                        <ColumnDefinition Width="60" />
-                        <ColumnDefinition Width="70" />
-
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="140" />
+                        <ColumnDefinition Width="140" />
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="50" />
                     </Grid.RowDefinitions>
 
-                   
+
                     <TextBlock
-                        Grid.Column="3"
-                        Grid.ColumnSpan="3"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="2"
                         VerticalAlignment="Center"
                         FontWeight="SemiBold"
-                        HorizontalTextAlignment="Left"
+                        HorizontalAlignment="Center"
+                        HorizontalTextAlignment="Center"
                         Text="Importe Introducido" />
-                    
 
-                   
                     <TextBlock
                         Grid.Row="1"
-                        Grid.Column="3"
+                        Grid.Column="1"
                         VerticalAlignment="Center"
                         FontWeight="SemiBold"
                         HorizontalTextAlignment="Center"
                         Text="Cantidad" />
                     <TextBlock
                         Grid.Row="1"
-                        Grid.Column="5"
+                        Grid.Column="2"
                         VerticalAlignment="Center"
                         FontWeight="SemiBold"
                         HorizontalTextAlignment="Center"
@@ -160,13 +154,12 @@
                 <TextBlock
                     FontSize="18"
                     FontWeight="Bold"
-                    Text="Introduzca Los cambios en la máquina" />
-                <TextBlock  Text="( Una vez introducidos, pulse ← )" />
+                    Text="Introduzca los Cambios en la Máquina" />
+                <TextBlock  Text="( Una vez introducidos, pulse ←Salir )" />
             </StackPanel>
 
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
@@ -175,7 +168,7 @@
                 </Grid.RowDefinitions>
 
                 <ListView
-                    HorizontalAlignment="Stretch"
+                    HorizontalAlignment="Center"
                     VerticalAlignment="Stretch"
                     HeaderTemplate="{StaticResource CashFundsDataTemplatedHeader}"
                     ItemTemplate="{StaticResource CashFundsDataTemplated}"
@@ -183,34 +176,25 @@
                     SelectionMode="None" />
 
                 <!--Importes-->
-                <StackPanel
-                    Grid.Row="2"
-                    
+                <StackPanel Grid.Row="2"
                     Grid.ColumnSpan="2"
                     Orientation="Vertical">
-                    <Line
-                        Stroke="Black"
-                        StrokeThickness=".3"
-                        X1="10"
-                        X2="660"
-                        Y1="30"
-                        Y2="30" />
+                    <UControls:Separator/>
 
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock
-                            Margin="10,10,0,20"
-                            FontSize="20"
-                            FontWeight="Bold"
-                            Text="Importes Totales:" />
-                        <TextBox
-                            
-                            Width="250"
-                            Height="40"
-                            FontSize="20"
-                            Margin="150,0,0,0"
-                            PlaceholderText="$00,00" />
-                    </StackPanel>
-                    
+                    <Grid HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Importes Totales:" FontSize="18" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <TextBox  Grid.Column="1" Text="$0.00" Background="SkyBlue" TextAlignment="End" FontSize="18" FontWeight="SemiBold"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="*El Reciclador está casi lleno" Foreground="SkyBlue" FontWeight="SemiBold"/>
+                    </Grid>
                 </StackPanel>
             </Grid>
         </Grid>

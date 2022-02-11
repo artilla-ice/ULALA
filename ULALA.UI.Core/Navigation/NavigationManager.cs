@@ -87,13 +87,10 @@ namespace ULALA.UI.Core.Navigation
             {
                 if (m_viewsRegistry.TryGetValue(viewName, out Type viewType))
                 {
-                    Page view;
                     if (parameters == null)
-                        view = (Page)Activator.CreateInstance(viewType);
+                        AppFrame.Navigate(viewType);
                     else
-                        view = (Page)Activator.CreateInstance(viewType, parameters);
-
-                    AppFrame.Navigate(m_viewsRegistry[viewName], parameters);
+                        AppFrame.Navigate(viewType, parameters);
                 }
                 else
                     throw new ArgumentException($"NavigationManager, view not registered: {viewName}");

@@ -14,13 +14,18 @@ using Color = System.Drawing.Color;
 
 namespace ULALA.ViewModels
 {
-    public class MainMenuViewModel : ViewModelBase
+    public class ControlPanelViewModel : ViewModelBase
     {
-        public Command ConfigurationCommand { get; set; }
+        //public Command MenuItemSelectedCommand { get; set; }
 
-        public MainMenuViewModel()
+        public ControlPanelViewModel()
         {
-            this.ConfigurationCommand = new Command(OnLoadControlPanel);
+            //this.MenuItemSelectedCommand = new Command(OnMenuItemIsSelected);
+        }
+
+        public void OnGoBack()
+        {
+            this.NavigationManager.GoBack();
         }
 
         protected override void OnActivated()
@@ -55,11 +60,6 @@ namespace ULALA.ViewModels
             {
                 this.NavigationManager.NavigateTo(m_selectedMenuItem.ViewName);
             }
-        }
-
-        private void OnLoadControlPanel()
-        {
-            this.NavigationManager.NavigateTo(ViewNames.ControlPanel);
         }
 
         private ObservableCollection<MenuItemModel> m_menuItems;

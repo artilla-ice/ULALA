@@ -16,7 +16,7 @@
     <Page.Resources>
         <ResourceDictionary>
             <DataTemplate x:Key="CashFundsDataTemplated" x:DataType="model:RecyclerToCashierFundsModel">
-                <Grid>
+                <Grid ColumnSpacing="4">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="110" />
                         <ColumnDefinition Width="80" />
@@ -31,25 +31,26 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock
-                        VerticalAlignment="Center"
-                        FontWeight="SemiBold"
-                        Text="{Binding Title}" />
                     <Image
-                        Grid.Column="1"
                         Width="{Binding DenominationIconSize}"
-                        Height="40"
                         VerticalAlignment="Center"
                         Source="{Binding DenominationIcon}" />
+                    <TextBlock
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        FontWeight="SemiBold" HorizontalAlignment="Right" FontSize="24"
+                        Text="{Binding Title}" />
                     <TextBox
                         Grid.Column="2"
                         HorizontalTextAlignment="Center"
                         IsEnabled="False"
+                        TextAlignment="End" Height="40" FontSize="16" 
                         Text="{Binding RecyclerQuantity}" />
                     <TextBox
                         Grid.Column="3"
                         HorizontalTextAlignment="Center"
                         IsEnabled="False"
+                        TextAlignment="End" Height="40" FontSize="16" 
                         Text="{Binding RecyclerAmount}" />
                     <Button
                         Grid.Column="4"
@@ -59,21 +60,25 @@
                     <TextBox
                         Grid.Column="5"
                         HorizontalTextAlignment="Center"
+                        TextAlignment="End" Height="40" FontSize="16" 
                         Text="{Binding CashierQuantity}" />
                     <TextBox
                         Grid.Column="6"
                         HorizontalTextAlignment="Center"
                         IsEnabled="False"
+                        TextAlignment="End" Height="40" FontSize="16" 
                         Text="{Binding CashierAmount}" />
                     <TextBox
                         Grid.Column="7"
                         HorizontalTextAlignment="Center"
                         IsEnabled="False"
+                        TextAlignment="End" Height="40" FontSize="16" 
                         Text="{Binding MissingAmount}" />
                     <TextBox
                         Grid.Column="8"
                         HorizontalTextAlignment="Center"
                         IsEnabled="False"
+                        TextAlignment="End" Height="40" FontSize="16" 
                         Text="{Binding SurplusAmount}" />
                 </Grid>
             </DataTemplate>
@@ -210,37 +215,31 @@
         <Grid
             Grid.Row="1"
             Margin="12"
-            HorizontalAlignment="Stretch">
+            HorizontalAlignment="Stretch" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="60" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="680" />
-                <ColumnDefinition Width="*" />
-
-            </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Row="0" Grid.Column="0">
                 <TextBlock
                     FontSize="18"
                     FontWeight="Bold"
-                    Text="Reirar monedas y billetes" />
-                <TextBlock Text="(Los billetes se retiraran al stacker si se desea)" />
+                    Text="Retirar Monedas y Billetes" />
+                <TextBlock Text="(Los billetes se retirarán al stacker si lo desea)" />
             </StackPanel>
 
             <!--  Recycler section  -->
 
-            <Grid Grid.Row="1" Grid.Column="0">
+            <Grid Grid.Row="1" ColumnSpacing="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="300" />
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <ListView
@@ -251,107 +250,38 @@
                     ItemsSource="{Binding RecyclerAmounts}"
                     SelectionMode="None" />
 
+                <UControls:Separator Grid.Row="1"/>
                     <!--Importes-->
-                <StackPanel
-                    Grid.Row="2"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="2"
-                    Orientation="Vertical">
-                    <Line
-                        Stroke="Black"
-                        StrokeThickness=".3"
-                        X1="10"
-                        X2="660"
-                        Y1="30"
-                        Y2="30" />
 
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock
-                            Margin="11,11,50,11"
-                            FontSize="20"
-                            FontWeight="Bold"
-                            Text="Importes Totales:" />
-                        <TextBox
-                            Width="150"
-                            Margin="11,11,11,11"
-                            PlaceholderText="$00,00" />
-                        <Button Margin="11,11,11,11" Content="➜" />
-                        <TextBox
-                            Width="150"
-                            Margin="11,11,50,11"
-                            PlaceholderText="$00,00" />
-
+                <Grid Grid.Row="2" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Importes Totales:" FontSize="18" FontWeight="Bold" VerticalAlignment="Center"/>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="4">
+                        <TextBox Text="$0.00" Width="150" Background="SkyBlue" TextAlignment="End" FontSize="18" FontWeight="SemiBold"/>
+                        <Button Grid.Column="4" FontFamily="Segoe MDL2 Assets" Content="&#xE72A;" Height="40"/>
+                        <TextBox Text="$0.00" Width="150" Background="SkyBlue" TextAlignment="End" FontSize="18" FontWeight="SemiBold"/>
                     </StackPanel>
+                </Grid>
+
+
+                <UControls:NumericVirtualKeyboard Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" 
+                        Value="{Binding VirtualKeyboardValue, Mode=TwoWay}" ReturnCommand="{Binding AutomaticFundCommand}"
+                        VerticalAlignment="Stretch" HorizontalAlignment="Center" Margin="0,40,0,0"/>
+
+                <StackPanel VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Spacing="4">
+                    <TextBox Text="{Binding VirtualKeyboardValue, Converter={StaticResource StringCurrencyFormat}}" PlaceholderText="$0.00"
+                                 Header="Retiro Automático" TextAlignment="End" FontSize="18" FontWeight="SemiBold" HorizontalAlignment="Stretch"/>
+                    <Button Content="Retiro Automático" Height="40" HorizontalAlignment="Stretch" Command="{Binding AutomaticFundCommand}"/>
                 </StackPanel>
-
-
             </Grid>
 
             <!--  Calculator section  -->
-            <Grid Grid.Row="1" Grid.Column="1" >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="30" />
-                    <RowDefinition Height="40" />
-                    <RowDefinition Height="40" />
-                    <RowDefinition Height="40" />
-                    <RowDefinition Height="65" />
-
-                    <RowDefinition Height="50" />
-                    <RowDefinition Height="20" />
-                    <RowDefinition Height="50" />
-                    <RowDefinition Height="40" />
-                </Grid.RowDefinitions>
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="40" />
-                </Grid.ColumnDefinitions>
-
-
-
-                <UControls:NumericVirtualKeyboard Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Grid.RowSpan="7" Width="250"/>
-
-
-
-
-
-
-                <CheckBox
-                    Grid.Row="5"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="4"
-                    FontWeight="Bold">
-                    Retirar Stacker
-                </CheckBox>
-                <TextBlock
-                    Grid.Row="6"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="4"
-                    Text="Retiro Automatico:" />
-                <TextBox
-                    Grid.Row="7"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="4"
-                    Width="150"
-                    Height="30"
-                    HorizontalAlignment="Left"
-                    Background="White"
-                    BorderBrush="Black"
-                    BorderThickness=".3" />
-                <Button
-                    Grid.Row="8"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="4"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Content="Retiro Automatico"
-                    FontWeight="SemiBold" />
-
-
-            </Grid>
-
 
         </Grid>
 

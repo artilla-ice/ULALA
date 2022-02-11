@@ -48,7 +48,7 @@ namespace ULALA.Models
         {
             get
             {
-                return (this.CashType == CashType.Bills) ? 60 : 30;
+                return (this.CashType == CashType.Bills) ? 90 : 40;
             }
         }
 
@@ -76,18 +76,18 @@ namespace ULALA.Models
             get { return this.CashierQuantity * this.Denomination; }
         }
 
-        private int m_missingAmount;
-        public int MissingAmount
+        private int m_missingQuantity;
+        public int MissingQuantity
         {
-            get { return m_missingAmount; }
-            set { SetProperty(ref m_missingAmount, value); }
+            get { return m_missingQuantity; }
+            set { SetProperty(ref m_missingQuantity, value); }
         }
 
-        private int m_surplusAmount;
-        public int SurplusAmount
+        private int m_surplusQuantity;
+        public int SurplusQuantity
         {
-            get { return m_surplusAmount; }
-            set { SetProperty(ref m_surplusAmount, value); }
+            get { return m_surplusQuantity; }
+            set { SetProperty(ref m_surplusQuantity, value); }
         }
 
         private string GetDenominationIcon()
@@ -105,10 +105,8 @@ namespace ULALA.Models
 
         private string GetTitle()
         {
-            var title = string.Empty;
-
-            title = (this.CashType == CashType.Bills) ? "Billetes de " : "Monedas de ";
-            title += (this.Denomination == .50) ? string.Format("¢{0}", (this.Denomination*100)) : string.Format("${0}", this.Denomination);
+            var title = (this.Denomination == .50) ? string.Format("¢{0}", (this.Denomination*100)) 
+                                                        : string.Format("${0}", this.Denomination);
 
             return title;
         }

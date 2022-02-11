@@ -133,6 +133,7 @@
     <Compile Include="Themes\DefaultTheme.xaml.cs">
       <DependentUpon>DefaultTheme.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\ControlPanelViewModel.cs" />
     <Compile Include="ViewModels\WithdrawStackerViewModel.cs" />
     <Compile Include="ViewModels\WithdrawCashViewModel.cs" />
     <Compile Include="ViewModels\MainMenuViewModel.cs" />
@@ -147,6 +148,9 @@
     </Compile>
     <Compile Include="Views\CashFundsView.xaml.cs">
       <DependentUpon>CashFundsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ControlPanelView.xaml.cs">
+      <DependentUpon>ControlPanelView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\WithdrawCashView.xaml.cs">
       <DependentUpon>WithdrawCashView.xaml</DependentUpon>
@@ -200,6 +204,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Themes\DefaultTheme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\AddExchangeView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -213,6 +221,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\CashFundsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ControlPanelView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

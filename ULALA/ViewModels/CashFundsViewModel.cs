@@ -15,9 +15,11 @@ namespace ULALA.ViewModels
     public class CashFundsViewModel : ViewModelBase
     {
         public Command CashOutCommand { get; set; }
+        public Command AutomaticFundCommand { get; set; }
         public CashFundsViewModel()
         {
             this.CashOutCommand = new Command(OnCashOut);
+            this.AutomaticFundCommand = new Command(OnAutomaticFund);
         }
 
         protected override void OnActivated()
@@ -30,6 +32,12 @@ namespace ULALA.ViewModels
         private void OnCashOut()
         {
             this.NavigationManager.NavigateTo(ViewNames.CashOut);
+        }
+
+        private void OnAutomaticFund()
+        {
+            var i = 0;
+            var x = i++;
         }
 
         private void OnLoadRecyclerAmounts()
@@ -84,6 +92,13 @@ namespace ULALA.ViewModels
         {
             get { return m_recyclerAmounts; }
             set { SetProperty(ref m_recyclerAmounts, value); }
+        }
+
+        private string m_virtualKeyboardValue;
+        public string VirtualKeyboardValue
+        {
+            get { return m_virtualKeyboardValue; }
+            set { SetProperty(ref m_virtualKeyboardValue, value); }
         }
     }
 }

@@ -10,14 +10,37 @@ namespace ULALA.UI.Core.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            var number = (double)value;
-            var formattedString = String.Format("${0}", number.ToString("0.00"));
-            return formattedString;
+            if (value != null)
+            {
+                double number = 0;
+                if (value.GetType() == typeof(string))
+                {
+                    var stringValue = (string)value;
+                    if(!string.IsNullOrEmpty(stringValue) && char.IsDigit(stringValue[0]))
+                        number = double.Parse(stringValue, CultureInfo.InvariantCulture);
+                }
+                else
+                    number = (double)value;
+
+                var formattedString = String.Format("${0}", number.ToString("N"));
+
+                return formattedString;
+            }
+
+            return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            throw new NotImplementedException();
+            if(value != null)
+            {
+                var stringValue = value.ToString();
+                stringValue = stringValue.Replace("$", string.Empty);
+
+                return stringValue;
+            }
+
+            return null;
         }
     }
 }

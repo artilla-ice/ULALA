@@ -1,0 +1,25 @@
+﻿<Page
+    x:Class="ULALA.Views.ControlPanelView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:ULALA"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mvvm="using:ULALA.UI.Core.MVVM" xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    mvvm:ViewModelLocator.AutoWireViewModel="True"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <muxc:NavigationView x:Name="controlPanelNV" PaneDisplayMode="Auto" IsBackEnabled="True" IsSettingsVisible="False" RequestedTheme="Dark"
+            BackRequested="controlPanelNV_BackRequested" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <muxc:NavigationView.MenuItems>
+                <muxc:NavigationViewItem Icon="Edit" Content="Theme" Tag="ThemePage" />
+            </muxc:NavigationView.MenuItems>
+            <Frame x:Name="contentFrame" Background="LightGray"
+                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                
+            </Frame>
+        </muxc:NavigationView>
+    </StackPanel>
+</Page>

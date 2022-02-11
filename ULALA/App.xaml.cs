@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using ULALA.Core.Contracts.Base;
 using ULALA.Infrastructure.IOC;
@@ -16,20 +12,13 @@ using Unity.Lifetime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Globalization;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Xamarin.Forms;
 using Xamarin.Forms.Internals;
+
 using Application = Windows.UI.Xaml.Application;
 using Frame = Windows.UI.Xaml.Controls.Frame;
 using Size = Windows.Foundation.Size;
@@ -152,13 +141,15 @@ namespace ULALA
             navigationManager.RegisterView(ViewNames.Logs, typeof(LogsView));
             navigationManager.RegisterView(ViewNames.AddExchange, typeof(AddExchangeView));
             navigationManager.RegisterView(ViewNames.WithdrawCash, typeof(WithdrawCashView));
+            navigationManager.RegisterView(ViewNames.ControlPanel, typeof(ControlPanelView));
+
         }
 
 
         private void ConfigureWindowApplication()
         {
-            ApplicationView.PreferredLaunchViewSize = new Size(980, 770);
-            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(980, 770));
+            ApplicationView.PreferredLaunchViewSize = new Size(1024, 770);
+            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(1024, 770));
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
 
             //Set window title bar transparent
