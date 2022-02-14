@@ -12,11 +12,11 @@ namespace ULALA.UI.Core.Converters
         {
             if (value != null)
             {
-                double number = 0;
+                double number = 0;      
                 if (value.GetType() == typeof(string))
                 {
                     var stringValue = (string)value;
-                    if(!string.IsNullOrEmpty(stringValue) && char.IsDigit(stringValue[0]))
+                    if (!string.IsNullOrEmpty(stringValue) && char.IsDigit(stringValue[0]))
                         number = double.Parse(stringValue, CultureInfo.InvariantCulture);
                 }
                 else
@@ -32,7 +32,7 @@ namespace ULALA.UI.Core.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            if(value != null)
+            if (value != null)
             {
                 var stringValue = value.ToString();
                 stringValue = stringValue.Replace("$", string.Empty);

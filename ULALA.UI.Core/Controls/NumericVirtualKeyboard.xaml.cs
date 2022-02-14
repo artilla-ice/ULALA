@@ -11,7 +11,7 @@ using System.Globalization;
 
 namespace ULALA.UI.Core.Controls
 {
-    
+
     public partial class NumericVirtualKeyboard : UserControl
     {
         public NumericVirtualKeyboard()
@@ -24,7 +24,7 @@ namespace ULALA.UI.Core.Controls
             var pressedButton = sender as Windows.UI.Xaml.Controls.Button;
             if (pressedButton.Name == "BackspaceButton" && Value.Length > 0)
             {
-                if (this.Value[Value.Length-1] == '.')
+                if (this.Value[Value.Length - 1] == '.')
                 {
                     this.Value = this.Value.Remove(this.Value.Length - 1);
                     m_firstDecimalIsZero = false;
@@ -34,9 +34,9 @@ namespace ULALA.UI.Core.Controls
 
                 return;
             }
-            else if(pressedButton.Name == "ReturnButton")
+            else if (pressedButton.Name == "ReturnButton")
             {
-                if(this.ReturnCommand != null)
+                if (this.ReturnCommand != null)
                 {
                     ReturnCommand.CanExecute(true);
                     ReturnCommand.Execute(null);
@@ -64,15 +64,18 @@ namespace ULALA.UI.Core.Controls
             {
                 pressedDigit = double.Parse(buttonValue, CultureInfo.InvariantCulture);
 
-                if(Value != null && Value.Contains("."))
+                if (Value != null && Value.Contains("."))
                 {
                     var pointIndex = Value.IndexOf('.');
-                    if((Value.Length) >= pointIndex)
+                    if ((Value.Length) >= pointIndex)
                     {
+                        if ((Value.Length - (pointIndex+1)) == 2)
+                            return;
+
                         var firstDecimalIndex = ++pointIndex;
                         var secondDecimalIndex = ++pointIndex;
 
-                        if ((Value.Length-1) >= firstDecimalIndex)
+                        if ((Value.Length - 1) >= firstDecimalIndex)
                         {
                             var firstDecimal = Value[firstDecimalIndex];
                             if (firstDecimal == '0' && !m_firstDecimalIsZero)
@@ -81,20 +84,20 @@ namespace ULALA.UI.Core.Controls
                                 if (m_firstDecimalIsZero)
                                     return;
 
-                                this.Value = this.Value.Remove(firstDecimalIndex,1).Insert(firstDecimalIndex, pressedDigit.ToString());
+                                this.Value = this.Value.Remove(firstDecimalIndex, 1).Insert(firstDecimalIndex, pressedDigit.ToString());
 
                                 return;
                             }
 
                         }
-                        else if(pressedDigit.ToString() == "0")
+                        else if (pressedDigit.ToString() == "0")
                         {
                             m_firstDecimalIsZero = true;
                             this.Value += pressedDigit;
 
                             return;
                         }
-                        else if((Value.Length - 1) >= secondDecimalIndex)
+                        else if ((Value.Length - 1) >= secondDecimalIndex)
                         {
                             var secondDecimal = Value[secondDecimalIndex];
                             if (secondDecimal == '0')

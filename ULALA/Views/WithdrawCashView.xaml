@@ -181,12 +181,6 @@
             Background="CornflowerBlue">
 
             <Grid>
-                <Button
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Command="{Binding OnBackCommand}"
-                    Style="{StaticResource NavigationBackButtonNormalStyle}" />
-
                 <StackPanel
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
@@ -290,8 +284,8 @@
             MinHeight="80"
             VerticalAlignment="Bottom"
             Background="CornflowerBlue">
-            <Grid
-                HorizontalAlignment="Center"
+            <Grid Margin="20,0,20,0"
+                HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 ColumnSpacing="40">
                 <Grid.ColumnDefinitions>
@@ -301,6 +295,20 @@
                 </Grid.ColumnDefinitions>
 
                 <Button
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Width="140"
+                    Height="40"
+                    Command="{Binding OnBackCommand}">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Spacing="20">
+                        <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE72B;" VerticalAlignment="Center"/>
+                        <TextBlock Text="Salir"/>
+                    </StackPanel>
+                </Button>
+
+                <Border Grid.Column="1" Height="60" Width="1" Background="LightGray"/>
+
+                <Button Grid.Column="2"
                     Width="140"
                     Height="40"
                     Content="Retirar Todo" />
