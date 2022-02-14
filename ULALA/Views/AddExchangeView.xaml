@@ -21,9 +21,7 @@
                         <ColumnDefinition Width="80" />
                         <ColumnDefinition Width="110" />
                         <ColumnDefinition Width="150" />
-                        <ColumnDefinition Width="150" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="300" />
                     </Grid.ColumnDefinitions>
 
                     <TextBlock TextAlignment="End" Height="40" FontSize="24"

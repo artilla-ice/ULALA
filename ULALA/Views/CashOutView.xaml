@@ -64,15 +64,13 @@
                     <StackPanel>
                         <TextBlock VerticalAlignment="Center" Text="Desde" />
                         <StackPanel Orientation="Horizontal">
-                            <CalendarDatePicker PlaceholderText="Pick a date" />
-                            <TimePicker ClockIdentifier="24HourClock" />
+                            <DatePicker MonthFormat="{}{month.abbreviated(3)}" />
                         </StackPanel>
                     </StackPanel>
                     <StackPanel Grid.Column="1">
                         <TextBlock VerticalAlignment="Center" Text="Hasta" />
                         <StackPanel Orientation="Horizontal">
-                            <CalendarDatePicker PlaceholderText="Pick a date" />
-                            <TimePicker ClockIdentifier="24HourClock" />
+                            <DatePicker/>
                         </StackPanel>
                     </StackPanel>
                     <Button
@@ -119,7 +117,7 @@
                         <TextBox
                             Grid.Column="1"
                             Style="{StaticResource GridTextBoxReadOnly}"
-                            Text="{Binding CashOutSelectedMovement.StartedDate, Converter={StaticResource StringDateTimeFormat}}" />
+                            Text="{Binding CashOutSelectedMovement.StartedDate, Converter={StaticResource StringDateFormat}}" />
 
                         <TextBlock
                             Grid.Row="1"
@@ -130,7 +128,7 @@
                             Grid.Row="1"
                             Grid.Column="1"
                             Style="{StaticResource GridTextBoxReadOnly}"
-                            Text="{Binding CashOutSelectedMovement.EndDate, Converter={StaticResource StringDateTimeFormat}}" />
+                            Text="{Binding CashOutSelectedMovement.EndDate, Converter={StaticResource StringDateFormat}}" />
 
                         <TextBlock
                             Grid.Row="2"
@@ -206,7 +204,7 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         AutoGenerateColumns="False"
-                        IsReadOnly="True"
+                        IsReadOnly="True" GridLinesVisibility="All" SelectedIndex="0"
                         ItemsSource="{Binding CashOutMovements}"
                         SelectedItem="{Binding CashOutSelectedMovement, Mode=TwoWay}"
                         SelectionMode="Single">
