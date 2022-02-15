@@ -11,6 +11,7 @@ namespace ULALA.Views
         public static readonly string CashOut = "CashOut";
         public static readonly string Logs = "Logs";
         public static readonly string ControlPanel = "ControlPanel";
+        public static readonly string ZeusConnectionSettings = "ZeusConnectionSettings";
 
     }
 }

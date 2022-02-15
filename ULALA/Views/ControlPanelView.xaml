@@ -10,16 +10,27 @@
     mvvm:ViewModelLocator.AutoWireViewModel="True"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
-    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <muxc:NavigationView x:Name="controlPanelNV" PaneDisplayMode="Auto" IsBackEnabled="True" IsSettingsVisible="False" RequestedTheme="Dark"
-            BackRequested="controlPanelNV_BackRequested" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <muxc:NavigationView.MenuItems>
-                <muxc:NavigationViewItem Icon="Edit" Content="Theme" Tag="ThemePage" />
-            </muxc:NavigationView.MenuItems>
-            <Frame x:Name="contentFrame" Background="LightGray"
-                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                
+    <muxc:NavigationView x:Name="controlPanelNV" PaneDisplayMode="Left" IsBackEnabled="True" IsSettingsVisible="False" RequestedTheme="Light"
+            BackRequested="controlPanelNV_BackRequested" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="CornflowerBlue"
+                         Loaded="NavView_Loaded"
+                         ItemInvoked="NavView_ItemInvoked">
+        <muxc:NavigationView.MenuItems>
+            <!--<muxc:NavigationViewItem Icon="Edit" Content="Theme" Tag="ThemePage" Foreground="AliceBlue"/>-->
+            <muxc:NavigationViewItem Icon="Globe" Content="Zeus Connection" Tag="zeusConnection"  Foreground="AliceBlue"/>
+        </muxc:NavigationView.MenuItems>
+
+        <muxc:NavigationView.AutoSuggestBox>
+            <!-- See AutoSuggestBox documentation for
+                 more info about how to implement search. -->
+            <AutoSuggestBox x:Name="NavViewSearchBox" QueryIcon="Find"/>
+        </muxc:NavigationView.AutoSuggestBox>
+
+        <ScrollViewer>
+            <Frame x:Name="contentFrame" IsTabStop="True"
+                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                   NavigationFailed="ContentFrame_NavigationFailed">
+
             </Frame>
-        </muxc:NavigationView>
-    </StackPanel>
+        </ScrollViewer>
+    </muxc:NavigationView>
 </Page>

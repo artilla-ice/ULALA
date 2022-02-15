@@ -59,11 +59,23 @@ namespace ULALA.UI.Core.Navigation
             }
         }
 
-        public void GoBack()
+        public bool GoBack()
         {
             System.Diagnostics.Debug.Assert(AppFrame != null);
             if (AppFrame.CanGoBack)
-                AppFrame.GoBack();
+            {
+                try
+                {
+                    AppFrame.GoBack();
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+
+            return false;
         }
 
         public void NavigateTo(string page)

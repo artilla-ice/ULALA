@@ -1,0 +1,39 @@
+﻿<Page
+    x:Class="ULALA.Views.ZeusConnectionSettingsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:ULALA"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mvvm="using:ULALA.UI.Core.MVVM" xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    mvvm:ViewModelLocator.AutoWireViewModel="True"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <muxc:InfoBar
+            IsOpen="True" Visibility="{Binding IsConnected, Converter={StaticResource InvertedBool}}"
+            IsIconVisible="True"
+            IsClosable="False" Severity="Error"
+            Title="No conectado"
+            Message="La comunicación con el Stacker es escencial para el funcionamiento de ULALA" />
+
+            <muxc:InfoBar
+            IsOpen="True" Visibility="{Binding IsConnected}"
+            IsIconVisible="True"
+            IsClosable="False" Severity="Success"
+            Title="Conectado"/>
+
+            <!--<TextBlock Text="No conectado" FontWeight="SemiBold" FontSize="16" Foreground="IndianRed" Visibility="{Binding IsConnected, Converter={StaticResource InvertedBool}}"/>
+        <TextBlock Text="Conectado" FontWeight="SemiBold" FontSize="16" Foreground="DarkGreen" Visibility="{Binding IsConnected}"/>-->
+            <Button Content="Iniciar Comunicación" Width="180" Height="40" Grid.Row="1" Command="{Binding StartZeusConnectionCommand}" IsEnabled="{Binding IsConnected, Converter={StaticResource InvertedBool}}"/>
+            <Button Content="Detener Comunicación" Width="180" Height="40" Grid.Row="2" Command="{Binding StopZeusConnectionCommand}" IsEnabled="{Binding IsConnected}"/>
+        </Grid>
+    </StackPanel>
+</Page>

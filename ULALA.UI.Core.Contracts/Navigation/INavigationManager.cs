@@ -15,7 +15,7 @@ namespace ULALA.UI.Core.Contracts.Navigation
     public interface INavigationManager
     {
         void Configure(string page, Type type);
-        void GoBack();
+        bool GoBack();
         void NavigateTo(string page);
         Task NavigateTo(MainViewType viewType);
         Task NavigateTo(string viewName, IDictionary<string, object> parameters);

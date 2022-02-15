@@ -9,6 +9,9 @@ namespace ULALA.Services.Contracts.Zeus
 {
     public interface IZeusConnectionService
     {
-        void StartListening();
+        bool StartListening();
+        void StopComm();
+        void RequestCashTotals();
+        bool IsConnected { get; }
     }
 }

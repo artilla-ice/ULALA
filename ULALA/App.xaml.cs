@@ -2,8 +2,12 @@
 using System.Globalization;
 using System.Threading;
 using ULALA.Core.Contracts.Base;
+using ULALA.Core.Contracts.Zeus;
+using ULALA.Core.ZEUS;
 using ULALA.Infrastructure.IOC;
 using ULALA.Infrastructure.PubSub;
+using ULALA.Services.Contracts.Zeus;
+using ULALA.Services.Zeus;
 using ULALA.UI.Core.Contracts.Navigation;
 using ULALA.UI.Core.Navigation;
 using ULALA.Views;
@@ -106,12 +110,16 @@ namespace ULALA
                 var eventAggregator = new EventAggregator();
                 m_container.RegisterInstance<IEventAggregator>(eventAggregator);
 
+                var m_zeusConnectionService = new ZeusConnectionService();
+                m_container.RegisterInstance<IZeusConnectionService>(m_zeusConnectionService);
+
                 // Como registrar un nuevo Service con su Manager
                 //m_container.RegisterType<ITestService, TestService>();
                 //m_container.RegisterType<ITestManage, TestManager>(new ContainerControlledLifetimeManager());
             }
 
             ConfigureNavigationManager();
+            ConfigureZeusConnectionService();
         }
 
         private void InitializeManager<T>()
@@ -126,10 +134,19 @@ namespace ULALA
         private void ConfigureNavigationManager()
         {
             var navigationManager = new NavigationManager();
-            m_container.BuildUp<NavigationManager>(navigationManager);
+            m_container.BuildUp(navigationManager);
             m_container.RegisterInstance<INavigationManager>(navigationManager);
 
             RegisterNavigationPages(navigationManager);
+        }
+
+        private void ConfigureZeusConnectionService()
+        {
+            var zeusManager = new ZeusManager();
+            m_container.BuildUp(zeusManager);
+            m_container.RegisterInstance<IZeusManager>(zeusManager);
+
+            //zeusManager.OnStartListening();
         }
 
         private void RegisterNavigationPages(INavigationManager navigationManager)
@@ -142,7 +159,7 @@ namespace ULALA
             navigationManager.RegisterView(ViewNames.AddExchange, typeof(AddExchangeView));
             navigationManager.RegisterView(ViewNames.WithdrawCash, typeof(WithdrawCashView));
             navigationManager.RegisterView(ViewNames.ControlPanel, typeof(ControlPanelView));
-
+            navigationManager.RegisterView(ViewNames.ZeusConnectionSettings, typeof(ZeusConnectionSettingsView));
         }
 
 

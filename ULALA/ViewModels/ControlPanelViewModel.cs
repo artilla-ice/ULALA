@@ -23,9 +23,9 @@ namespace ULALA.ViewModels
             //this.MenuItemSelectedCommand = new Command(OnMenuItemIsSelected);
         }
 
-        public void OnGoBack()
+        public bool OnGoBack()
         {
-            this.NavigationManager.GoBack();
+           return this.NavigationManager.GoBack();
         }
 
         protected override void OnActivated()

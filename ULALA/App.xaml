@@ -9,6 +9,7 @@
             <cnv:StringDateFormatConverter x:Key="StringDateFormat"/>
             <cnv:StringDateTimeFormatConverter x:Key="StringDateTimeFormat"/>
             <cnv:StringCurrencyFormatConverter x:Key="StringCurrencyFormat"/>
+            <cnv:InvertedBoolConverter x:Key="InvertedBool"/>
 
             <!--TODO: VERIFICAR COMO NO HACER OVERWRITE DE WINUI-->
             

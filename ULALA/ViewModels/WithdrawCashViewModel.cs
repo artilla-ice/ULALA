@@ -5,13 +5,17 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ULALA.Core.Contracts.Zeus;
 using ULALA.Models;
 using ULALA.UI.Core.MVVM;
+using Unity;
 
 namespace ULALA.ViewModels
 {
     public class WithdrawCashViewModel : ViewModelBase
     {
+        [Dependency]
+        public IZeusManager ZeusManager { get; set; }
         public WithdrawCashViewModel()
         {
 
@@ -21,6 +25,8 @@ namespace ULALA.ViewModels
         {
             this.PageIcon = "../Assets/Icons/RetirarEfectivo.png";
             OnLoadRecyclerAmounts();
+
+            this.ZeusManager.GetCashTotals();
         }
         private void OnLoadRecyclerAmounts()
         {

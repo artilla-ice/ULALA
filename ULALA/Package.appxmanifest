@@ -4,12 +4,13 @@
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
   xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"  
   IgnorableNamespaces="uap mp">
 
   <Identity
     Name="31ad3ffe-9aaf-4954-a7a0-77463a39bfb5"
     Publisher="CN=Windows"
-    Version="1.0.0.0" />
+    Version="1.0.1.0" />
 
   <mp:PhoneIdentity PhoneProductId="31ad3ffe-9aaf-4954-a7a0-77463a39bfb5" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
@@ -28,7 +29,7 @@
   </Resources>
 
   <Applications>
-    <Application Id="App"
+    <Application Id="ULALA.MiddleOffice"
       Executable="$targetnametoken$.exe"
       EntryPoint="ULALA.App">
       <uap:VisualElements
@@ -39,9 +40,22 @@
         BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        <uap:InitialRotationPreference>
+          <uap:Rotation Preference="landscape"/></uap:InitialRotationPreference>
       </uap:VisualElements>
+      <Extensions>
+        <uap5:Extension
+          Category="windows.appExecutionAlias"
+          Executable="ULALA.exe"
+          EntryPoint="ULALA.App">
+          <uap5:AppExecutionAlias>
+            <uap5:ExecutionAlias Alias="ULALA.exe" />
+          </uap5:AppExecutionAlias>
+        </uap5:Extension>
+      </Extensions>
     </Application>
   </Applications>
+  
 
   <Capabilities>
     <Capability Name="internetClient" />

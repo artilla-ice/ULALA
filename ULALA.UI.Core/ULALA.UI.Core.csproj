@@ -126,6 +126,7 @@
     <Compile Include="Controls\Separator.xaml.cs">
       <DependentUpon>Separator.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\InvertedBoolConverter.cs" />
     <Compile Include="Converters\StringDateTimeFormatConverter.cs" />
     <Compile Include="Converters\StringDateFormatConverter.cs" />
     <Compile Include="Converters\StringCurrencyFormatConverter.cs" />
