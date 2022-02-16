@@ -17,14 +17,14 @@ namespace ULALA.Core.Contracts.Zeus.DTO
         {
         }
 
-        private int m_withdrawalQuantity;
-        public int WithdrawalQuantity
+        private uint m_withdrawalQuantity;
+        public uint WithdrawalQuantity
         {
             get { return m_withdrawalQuantity; }
             set 
             { 
                 SetProperty(ref m_withdrawalQuantity, value);
-                this.WithdrawalAmount = 0; //assign for WithdrawalAmount property binding update purposes
+                OnPropertyChanged("WithdrawalAmount"); // for WithdrawalAmount property binding update purposes
             }
         }
 

@@ -84,8 +84,6 @@ namespace ULALA.Services.Zeus
                     writer.WriteEndObject();
                 }
 
-
-
                 JsonSerializer serializer = new JsonSerializer();
                 using (var networkStream = new NetworkStream(m_client))
                 using (var streamWriter = new StreamReader(networkStream, new UTF8Encoding()))
@@ -93,10 +91,13 @@ namespace ULALA.Services.Zeus
                 {
                     var json = serializer.Deserialize(reader).ToString();
                     var jObject = JObject.Parse(json);
-                    var jToken = jObject.GetValue("result");
+                    if(jObject != null)
+                    {
+                        var jToken = jObject.GetValue("result");
 
-                    if(jToken != null)
-                        result = jToken.ToObject<CashTotalsResponse>();
+                        if(jToken != null)
+                            result = jToken.ToObject<CashTotalsResponse>();
+                    }
                 }
             }
 

@@ -95,7 +95,7 @@ namespace ULALA.UI.Core.Navigation
 
         public Task NavigateTo(string viewName, IDictionary<string, object> parameters)
         {
-            if(viewName != null || string.IsNullOrEmpty(viewName))
+            if(viewName != null || !string.IsNullOrEmpty(viewName))
             {
                 if (m_viewsRegistry.TryGetValue(viewName, out Type viewType))
                 {

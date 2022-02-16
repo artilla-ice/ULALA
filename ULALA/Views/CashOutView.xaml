@@ -111,7 +111,8 @@
                         <TextBox
                             Grid.Column="1"
                             Style="{StaticResource GridTextBoxReadOnly}"
-                            Text="{Binding CashOutSelectedMovement.StartedDate, Converter={StaticResource StringDateFormat}}" />
+                            Text="{Binding CashOutSelectedMovement.StartedDate, Converter={StaticResource StringDateFormat}}" 
+                            IsEnabled="False"/>
 
                         <TextBlock
                             Grid.Row="1"
@@ -121,17 +122,17 @@
                         <TextBox
                             Grid.Row="1"
                             Grid.Column="1"
-                            Style="{StaticResource GridTextBoxReadOnly}"
+                            Style="{StaticResource GridTextBoxReadOnly}" IsEnabled="False"
                             Text="{Binding CashOutSelectedMovement.EndDate, Converter={StaticResource StringDateFormat}}" />
 
                         <TextBlock
                             Grid.Row="2"
                             VerticalAlignment="Center"
-                            FontWeight="Medium"
+                            FontWeight="Medium" 
                             Text="Importe inicial" />
                         <TextBox
                             Grid.Row="2"
-                            Grid.Column="1"
+                            Grid.Column="1" IsEnabled="False"
                             Style="{StaticResource GridTextBoxReadOnly}"
                             Text="{Binding CashOutSelectedMovement.InitialAmount, Converter={StaticResource StringCurrencyFormat}}" />
 
@@ -142,7 +143,7 @@
                             Text="Cambio agregado" />
                         <TextBox
                             Grid.Row="3"
-                            Grid.Column="1"
+                            Grid.Column="1" IsEnabled="False"
                             Style="{StaticResource GridTextBoxReadOnly}"
                             Text="{Binding CashOutSelectedMovement.IncomingAmount, Converter={StaticResource StringCurrencyFormat}}" />
 
@@ -153,7 +154,7 @@
                             Text="Retiros de efectivo" />
                         <TextBox
                             Grid.Row="4"
-                            Grid.Column="1"
+                            Grid.Column="1" IsEnabled="False"
                             Style="{StaticResource GridTextBoxReadOnly}"
                             Text="{Binding CashOutSelectedMovement.WithdrawalAmount, Converter={StaticResource StringCurrencyFormat}}" />
 
@@ -164,7 +165,7 @@
                             Text="Ventas" />
                         <TextBox
                             Grid.Row="5"
-                            Grid.Column="1"
+                            Grid.Column="1" IsEnabled="False"
                             Style="{StaticResource GridTextBoxReadOnly}"
                             Text="{Binding CashOutSelectedMovement.SalesAmount, Converter={StaticResource StringCurrencyFormat}}" />
 
@@ -175,7 +176,7 @@
                             Text="Importe final" />
                         <TextBox
                             Grid.Row="6"
-                            Grid.Column="1"
+                            Grid.Column="1" IsEnabled="False"
                             Style="{StaticResource GridTextBoxReadOnly}"
                             Text="{Binding CashOutSelectedMovement.FinalAmount, Converter={StaticResource StringCurrencyFormat}}" />
 
@@ -186,7 +187,7 @@
                             Text="Saldo final" />
                         <TextBox
                             Grid.Row="7"
-                            Grid.Column="1"
+                            Grid.Column="1" IsEnabled="False"
                             Style="{StaticResource GridTextBoxReadOnly}"
                             Text="{Binding CashOutSelectedMovement.Balance, Converter={StaticResource StringCurrencyFormat}}" />
                     </Grid>

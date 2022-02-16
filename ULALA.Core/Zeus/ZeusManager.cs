@@ -32,6 +32,9 @@ namespace ULALA.Core.Zeus
             if (!ZeusConnectionService.IsConnected)
                 return null;
 
+            if (cashTotals == null)
+                return null;
+
             var recyclerValues = cashTotals.CashTotals.RecyclersInfo.RecyclerBills
                                     .Select(r => new WithdrawalCashModel()
                                     {
