@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ULALA.Core.Contracts.Zeus.DTO;
 using ULALA.Models;
 using ULALA.UI.Core.MVVM;
 using ULALA.Views;

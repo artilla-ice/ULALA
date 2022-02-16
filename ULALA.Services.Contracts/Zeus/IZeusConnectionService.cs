@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ULALA.Services.Contracts.Zeus.DTO;
 
 namespace ULALA.Services.Contracts.Zeus
 {
@@ -11,7 +12,7 @@ namespace ULALA.Services.Contracts.Zeus
     {
         bool StartListening();
         void StopComm();
-        void RequestCashTotals();
+        CashTotalsResponse RequestCashTotals();
         bool IsConnected { get; }
     }
 }

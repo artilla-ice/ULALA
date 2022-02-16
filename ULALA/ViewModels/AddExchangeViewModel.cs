@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using ULALA.Core.Contracts.Zeus.DTO;
 using ULALA.Models;
 using ULALA.UI.Core.MVVM;
 

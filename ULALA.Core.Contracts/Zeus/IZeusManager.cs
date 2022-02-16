@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ULALA.Core.Contracts.Zeus.DTO;
 
 namespace ULALA.Core.Contracts.Zeus
 {
@@ -10,7 +11,7 @@ namespace ULALA.Core.Contracts.Zeus
     {
         void OnStartListening();
         void OnCloseConnection();
-        void GetCashTotals();
+        IEnumerable<WithdrawalCashModel> GetRecyclerValues();
         bool IsConnected { get; }
     }
 }

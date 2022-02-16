@@ -7,7 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:ULALA"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:model="using:ULALA.Models"
+    xmlns:model="using:ULALA.Core.Contracts.Zeus.DTO"
     xmlns:mvvm="using:ULALA.UI.Core.MVVM"
     mvvm:ViewModelLocator.AutoWireViewModel="True"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -15,7 +15,7 @@
 
     <Page.Resources>
         <ResourceDictionary>
-            <DataTemplate x:Key="CashFundsDataTemplated" x:DataType="model:RecyclerToCashierFundsModel">
+            <DataTemplate x:Key="CashFundsDataTemplated" x:DataType="model:WithdrawalCashModel">
                 <Grid ColumnSpacing="4">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="110" />
@@ -26,8 +26,6 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="80" />
 
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
@@ -51,7 +49,7 @@
                         HorizontalTextAlignment="Center"
                         IsEnabled="False"
                         TextAlignment="End" Height="40" FontSize="16" 
-                        Text="{Binding RecyclerAmount}" />
+                        Text="{Binding RecyclerAmount,Converter={StaticResource StringCurrencyFormat}}" />
                     <Button
                         Grid.Column="4"
                         Height="40"
@@ -61,37 +59,24 @@
                         Grid.Column="5"
                         HorizontalTextAlignment="Center"
                         TextAlignment="End" Height="40" FontSize="16" 
-                        Text="{Binding CashierQuantity}" />
-                    <TextBox
+                        Text="{Binding WithdrawalQuantity}" />
+                    <TextBox    
                         Grid.Column="6"
                         HorizontalTextAlignment="Center"
                         IsEnabled="False"
                         TextAlignment="End" Height="40" FontSize="16" 
-                        Text="{Binding CashierAmount}" />
-                    <TextBox
-                        Grid.Column="7"
-                        HorizontalTextAlignment="Center"
-                        IsEnabled="False"
-                        TextAlignment="End" Height="40" FontSize="16" 
-                        Text="{Binding MissingAmount}" />
-                    <TextBox
-                        Grid.Column="8"
-                        HorizontalTextAlignment="Center"
-                        IsEnabled="False"
-                        TextAlignment="End" Height="40" FontSize="16" 
-                        Text="{Binding SurplusAmount}" />
+                        Text="{Binding WithdrawalAmount,Converter={StaticResource StringCurrencyFormat}}" />
+                    <Button Content="Retirar" Grid.Column="7" Height="40" IsEnabled="{Binding IsWithdrawn,Converter={StaticResource InvertedBool}}"/>
                 </Grid>
             </DataTemplate>
             <DataTemplate x:Key="CashFundsDataTemplatedHeader">
-                <Grid Margin="180,0,0,0" HorizontalAlignment="Center">
+                <Grid Margin="120,0,0,0" HorizontalAlignment="Center">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="60" />
-                        <ColumnDefinition Width="60" />
-                        <ColumnDefinition Width="60" />
-                        <ColumnDefinition Width="60" />
-                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="70" />
                         <ColumnDefinition Width="60" />
                         <ColumnDefinition Width="70" />
+                        <ColumnDefinition Width="70" />
+                        <ColumnDefinition Width="80" />
 
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
@@ -111,20 +96,12 @@
                         VerticalAlignment="Center"
                         FontWeight="SemiBold"
                         HorizontalTextAlignment="Center"
-                        Text="Fondo de Caja" />
-                    <TextBlock
-                        Grid.Column="5"
-                        Grid.ColumnSpan="2"
-                        VerticalAlignment="Center"
-                        FontWeight="SemiBold"
-                        HorizontalTextAlignment="Center"
-                        Text="Saldo" />
+                        Text="Retirar" />
 
                     <TextBlock
                         Grid.Row="1"
                         VerticalAlignment="Center"
                         FontWeight="SemiBold"
-                        HorizontalTextAlignment="Center"
                         Text="Cantidad" />
                     <TextBlock
                         Grid.Row="1"
@@ -147,20 +124,6 @@
                         FontWeight="SemiBold"
                         HorizontalTextAlignment="Center"
                         Text="Monto" />
-                    <TextBlock
-                        Grid.Row="1"
-                        Grid.Column="5"
-                        VerticalAlignment="Center"
-                        FontWeight="SemiBold"
-                        HorizontalTextAlignment="Center"
-                        Text="Faltante" />
-                    <TextBlock
-                        Grid.Row="1"
-                        Grid.Column="6"
-                        VerticalAlignment="Center"
-                        FontWeight="SemiBold"
-                        HorizontalTextAlignment="Center"
-                        Text="Excedente" />
 
                 </Grid>
             </DataTemplate>
@@ -269,6 +232,7 @@
                         VerticalAlignment="Stretch" HorizontalAlignment="Center" Margin="0,40,0,0"/>
 
                 <StackPanel VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Spacing="4">
+                    <CheckBox IsChecked="False" Content="Retirar a Stacker"/>
                     <TextBox Text="{Binding VirtualKeyboardValue, Converter={StaticResource StringCurrencyFormat}}" PlaceholderText="$0.00"
                                  Header="Retiro Automático" TextAlignment="End" FontSize="18" FontWeight="SemiBold" HorizontalAlignment="Stretch"/>
                     <Button Content="Retiro Automático" Height="40" HorizontalAlignment="Stretch" Command="{Binding AutomaticFundCommand}"/>

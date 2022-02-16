@@ -122,9 +122,8 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\MenuItemModel.cs" />
     <Compile Include="Models\CashOutModel.cs" />
-    <Compile Include="Models\RecyclerToCashierFundsModel.cs" />
+    <Compile Include="Models\MenuItemModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\AddExchangeViewModel.cs" />
     <Compile Include="ViewModels\ZeusConnectionSettingsViewModel.cs" />

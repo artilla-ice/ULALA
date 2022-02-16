@@ -1,14 +1,18 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using ULALA.Services.Contracts.Zeus;
+using ULALA.Services.Contracts.Zeus.DTO;
 
 namespace ULALA.Services.Zeus
 {
@@ -40,7 +44,7 @@ namespace ULALA.Services.Zeus
 
             try
             {
-                m_client = new TcpClient();
+                m_client = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
                 m_client.Connect(localEndPoint);
 
                 return m_client.Connected;
@@ -59,24 +63,44 @@ namespace ULALA.Services.Zeus
             }
         }
 
-        public void RequestCashTotals()
+        public CashTotalsResponse RequestCashTotals()
         {
-            using (var streamWriter = new StreamWriter(m_client.GetStream(), Encoding.ASCII))
-            using (var writer = new JsonTextWriter(streamWriter))
+            CashTotalsResponse result = null;
+            if(m_client != null && m_client.Connected)
             {
-                writer.Formatting = Formatting.Indented;
-
-                writer.WriteStartObject();
+                using (var networkStream = new NetworkStream(m_client))
+                using (var streamWriter = new StreamWriter(networkStream, Encoding.ASCII))
+                using (var writer = new JsonTextWriter(streamWriter))
                 {
-                    writer.WritePropertyName("version");
-                    writer.WriteValue("2.0");
-                    writer.WritePropertyName("method");
-                    writer.WriteValue("requestCashTotals");
-                    writer.WritePropertyName("id");
-                    writer.WriteValue(0);
+                    writer.WriteStartObject();
+                    {
+                        writer.WritePropertyName("version");
+                        writer.WriteValue("2.0");
+                        writer.WritePropertyName("method");
+                        writer.WriteValue("requestCashTotals");
+                        writer.WritePropertyName("id");
+                        writer.WriteValue(0);
+                    }
+                    writer.WriteEndObject();
                 }
-                writer.WriteEndObject();
+
+
+
+                JsonSerializer serializer = new JsonSerializer();
+                using (var networkStream = new NetworkStream(m_client))
+                using (var streamWriter = new StreamReader(networkStream, new UTF8Encoding()))
+                using (var reader = new JsonTextReader(streamWriter))
+                {
+                    var json = serializer.Deserialize(reader).ToString();
+                    var jObject = JObject.Parse(json);
+                    var jToken = jObject.GetValue("result");
+
+                    if(jToken != null)
+                        result = jToken.ToObject<CashTotalsResponse>();
+                }
             }
+
+            return result;
         }
 
         private static string GetLocalIPAddress()
@@ -92,6 +116,6 @@ namespace ULALA.Services.Zeus
             throw new Exception("No network adapters with an IPv4 address in the system!");
         }
 
-        private TcpClient m_client;
+        private Socket m_client;
     }
 }

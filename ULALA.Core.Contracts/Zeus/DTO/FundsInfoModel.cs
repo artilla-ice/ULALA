@@ -7,9 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using ULALA.UI.Core.MVVM;
-using Xamarin.Forms;
 
-namespace ULALA.Models
+namespace ULALA.Core.Contracts.Zeus.DTO
 {
     public enum CashType
     {
@@ -17,9 +16,9 @@ namespace ULALA.Models
         Coins = 0x0002
     }
 
-    public class RecyclerToCashierFundsModel : ModelBase
+    public class FundsInfoModel : ModelBase
     {
-        public RecyclerToCashierFundsModel()
+        public FundsInfoModel()
         {
         }
 
@@ -52,8 +51,8 @@ namespace ULALA.Models
             }
         }
 
-        private int m_recyclerQuantity;
-        public int RecyclerQuantity
+        private uint m_recyclerQuantity;
+        public uint RecyclerQuantity
         {
             get { return m_recyclerQuantity; }
             set { SetProperty(ref m_recyclerQuantity, value); }
@@ -62,32 +61,6 @@ namespace ULALA.Models
         public double RecyclerAmount
         {
             get { return this.RecyclerQuantity * this.Denomination; }
-        }
-
-        private int m_cashierQuantity;
-        public int CashierQuantity
-        {
-            get { return m_cashierQuantity; }
-            set { SetProperty(ref m_cashierQuantity, value); }
-        }
-
-        public double CashierAmount
-        {
-            get { return this.CashierQuantity * this.Denomination; }
-        }
-
-        private int m_missingQuantity;
-        public int MissingQuantity
-        {
-            get { return m_missingQuantity; }
-            set { SetProperty(ref m_missingQuantity, value); }
-        }
-
-        private int m_surplusQuantity;
-        public int SurplusQuantity
-        {
-            get { return m_surplusQuantity; }
-            set { SetProperty(ref m_surplusQuantity, value); }
         }
 
         private string GetDenominationIcon()

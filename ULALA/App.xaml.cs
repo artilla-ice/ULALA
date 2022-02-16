@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Threading;
 using ULALA.Core.Contracts.Base;
 using ULALA.Core.Contracts.Zeus;
-using ULALA.Core.ZEUS;
+using ULALA.Core.Zeus;
 using ULALA.Infrastructure.IOC;
 using ULALA.Infrastructure.PubSub;
 using ULALA.Services.Contracts.Zeus;

@@ -141,6 +141,10 @@
       <Project>{2545D2DE-05FE-4D0D-A36D-E65FECD7596A}</Project>
       <Name>ULALA.Services.Contracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ULALA.UI.Core\ULALA.UI.Core.csproj">
+      <Project>{58186948-4305-4455-85D8-5F7D540643AF}</Project>
+      <Name>ULALA.UI.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
