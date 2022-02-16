@@ -59,13 +59,13 @@
                         Grid.Column="5"
                         HorizontalTextAlignment="Center"
                         TextAlignment="End" Height="40" FontSize="16" 
-                        Text="{Binding WithdrawalQuantity}" />
+                        Text="{Binding WithdrawalQuantity, Mode=TwoWay}" />
                     <TextBox    
                         Grid.Column="6"
                         HorizontalTextAlignment="Center"
                         IsEnabled="False"
                         TextAlignment="End" Height="40" FontSize="16" 
-                        Text="{Binding WithdrawalAmount,Converter={StaticResource StringCurrencyFormat}}" />
+                        Text="{Binding WithdrawalAmount, Mode=TwoWay, Converter={StaticResource StringCurrencyFormat}}" />
                     <Button Content="Retirar" Grid.Column="7" Height="40" IsEnabled="{Binding IsWithdrawn,Converter={StaticResource InvertedBool}}"/>
                 </Grid>
             </DataTemplate>

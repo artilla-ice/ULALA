@@ -21,12 +21,18 @@ namespace ULALA.Core.Contracts.Zeus.DTO
         public int WithdrawalQuantity
         {
             get { return m_withdrawalQuantity; }
-            set { SetProperty(ref m_withdrawalQuantity, value); }
+            set 
+            { 
+                SetProperty(ref m_withdrawalQuantity, value);
+                this.WithdrawalAmount = 0; //assign for WithdrawalAmount property binding update purposes
+            }
         }
 
+        private double m_withdrawalAmount;
         public double WithdrawalAmount
         {
-            get { return this.WithdrawalQuantity * this.Denomination; }
+            get { return m_withdrawalAmount = this.WithdrawalQuantity * this.Denomination; }
+            set { SetProperty(ref m_withdrawalAmount, value); }
         }
 
         private bool m_isWithdrawn;

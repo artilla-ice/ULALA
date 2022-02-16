@@ -146,7 +146,7 @@ namespace ULALA
             m_container.BuildUp(zeusManager);
             m_container.RegisterInstance<IZeusManager>(zeusManager);
 
-            //zeusManager.OnStartListening();
+            zeusManager.OnStartListening();
         }
 
         private void RegisterNavigationPages(INavigationManager navigationManager)
