@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.UI.Xaml.Controls;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
@@ -38,12 +39,43 @@ namespace ULALA.ViewModels
             HandleAsyncCall(async () =>
             {
                 var result = await ZeusManager.RetriveStackerCash();
-                if(result.Data.TotalMoneyRetrieved == this.StackerTotalAmount)
+                var errors = ZeusManager.GetErrors();
+                if(errors.Contains(SystemInfoResultCode.StackerMissingError))
                 {
                     ContentDialog dialog = new ContentDialog();
-                    dialog.Title = "Retiro exitoso";
+                    dialog.Title = new InfoBar()
+                    {
+                        IsOpen = true,
+                        IsIconVisible = true,
+                        IsClosable = false,
+                        Severity = InfoBarSeverity.Error,
+                        Title = "Ha ocurrido un problema",
+                        Message = "El Stacker ha sido removido",
+                        HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Stretch,
+                        VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Stretch
+                    };
+
                     dialog.PrimaryButtonText = "OK";
-                    dialog.Content = "El stacker ha sido vaciado";
+
+                    await dialog.ShowAsync();
+                }
+
+                if (result.Data.TotalMoneyRetrieved == this.StackerTotalAmount)
+                {
+                    ContentDialog dialog = new ContentDialog();
+                    dialog.Title = new InfoBar()
+                    { 
+                        IsOpen = true,
+                        IsIconVisible = true,
+                        IsClosable = false,
+                        Severity = InfoBarSeverity.Success,
+                        Title = "Retiro éxitoso",
+                        Message = "El stacker ha sido vaciado",
+                        HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Stretch,
+                        VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Stretch
+                    };
+
+                    dialog.PrimaryButtonText = "OK";
 
                     await dialog.ShowAsync();
 
