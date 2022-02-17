@@ -1,9 +1,11 @@
 ﻿
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ULALA.Core.Contracts.Zeus;
 using ULALA.Core.Contracts.Zeus.DTO;
 using ULALA.Services.Contracts.Zeus;
+using ULALA.Services.Contracts.Zeus.DTO.CashRetrieval;
 using Unity;
 
 namespace ULALA.Core.Zeus
@@ -26,13 +28,18 @@ namespace ULALA.Core.Zeus
             this.ZeusConnectionService.StopComm();
         }
 
+        public async Task<MoneyRetrievalResponse> RetriveStackerCash()
+        {
+            return await this.ZeusConnectionService.RetrieveStackerValues();
+        }
+
         public IEnumerable<WithdrawalCashModel> GetRecyclerValues()
         {
             var cashTotals = this.ZeusConnectionService.RequestCashTotals();
             if (!ZeusConnectionService.IsConnected)
                 return null;
 
-            if (cashTotals == null)
+            if (cashTotals == null || cashTotals.CashTotals.RecyclersInfo == null)
                 return null;
 
             var recyclerValues = cashTotals.CashTotals.RecyclersInfo.RecyclerBills
@@ -54,6 +61,27 @@ namespace ULALA.Core.Zeus
             return recyclerValues;
         }
 
+        public IEnumerable<WithdrawalStackerCashModel> GetStackerValues()
+        {
+            var cashTotals = this.ZeusConnectionService.RequestCashTotals();
+            if (!ZeusConnectionService.IsConnected)
+                return null;
+
+            if (cashTotals == null || cashTotals.CashTotals.StackerInfo == null)
+                return null;
+
+
+
+            var stackerValues = cashTotals.CashTotals.StackerInfo.BillsInfo
+                                    .Select(r => new WithdrawalStackerCashModel()
+                                    {
+                                        CashType = CashType.Bills,
+                                        Denomination = r.Value,
+                                        StackerQuantity = r.Count
+                                    }).ToList();
+
+            return stackerValues;
+        }
         public bool IsConnected => this.ZeusConnectionService.IsConnected;
     }
 

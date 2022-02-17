@@ -123,6 +123,7 @@
     <Compile Include="Base\IInitializableManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Zeus\DTO\FundsInfoModel.cs" />
+    <Compile Include="Zeus\DTO\WithdrawalStackerCashModel.cs" />
     <Compile Include="Zeus\IZeusManager.cs" />
     <Compile Include="Zeus\DTO\RecyclerToCashierFundsModel.cs" />
     <Compile Include="Zeus\DTO\WithdrawalCashModel.cs" />
@@ -137,6 +138,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ULALA.Services.Contracts\ULALA.Services.Contracts.csproj">
+      <Project>{2545D2DE-05FE-4D0D-A36D-E65FECD7596A}</Project>
+      <Name>ULALA.Services.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ULALA.UI.Core\ULALA.UI.Core.csproj">
       <Project>{58186948-4305-4455-85D8-5F7D540643AF}</Project>
       <Name>ULALA.UI.Core</Name>

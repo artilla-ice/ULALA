@@ -13,6 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ULALA.Services.Contracts.Zeus;
 using ULALA.Services.Contracts.Zeus.DTO;
+using ULALA.Services.Contracts.Zeus.DTO.CashRetrieval;
 
 namespace ULALA.Services.Zeus
 {
@@ -97,6 +98,47 @@ namespace ULALA.Services.Zeus
 
                         if(jToken != null)
                             result = jToken.ToObject<CashTotalsResponse>();
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public Task<MoneyRetrievalResponse> RetrieveStackerValues()
+        {
+            Task<MoneyRetrievalResponse> result = null;
+            if (m_client != null && m_client.Connected)
+            {
+                using (var networkStream = new NetworkStream(m_client))
+                using (var streamWriter = new StreamWriter(networkStream, Encoding.ASCII))
+                using (var writer = new JsonTextWriter(streamWriter))
+                {
+                    writer.WriteStartObject();
+                    {
+                        writer.WritePropertyName("version");
+                        writer.WriteValue("2.0");
+                        writer.WritePropertyName("method");
+                        writer.WriteValue("startRetrieveStackerCash");
+                        writer.WritePropertyName("id");
+                        writer.WriteValue(0);
+                    }
+                    writer.WriteEndObject();
+                }
+
+                JsonSerializer serializer = new JsonSerializer();
+                using (var networkStream = new NetworkStream(m_client))
+                using (var streamWriter = new StreamReader(networkStream, new UTF8Encoding()))
+                using (var reader = new JsonTextReader(streamWriter))
+                {
+                    var json = serializer.Deserialize(reader).ToString();
+                    var jObject = JObject.Parse(json);
+                    if (jObject != null)
+                    {
+                        var jToken = jObject.GetValue("event");
+
+                        if (jToken != null)
+                            result = Task.FromResult( jToken.ToObject<MoneyRetrievalResponse>());
                     }
                 }
             }
