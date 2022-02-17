@@ -12,8 +12,9 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using ULALA.Services.Contracts.Zeus;
-using ULALA.Services.Contracts.Zeus.DTO;
+using ULALA.Services.Contracts.Zeus.DTO.CashTotals;
 using ULALA.Services.Contracts.Zeus.DTO.CashRetrieval;
+using ULALA.Services.Contracts.Zeus.DTO.Status;
 
 namespace ULALA.Services.Zeus
 {
@@ -64,50 +65,34 @@ namespace ULALA.Services.Zeus
             }
         }
 
+        public Status GetGeneralStatus()
+        {
+            OnCommand("requestStatus", "result"
+                                , out Status result, 3);
+
+            return result;
+        }
+
         public CashTotalsResponse RequestCashTotals()
         {
-            CashTotalsResponse result = null;
-            if(m_client != null && m_client.Connected)
-            {
-                using (var networkStream = new NetworkStream(m_client))
-                using (var streamWriter = new StreamWriter(networkStream, Encoding.ASCII))
-                using (var writer = new JsonTextWriter(streamWriter))
-                {
-                    writer.WriteStartObject();
-                    {
-                        writer.WritePropertyName("version");
-                        writer.WriteValue("2.0");
-                        writer.WritePropertyName("method");
-                        writer.WriteValue("requestCashTotals");
-                        writer.WritePropertyName("id");
-                        writer.WriteValue(0);
-                    }
-                    writer.WriteEndObject();
-                }
-
-                JsonSerializer serializer = new JsonSerializer();
-                using (var networkStream = new NetworkStream(m_client))
-                using (var streamWriter = new StreamReader(networkStream, new UTF8Encoding()))
-                using (var reader = new JsonTextReader(streamWriter))
-                {
-                    var json = serializer.Deserialize(reader).ToString();
-                    var jObject = JObject.Parse(json);
-                    if(jObject != null)
-                    {
-                        var jToken = jObject.GetValue("result");
-
-                        if(jToken != null)
-                            result = jToken.ToObject<CashTotalsResponse>();
-                    }
-                }
-            }
+            OnCommand("requestCashTotals", "result"
+                                , out CashTotalsResponse result);
 
             return result;
         }
 
         public Task<MoneyRetrievalResponse> RetrieveStackerValues()
         {
-            Task<MoneyRetrievalResponse> result = null;
+            OnCommand("startRetrieveStackerCash", "event"
+                                , out MoneyRetrievalResponse result);
+
+            return Task.FromResult(result);
+        }
+
+        private void OnCommand<T>(string commandName, string jsonResponseValue, out T result, int id = 0, string version = "2.0")
+        {
+            result = default(T);
+
             if (m_client != null && m_client.Connected)
             {
                 using (var networkStream = new NetworkStream(m_client))
@@ -117,11 +102,11 @@ namespace ULALA.Services.Zeus
                     writer.WriteStartObject();
                     {
                         writer.WritePropertyName("version");
-                        writer.WriteValue("2.0");
+                        writer.WriteValue(version);
                         writer.WritePropertyName("method");
-                        writer.WriteValue("startRetrieveStackerCash");
+                        writer.WriteValue(commandName);
                         writer.WritePropertyName("id");
-                        writer.WriteValue(0);
+                        writer.WriteValue(id);
                     }
                     writer.WriteEndObject();
                 }
@@ -135,15 +120,13 @@ namespace ULALA.Services.Zeus
                     var jObject = JObject.Parse(json);
                     if (jObject != null)
                     {
-                        var jToken = jObject.GetValue("event");
+                        var jToken = jObject.GetValue(jsonResponseValue);
 
                         if (jToken != null)
-                            result = Task.FromResult( jToken.ToObject<MoneyRetrievalResponse>());
+                            result = jToken.ToObject<T>();
                     }
                 }
             }
-
-            return result;
         }
 
         private static string GetLocalIPAddress()

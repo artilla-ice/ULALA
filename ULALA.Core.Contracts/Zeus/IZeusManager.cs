@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ULALA.Core.Contracts.Zeus.DTO;
 using ULALA.Services.Contracts.Zeus.DTO.CashRetrieval;
+using ULALA.Services.Contracts.Zeus.DTO.Status;
 
 namespace ULALA.Core.Contracts.Zeus
 {
@@ -14,6 +15,8 @@ namespace ULALA.Core.Contracts.Zeus
         void OnCloseConnection();
         IEnumerable<WithdrawalCashModel> GetRecyclerValues();
         IEnumerable<WithdrawalStackerCashModel> GetStackerValues();
+        IEnumerable<SystemInfoResultCode> GetErrors();
+        IEnumerable<SystemInfoResultCode> GetWarnings();
         Task<MoneyRetrievalResponse> RetriveStackerCash();
         bool IsConnected { get; }
     }

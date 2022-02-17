@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ULALA.Services.Contracts.Zeus.DTO
+namespace ULALA.Services.Contracts.Zeus.DTO.CashTotals
 {
     public class RecyclerBill
     {

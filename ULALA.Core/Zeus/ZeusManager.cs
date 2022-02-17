@@ -6,6 +6,7 @@ using ULALA.Core.Contracts.Zeus;
 using ULALA.Core.Contracts.Zeus.DTO;
 using ULALA.Services.Contracts.Zeus;
 using ULALA.Services.Contracts.Zeus.DTO.CashRetrieval;
+using ULALA.Services.Contracts.Zeus.DTO.Status;
 using Unity;
 
 namespace ULALA.Core.Zeus
@@ -33,6 +34,20 @@ namespace ULALA.Core.Zeus
             return await this.ZeusConnectionService.RetrieveStackerValues();
         }
 
+        public IEnumerable<SystemInfoResultCode> GetErrors()
+        {
+            return this.ZeusConnectionService.GetGeneralStatus().Errors
+                                            .Select(e => (SystemInfoResultCode)e.Code)
+                                            .ToList();
+        }
+
+        public IEnumerable<SystemInfoResultCode> GetWarnings()
+        {
+            return this.ZeusConnectionService.GetGeneralStatus().Warnings
+                                            .Select(e => (SystemInfoResultCode)e.Code)
+                                            .ToList();
+        }
+
         public IEnumerable<WithdrawalCashModel> GetRecyclerValues()
         {
             var cashTotals = this.ZeusConnectionService.RequestCashTotals();
@@ -48,7 +63,7 @@ namespace ULALA.Core.Zeus
                                         CashType = CashType.Bills,
                                         Denomination = r.Value,
                                         RecyclerQuantity = r.Count
-                                    }).ToList() ;
+                                    }).ToList();
 
             recyclerValues.AddRange(cashTotals.CashTotals.HoppersInfo.CoinsInfo
                                     .Select(r => new WithdrawalCashModel()
@@ -70,8 +85,6 @@ namespace ULALA.Core.Zeus
             if (cashTotals == null || cashTotals.CashTotals.StackerInfo == null)
                 return null;
 
-
-
             var stackerValues = cashTotals.CashTotals.StackerInfo.BillsInfo
                                     .Select(r => new WithdrawalStackerCashModel()
                                     {
@@ -84,6 +97,4 @@ namespace ULALA.Core.Zeus
         }
         public bool IsConnected => this.ZeusConnectionService.IsConnected;
     }
-
-
 }

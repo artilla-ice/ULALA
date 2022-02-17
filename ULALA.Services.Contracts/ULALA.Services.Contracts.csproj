@@ -121,18 +121,24 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Zeus\DTO\BillInfo.cs" />
-    <Compile Include="Zeus\DTO\CashboxInfo.cs" />
+    <Compile Include="Zeus\DTO\CashTotals\BillInfo.cs" />
+    <Compile Include="Zeus\DTO\CashTotals\CashboxInfo.cs" />
     <Compile Include="Zeus\DTO\CashRetrieval\Data.cs" />
     <Compile Include="Zeus\DTO\CashRetrieval\MoneyRetrievalResponse.cs" />
     <Compile Include="Zeus\DTO\CashRetrieval\RetrievedDenominationInfo.cs" />
-    <Compile Include="Zeus\DTO\CashTotals.cs" />
-    <Compile Include="Zeus\DTO\CashTotalsResponse.cs" />
-    <Compile Include="Zeus\DTO\CoinInfo.cs" />
-    <Compile Include="Zeus\DTO\HoppersInfo.cs" />
-    <Compile Include="Zeus\DTO\RecyclerBill.cs" />
-    <Compile Include="Zeus\DTO\RecyclersInfo.cs" />
-    <Compile Include="Zeus\DTO\StackerInfo.cs" />
+    <Compile Include="Zeus\DTO\CashTotals\CashTotals.cs" />
+    <Compile Include="Zeus\DTO\CashTotals\CashTotalsResponse.cs" />
+    <Compile Include="Zeus\DTO\CashTotals\CoinInfo.cs" />
+    <Compile Include="Zeus\DTO\CashTotals\HoppersInfo.cs" />
+    <Compile Include="Zeus\DTO\CashTotals\RecyclerBill.cs" />
+    <Compile Include="Zeus\DTO\CashTotals\RecyclersInfo.cs" />
+    <Compile Include="Zeus\DTO\CashTotals\StackerInfo.cs" />
+    <Compile Include="Zeus\DTO\Status\BillRecyclerStatus.cs" />
+    <Compile Include="Zeus\DTO\Status\CoinValidatorStatus.cs" />
+    <Compile Include="Zeus\DTO\Status\Error.cs" />
+    <Compile Include="Zeus\DTO\Status\Status.cs" />
+    <Compile Include="Zeus\DTO\Status\StatusResponse.cs" />
+    <Compile Include="Zeus\DTO\Status\Warning.cs" />
     <Compile Include="Zeus\IZeusConnectionService.cs" />
     <EmbeddedResource Include="Properties\ULALA.Services.Contracts.rd.xml" />
   </ItemGroup>

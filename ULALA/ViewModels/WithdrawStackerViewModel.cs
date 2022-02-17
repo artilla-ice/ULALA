@@ -45,7 +45,7 @@ namespace ULALA.ViewModels
                     dialog.PrimaryButtonText = "OK";
                     dialog.Content = "El stacker ha sido vaciado";
 
-                    var rsponse = await dialog.ShowAsync();
+                    await dialog.ShowAsync();
 
                     OnLoadStackerAmounts();
                 }
