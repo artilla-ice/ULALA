@@ -121,6 +121,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Zeus\DTO\CashInsertion\FinishInsertionResponse.cs" />
+    <Compile Include="Zeus\DTO\CashInsertion\InsertedDenominationInfo.cs" />
     <Compile Include="Zeus\DTO\CashTotals\BillInfo.cs" />
     <Compile Include="Zeus\DTO\CashTotals\CashboxInfo.cs" />
     <Compile Include="Zeus\DTO\CashRetrieval\Data.cs" />
@@ -139,6 +141,10 @@
     <Compile Include="Zeus\DTO\Status\Status.cs" />
     <Compile Include="Zeus\DTO\Status\StatusResponse.cs" />
     <Compile Include="Zeus\DTO\Status\Warning.cs" />
+    <Compile Include="Zeus\Events\MoneyDispensed\Data.cs" />
+    <Compile Include="Zeus\Events\MoneyDispensed\MoneyDispenseEvent.cs" />
+    <Compile Include="Zeus\Events\MoneyInserted\Data.cs" />
+    <Compile Include="Zeus\Events\MoneyInserted\MoneyInsertedEvent.cs" />
     <Compile Include="Zeus\IZeusConnectionService.cs" />
     <EmbeddedResource Include="Properties\ULALA.Services.Contracts.rd.xml" />
   </ItemGroup>
@@ -150,6 +156,7 @@
       <Version>13.0.1</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

@@ -34,7 +34,7 @@
 
             <controls:AdaptiveGridView  Grid.Row="1" HorizontalAlignment="Center" ItemsSource="{Binding MenuItems}" Margin="12" VerticalContentAlignment="Center"
                                    HorizontalContentAlignment="Stretch"
-                                   VerticalAlignment="Stretch" 
+                                   VerticalAlignment="Center" 
                                    SelectionMode="Single"
                                    ItemHeight="180" DesiredWidth="220" 
                                    SelectedItem="{Binding SelectedMenuItem, Mode=TwoWay}" IsItemClickEnabled="True">
@@ -108,18 +108,18 @@
                     </Grid.ColumnDefinitions>
 
                     <Button
-                        Width="120"
+                        Width="140"
                         Height="40"
                         Content="Detener" />
                     <Button
                         Grid.Column="1"
-                        Width="120"
+                        Width="140"
                         Height="40"
                         Content="Configuración" 
                         Command="{Binding ConfigurationCommand}"/>
                     <Button
                         Grid.Column="2"
-                        Width="120"
+                        Width="140"
                         Height="40"
                         Content="Salir" />
                 </Grid>

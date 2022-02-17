@@ -172,10 +172,10 @@
                         Orientation="Vertical">
                         <UControls:Separator/>
 
-                        <Grid HorizontalAlignment="Center">
+                        <Grid HorizontalAlignment="Right">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="200"/>
-                                <ColumnDefinition Width="300"/>
+                                <ColumnDefinition Width="180"/>
+                                <ColumnDefinition Width="280"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>

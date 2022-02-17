@@ -1,38 +1,20 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Net.Sockets;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using ULALA.Services.Contracts.Zeus;
 using ULALA.Services.Contracts.Zeus.DTO.CashTotals;
 using ULALA.Services.Contracts.Zeus.DTO.CashRetrieval;
 using ULALA.Services.Contracts.Zeus.DTO.Status;
+using ULALA.Services.Contracts.Zeus.DTO.CashInsertion;
 
 namespace ULALA.Services.Zeus
 {
-    public class StateObject
-    {
-        // Size of receive buffer.  
-        public const int BufferSize = 1024;
-
-        // Receive buffer.  
-        public byte[] buffer = new byte[BufferSize];
-
-        // Received data string.
-        public StringBuilder sb = new StringBuilder();
-
-        // Client socket.
-        public Socket workSocket = null;
-    }
-
     public class ZeusConnectionService : IZeusConnectionService
     {
         public static ManualResetEvent allDone = new ManualResetEvent(false);
@@ -63,6 +45,101 @@ namespace ULALA.Services.Zeus
             {
                 m_client.Close();
             }
+        }
+
+        public bool RequestMoneyInsertion()
+        {
+            bool result = false;
+
+            if (m_client != null && m_client.Connected)
+            {
+                using (var networkStream = new NetworkStream(m_client))
+                using (var streamWriter = new StreamWriter(networkStream, Encoding.ASCII))
+                using (var writer = new JsonTextWriter(streamWriter))
+                {
+                    writer.WriteStartObject();
+                    {
+                        writer.WritePropertyName("version");
+                        writer.WriteValue("2.0");
+                        writer.WritePropertyName("method");
+                        writer.WriteValue("startMoneyInsertion");
+                        writer.WritePropertyName("params");
+                        writer.WriteStartObject();
+                        writer.WritePropertyName("amount");
+                        writer.WriteValue(DefaultMaxInsertionAmount);
+                        writer.WriteEndObject();
+                        writer.WritePropertyName("id");
+                        writer.WriteValue(1);
+                    }
+                    writer.WriteEndObject();
+                }
+
+                JsonSerializer serializer = new JsonSerializer();
+                using (var networkStream = new NetworkStream(m_client))
+                using (var streamWriter = new StreamReader(networkStream, new UTF8Encoding()))
+                using (var reader = new JsonTextReader(streamWriter))
+                {
+                    var json = serializer.Deserialize(reader).ToString();
+                    var jObject = JObject.Parse(json);
+                    if (jObject != null)
+                    {
+                        var jToken = jObject.GetValue("result");
+
+                        if (jToken != null)
+                        {
+
+                            var response = jToken.ToString();
+                            result = response == "ACK";
+                        }
+                    }
+                }
+            }
+
+            m_isInsertSessionOpen = result;
+
+            return result;
+        }
+
+        public Task<FinishInsertionResponse> FinishMoneyInsertion()
+        {
+            OnCommand("finishInsertion", "result"
+                                , out FinishInsertionResponse result, 2);
+
+            if (result != null)
+                m_isInsertSessionOpen = false;
+
+            return Task.FromResult(result);
+        }
+
+        public Task<T> OnStartListeningForEvent<T>(string jsonResponseValue)
+        {
+            var result = default(T);
+
+            while(m_isInsertSessionOpen)
+            {
+                if (m_client == null || !m_client.Connected)
+                    return null;
+                
+                JsonSerializer serializer = new JsonSerializer();
+                using (var networkStream = new NetworkStream(m_client))
+                using (var streamWriter = new StreamReader(networkStream, new UTF8Encoding()))
+                using (var reader = new JsonTextReader(streamWriter))
+                {
+                    var json = serializer.Deserialize(reader).ToString();
+                    var jObject = JObject.Parse(json);
+                    if (jObject != null)
+                    {
+                        var jToken = jObject.GetValue(jsonResponseValue);
+
+                        if (jToken != null)
+                        {
+                            result = jToken.ToObject<T>();
+                        }
+                    }
+                }
+            }
+
+            return Task.FromResult(result);
         }
 
         public Status GetGeneralStatus()
@@ -143,5 +220,7 @@ namespace ULALA.Services.Zeus
         }
 
         private Socket m_client;
+        private static int DefaultMaxInsertionAmount = 1000000;
+        private bool m_isInsertSessionOpen = false;
     }
 }

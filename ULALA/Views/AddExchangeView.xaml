@@ -8,7 +8,7 @@
     xmlns:local="using:ULALA"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:ULALA.Core.Contracts.Zeus.DTO"
-    xmlns:mvvm="using:ULALA.UI.Core.MVVM"
+    xmlns:mvvm="using:ULALA.UI.Core.MVVM" xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mvvm:ViewModelLocator.AutoWireViewModel="True"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
@@ -20,8 +20,8 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="80" />
                         <ColumnDefinition Width="110" />
-                        <ColumnDefinition Width="150" />
-                        <ColumnDefinition Width="300" />
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="140" />
                     </Grid.ColumnDefinitions>
 
                     <TextBlock TextAlignment="End" Height="40" FontSize="24"
@@ -37,7 +37,7 @@
                     <TextBox 
                         TextAlignment="End" Height="40" FontSize="16"
                         Margin="1,1,10,1"
-                        Grid.Column="2"
+                        Grid.Column="2" IsEnabled="False"
                         HorizontalTextAlignment="Center"
                         Text="0" />
                     <TextBox TextAlignment="End" Height="40" FontSize="16"
@@ -93,26 +93,27 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+    <Grid>
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
-        <Frame
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Frame
             MinHeight="100"
             VerticalAlignment="Top"
             Background="CornflowerBlue">
-            <Grid>
-                <StackPanel
+                <Grid>
+                    <StackPanel
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Horizontal"
                     Spacing="20">
-                    <Image
+                        <Image
                         Width="40"
                         Height="40"
                         MinWidth="40"
@@ -121,112 +122,120 @@
                         VerticalAlignment="Center"
                         Source="{Binding PageIcon}" />
 
-                    <TextBlock
+                        <TextBlock
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         FontSize="36"
                         FontWeight="SemiBold"
                         Foreground="WhiteSmoke"
                         Text="Añadir Cambios" />
-                </StackPanel>
-            </Grid>
-        </Frame>
+                    </StackPanel>
+                </Grid>
+            </Frame>
 
-        <Grid
+            <Grid
             Grid.Row="1"
             Margin="12"
             HorizontalAlignment="Stretch">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="60" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-
-            <StackPanel Grid.Row="0">
-                <TextBlock
-                    FontSize="18"
-                    FontWeight="Bold"
-                    Text="Introduzca los Cambios en la Máquina" />
-                <TextBlock  Text="( Una vez introducidos, pulse ←Salir )" />
-            </StackPanel>
-
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <ListView
+                <StackPanel Grid.Row="0">
+                    <TextBlock
+                    FontSize="18"
+                    FontWeight="Bold"
+                    Text="Introduzca los Cambios en la Máquina" />
+                    <TextBlock  Text="( Para empezar, presione Introducir cambio. Al finalizar presione Terminar introducción )" />
+                </StackPanel>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <GridView 
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Stretch"
+                    VerticalAlignment="Center"
                     HeaderTemplate="{StaticResource CashFundsDataTemplatedHeader}"
                     ItemTemplate="{StaticResource CashFundsDataTemplated}"
                     ItemsSource="{Binding RecyclerAmounts}"
-                    SelectionMode="None" />
+                    SelectionMode="None" Height="400">
 
-                <!--Importes-->
-                <StackPanel Grid.Row="2"
+                    </GridView>
+
+                    <!--Importes-->
+                    <StackPanel Grid.Row="2"
                     Grid.ColumnSpan="2"
                     Orientation="Vertical">
-                    <UControls:Separator/>
+                        <UControls:Separator/>
 
-                    <Grid HorizontalAlignment="Center">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="200"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Text="Importes Totales:" FontSize="18" FontWeight="Bold" VerticalAlignment="Center"/>
-                        <TextBox  Grid.Column="1" Text="$0.00" Background="SkyBlue" TextAlignment="End" FontSize="18" FontWeight="SemiBold"/>
+                        <Grid HorizontalAlignment="Right">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="180"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="Importes Totales:" FontSize="18" FontWeight="Bold" VerticalAlignment="Center"/>
+                            <TextBox  Grid.Column="1" Text="$0.00" Background="SkyBlue" TextAlignment="End" FontSize="18" FontWeight="SemiBold"/>
 
-                        <TextBlock Grid.Row="1" Grid.Column="1" Text="*El Reciclador está casi lleno" Foreground="SkyBlue" FontWeight="SemiBold"/>
-                    </Grid>
-                </StackPanel>
+                            <TextBlock Grid.Row="1" Grid.Column="1" Text="*El Reciclador está casi lleno" Foreground="SkyBlue" FontWeight="SemiBold"/>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
             </Grid>
-        </Grid>
 
-        <Frame
+            <Frame
             Grid.Row="1"
             MinHeight="80"
             VerticalAlignment="Bottom"
             Background="CornflowerBlue">
-            <Grid Margin="20,0,20,0"
+                <Grid Margin="20,0,20,0"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 ColumnSpacing="40">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
-                <Button
+                    <Button
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Width="140"
                     Height="40"
                     Command="{Binding OnBackCommand}">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Spacing="20">
-                        <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE72B;" VerticalAlignment="Center"/>
-                        <TextBlock Text="Salir"/>
-                    </StackPanel>
-                </Button>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Spacing="20">
+                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE72B;" VerticalAlignment="Center"/>
+                            <TextBlock Text="Salir"/>
+                        </StackPanel>
+                    </Button>
 
-                <Border Grid.Column="1" Height="60" Width="1" Background="LightGray"/>
+                    <Border Grid.Column="1" Height="60" Width="1" Background="LightGray"/>
 
-                <Button Grid.Column="2" HorizontalAlignment="Center"
-                    Width="140"
+                    <Button Grid.Column="2" HorizontalAlignment="Center"
+                    Width="160"
+                    Height="40" Command="{Binding StartInsertionCommand}"
+                    Content="Introducir cambio" IsEnabled="{Binding IsInserting, Converter={StaticResource InvertedBool}}"/>
+
+                    <Button Grid.Column="3" HorizontalAlignment="Center"
+                    Width="160"
                     Height="40"
-                    Content="Cancelar" />
-                
-                
-            </Grid>
-        </Frame>
+                    Content="Finalizar introducción" IsEnabled="{Binding IsInserting}"/>
+                </Grid>
+            </Frame>
+        </Grid>
+        <muxc:ProgressRing IsActive="{Binding IsBusy}" />
     </Grid>
 </Page>

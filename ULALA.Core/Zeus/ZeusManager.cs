@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using ULALA.Core.Contracts.Zeus;
 using ULALA.Core.Contracts.Zeus.DTO;
+using ULALA.Services.Contracts.Events.MoneyInserted;
 using ULALA.Services.Contracts.Zeus;
+using ULALA.Services.Contracts.Zeus.DTO.CashInsertion;
 using ULALA.Services.Contracts.Zeus.DTO.CashRetrieval;
 using ULALA.Services.Contracts.Zeus.DTO.Status;
 using Unity;
@@ -27,6 +29,21 @@ namespace ULALA.Core.Zeus
         public void OnCloseConnection()
         {
             this.ZeusConnectionService.StopComm();
+        }
+
+        public bool StartMoneyInsertion()
+        {
+            return this.ZeusConnectionService.RequestMoneyInsertion();
+        }
+
+        public async Task<FinishInsertionResponse> CloseMoneyInsertion()
+        {
+            return await this.ZeusConnectionService.FinishMoneyInsertion();
+        }
+
+        public async Task<MoneyInsertedEvent> GetEventResponse()
+        {
+            return await this.ZeusConnectionService.OnStartListeningForEvent<MoneyInsertedEvent>("event");
         }
 
         public async Task<MoneyRetrievalResponse> RetriveStackerCash()
