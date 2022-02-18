@@ -11,6 +11,12 @@ namespace ULALA.Infrastructure.PubSub
     /// </summary>
     public class EventAggregator : IEventAggregator
     {
+        public EventAggregator()
+        {
+            var x = 2;
+            var x2 = x++;
+        }
+
         private readonly Dictionary<Type, EventBase> events = new Dictionary<Type, EventBase>();
         // Captures the sync context for the UI thread when constructed on the UI thread 
         // in a platform agnostic way so it can be used for UI thread dispatching

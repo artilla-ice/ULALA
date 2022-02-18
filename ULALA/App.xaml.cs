@@ -61,7 +61,9 @@ namespace ULALA
             }
 
             InitializeConfiguration();
-            
+            ConfigureNavigationManager();
+            //ConfigureZeusConnectionService();
+
             if (e.PrelaunchActivated == false)
             {
                 if (rootFrame.Content == null)
@@ -113,13 +115,16 @@ namespace ULALA
                 var m_zeusConnectionService = new ZeusConnectionService();
                 m_container.RegisterInstance<IZeusConnectionService>(m_zeusConnectionService);
 
+                m_container.RegisterType<IZeusManager, ZeusManager>(new ContainerControlledLifetimeManager());
+
+
                 // Como registrar un nuevo Service con su Manager
                 //m_container.RegisterType<ITestService, TestService>();
                 //m_container.RegisterType<ITestManage, TestManager>(new ContainerControlledLifetimeManager());
+
+                InitializeManager<IZeusManager>();
             }
 
-            ConfigureNavigationManager();
-            ConfigureZeusConnectionService();
         }
 
         private void InitializeManager<T>()

@@ -12,11 +12,18 @@ using ULALA.Services.Contracts.Zeus.DTO.CashTotals;
 using ULALA.Services.Contracts.Zeus.DTO.CashRetrieval;
 using ULALA.Services.Contracts.Zeus.DTO.Status;
 using ULALA.Services.Contracts.Zeus.DTO.CashInsertion;
+using ULALA.Services.Contracts.Events.MoneyInserted;
+using ULALA.Infrastructure.PubSub;
 
 namespace ULALA.Services.Zeus
 {
     public class ZeusConnectionService : IZeusConnectionService
     {
+        public ZeusConnectionService()
+        {
+        }
+
+
         public static ManualResetEvent allDone = new ManualResetEvent(false);
 
         public bool IsConnected { get => m_client != null && m_client.Connected; }
@@ -95,56 +102,49 @@ namespace ULALA.Services.Zeus
                 }
             }
 
-            m_isInsertSessionOpen = result;
 
             return result;
         }
 
-        public Task<FinishInsertionResponse> FinishMoneyInsertion()
+        public Task FinishMoneyInsertion()
         {
-            OnCommand("finishInsertion", "result"
-                                , out FinishInsertionResponse result, 2);
+            OnCommand("finishInsertion", 2);
 
-            if (result != null)
-                m_isInsertSessionOpen = false;
+            //TODO: verificar el response del emulador que sea igual al dinero que se registro (en el viewmodel)
 
-            return Task.FromResult(result);
+            return Task.CompletedTask;
         }
 
-        public Task<T> OnStartListeningForEvent<T>(string jsonResponseValue)
+        public Task<MoneyInsertedEvent> OnStartListeningForEvent()
         {
-            var result = default(T);
+            MoneyInsertedEvent result = null;
 
-            while(m_isInsertSessionOpen)
-            {
-                if (m_client == null || !m_client.Connected)
-                    return null;
+            if (m_client == null || !m_client.Connected)
+                return null;
                 
-                JsonSerializer serializer = new JsonSerializer();
-                using (var networkStream = new NetworkStream(m_client))
-                using (var streamWriter = new StreamReader(networkStream, new UTF8Encoding()))
-                using (var reader = new JsonTextReader(streamWriter))
+            JsonSerializer serializer = new JsonSerializer();
+            using (var networkStream = new NetworkStream(m_client))
+            using (var streamWriter = new StreamReader(networkStream, new UTF8Encoding()))
+            using (var reader = new JsonTextReader(streamWriter))
+            {
+                var json = serializer.Deserialize(reader).ToString();
+                var jObject = JObject.Parse(json);
+                if (jObject != null)
                 {
-                    var json = serializer.Deserialize(reader).ToString();
-                    var jObject = JObject.Parse(json);
-                    if (jObject != null)
-                    {
-                        var jToken = jObject.GetValue(jsonResponseValue);
+                    var jToken = jObject.GetValue("event");
 
-                        if (jToken != null)
-                        {
-                            result = jToken.ToObject<T>();
-                        }
-                    }
+                    if (jToken != null)
+                        result = jToken.ToObject<MoneyInsertedEvent>();
                 }
-            }
+                
+        }
 
             return Task.FromResult(result);
         }
 
         public Status GetGeneralStatus()
         {
-            OnCommand("requestStatus", "result"
+            OnCommandWithResponse("requestStatus", "result"
                                 , out Status result, 3);
 
             return result;
@@ -152,7 +152,7 @@ namespace ULALA.Services.Zeus
 
         public CashTotalsResponse RequestCashTotals()
         {
-            OnCommand("requestCashTotals", "result"
+            OnCommandWithResponse("requestCashTotals", "result"
                                 , out CashTotalsResponse result);
 
             return result;
@@ -160,13 +160,35 @@ namespace ULALA.Services.Zeus
 
         public Task<MoneyRetrievalResponse> RetrieveStackerValues()
         {
-            OnCommand("startRetrieveStackerCash", "event"
+            OnCommandWithResponse("startRetrieveStackerCash", "event"
                                 , out MoneyRetrievalResponse result);
 
             return Task.FromResult(result);
         }
 
-        private void OnCommand<T>(string commandName, string jsonResponseValue, out T result, int id = 0, string version = "2.0")
+        private void OnCommand(string commandName, int id = 0, string version = "2.0")
+        {
+            if (m_client != null && m_client.Connected)
+            {
+                using (var networkStream = new NetworkStream(m_client))
+                using (var streamWriter = new StreamWriter(networkStream, Encoding.ASCII))
+                using (var writer = new JsonTextWriter(streamWriter))
+                {
+                    writer.WriteStartObject();
+                    {
+                        writer.WritePropertyName("version");
+                        writer.WriteValue(version);
+                        writer.WritePropertyName("method");
+                        writer.WriteValue(commandName);
+                        writer.WritePropertyName("id");
+                        writer.WriteValue(id);
+                    }
+                    writer.WriteEndObject();
+                }
+            }
+        }
+
+        private void OnCommandWithResponse<T>(string commandName, string jsonResponseValue, out T result, int id = 0, string version = "2.0")
         {
             result = default(T);
 
@@ -193,14 +215,21 @@ namespace ULALA.Services.Zeus
                 using (var streamWriter = new StreamReader(networkStream, new UTF8Encoding()))
                 using (var reader = new JsonTextReader(streamWriter))
                 {
-                    var json = serializer.Deserialize(reader).ToString();
-                    var jObject = JObject.Parse(json);
-                    if (jObject != null)
+                    try
                     {
-                        var jToken = jObject.GetValue(jsonResponseValue);
+                        var json = serializer.Deserialize<string>(reader);
+                        var jObject = JObject.Parse(json);
+                        if (jObject != null)
+                        {
+                            var jToken = jObject.GetValue(jsonResponseValue);
 
-                        if (jToken != null)
-                            result = jToken.ToObject<T>();
+                            if (jToken != null)
+                                result = jToken.ToObject<T>();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
                     }
                 }
             }
@@ -221,6 +250,5 @@ namespace ULALA.Services.Zeus
 
         private Socket m_client;
         private static int DefaultMaxInsertionAmount = 1000000;
-        private bool m_isInsertSessionOpen = false;
     }
 }

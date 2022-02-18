@@ -8,6 +8,7 @@ using ULALA.Services.Contracts.Zeus.DTO.CashTotals;
 using ULALA.Services.Contracts.Zeus.DTO.CashRetrieval;
 using ULALA.Services.Contracts.Zeus.DTO.Status;
 using ULALA.Services.Contracts.Zeus.DTO.CashInsertion;
+using ULALA.Services.Contracts.Events.MoneyInserted;
 
 namespace ULALA.Services.Contracts.Zeus
 {
@@ -19,8 +20,8 @@ namespace ULALA.Services.Contracts.Zeus
         CashTotalsResponse RequestCashTotals();
         Task<MoneyRetrievalResponse> RetrieveStackerValues();
         bool RequestMoneyInsertion();
-        Task<T> OnStartListeningForEvent<T>(string jsonResponseValue);
-        Task<FinishInsertionResponse> FinishMoneyInsertion();
+        Task<MoneyInsertedEvent> OnStartListeningForEvent();
+        Task FinishMoneyInsertion();
         bool IsConnected { get; }
     }
 }

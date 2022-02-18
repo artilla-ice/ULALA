@@ -1,10 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.UI.Xaml.Controls;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using ULALA.Core.Contracts.Events;
 using ULALA.Core.Contracts.Zeus;
 using ULALA.Core.Contracts.Zeus.DTO;
-using ULALA.Models;
+using ULALA.Infrastructure.PubSub;
 using ULALA.UI.Core.MVVM;
+using Windows.UI.Xaml.Controls;
 using Xamarin.Forms;
 
 namespace ULALA.ViewModels
@@ -19,7 +23,16 @@ namespace ULALA.ViewModels
 
         public AddExchangeViewModel()
         {
+        }
+
+        public AddExchangeViewModel(IEventAggregator eventAggregator)
+        {
+            this.EventAggregator = eventAggregator;
+
             this.StartInsertionCommand = new Command(OnStartMoneyInsertion);
+            this.EndInsertionCommand = new Command(OnFinalizeMoneyInsertion);
+
+            SubscribeToEvents();
         }
 
         protected override void OnActivated()
@@ -27,25 +40,56 @@ namespace ULALA.ViewModels
             OnLoadAllDenominationsInfo();
         }
 
-        private void OnStartMoneyInsertion()
+        private async void OnStartMoneyInsertion()
         {
             var isReadyForInsertion = this.ZeusManager.StartMoneyInsertion();
             this.IsInserting = isReadyForInsertion;
 
             HandleAsyncCall(async () =>
             {
-                var currentInsertedMoney = await this.ZeusManager.GetEventResponse();
-                if(currentInsertedMoney != null)
+                ContentDialog dialog = new ContentDialog();
+                dialog.Title = new InfoBar()
                 {
-                    var itemOnCollection = this.RecyclerAmounts.Where(r => currentInsertedMoney.Type == "moneyInsertedEvent"
-                                                    && currentInsertedMoney.Data[0] != null
-                                                    && currentInsertedMoney.Data[0].Value == r.Denomination).FirstOrDefault();
+                    IsOpen = true,
+                    IsIconVisible = true,
+                    IsClosable = false,
+                    Severity = InfoBarSeverity.Informational,
+                    Title = "Ya puedes ingresar cambio",
+                    HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Stretch,
+                    VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Stretch
+                };
 
-                    var currentQuantity = itemOnCollection.RecyclerQuantity;
-                    itemOnCollection.RecyclerQuantity = ++currentQuantity;
-                }
+                dialog.PrimaryButtonText = "OK";
+
+                await dialog.ShowAsync();
             });
         }
+
+        private void OnFinalizeMoneyInsertion()
+        {
+            HandleAsyncCall(async () =>
+            {
+                await this.ZeusManager.CloseMoneyInsertion();
+
+                this.IsInserting = false;
+
+                ContentDialog dialog = new ContentDialog();
+                dialog.Title = new InfoBar()
+                {
+                    IsOpen = true,
+                    IsIconVisible = true,
+                    IsClosable = false,
+                    Severity = InfoBarSeverity.Success,
+                    Title = "Cambio agregado con éxito",
+                    Message = "El dinero ha sido agregado al reciclador",
+                    HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Stretch,
+                    VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Stretch
+                };
+
+                dialog.PrimaryButtonText = "OK";
+
+                await dialog.ShowAsync();
+            });        }
 
         private void OnLoadAllDenominationsInfo()
         {
@@ -112,6 +156,30 @@ namespace ULALA.ViewModels
             this.RecyclerAmounts = new ObservableCollection<FundsInfoModel>(amounts);
         }
 
+        private void SubscribeToEvents()
+        {
+            this.EventAggregator.GetEvent<NewMoneyInsertEvent>()
+                .Subscribe((args) =>
+               {
+                   var currentInsertedMoney = args.Response;
+                   if (currentInsertedMoney != null)
+                   {
+                       var itemOnCollection = this.RecyclerAmounts.Where(r => currentInsertedMoney.Type == "moneyInsertedEvent"
+                                                       && currentInsertedMoney.Data[0] != null
+                                                       && currentInsertedMoney.Data[0].Value == r.Denomination).FirstOrDefault();
+
+                       itemOnCollection.RecyclerQuantity += (uint)currentInsertedMoney.Data.Count();
+
+                       CalculateTotalAmount();
+                   }
+               }, ThreadOption.UIThread);
+        }
+
+        private void CalculateTotalAmount()
+        {
+            this.RecyclerTotalAmount = m_recyclerAmounts.Sum(a => a.RecyclerAmount);
+        }
+
         private ObservableCollection<FundsInfoModel> m_recyclerAmounts;
         public ObservableCollection<FundsInfoModel> RecyclerAmounts
         {
@@ -125,5 +193,14 @@ namespace ULALA.ViewModels
             get { return m_isInserting; }
             set { SetProperty(ref m_isInserting, value); }
         }
+
+        private double m_recyclerTotalAmount;
+        public double RecyclerTotalAmount
+        {
+            get { return m_recyclerTotalAmount; }
+            set { SetProperty(ref m_recyclerTotalAmount, value); }
+        }
+
+        private IEventAggregator EventAggregator { get; set; }
     }
 }

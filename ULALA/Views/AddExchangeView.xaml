@@ -15,7 +15,7 @@
 
     <Page.Resources>
         <ResourceDictionary>
-            <DataTemplate x:Key="CashFundsDataTemplated" x:DataType="model:RecyclerToCashierFundsModel">
+            <DataTemplate x:Key="CashFundsDataTemplated" x:DataType="model:FundsInfoModel">
                 <Grid ColumnSpacing="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="80" />
@@ -39,12 +39,12 @@
                         Margin="1,1,10,1"
                         Grid.Column="2" IsEnabled="False"
                         HorizontalTextAlignment="Center"
-                        Text="0" />
+                        Text="{Binding RecyclerQuantity, Mode=TwoWay}" />
                     <TextBox TextAlignment="End" Height="40" FontSize="16"
                         Grid.Column="3"
                         HorizontalTextAlignment="Center"
                         IsEnabled="False"
-                        Text="{Binding RecyclerAmount, Converter={StaticResource StringCurrencyFormat}}" />
+                        Text="{Binding RecyclerAmount, Converter={StaticResource StringCurrencyFormat}, Mode=TwoWay}" />
                 </Grid>
             </DataTemplate>
             <DataTemplate x:Key="CashFundsDataTemplatedHeader">
@@ -148,7 +148,7 @@
                     FontSize="18"
                     FontWeight="Bold"
                     Text="Introduzca los Cambios en la Máquina" />
-                    <TextBlock  Text="( Para empezar, presione Introducir cambio. Al finalizar presione Terminar introducción )" />
+                    <TextBlock  Text="( Para empezar, presione Introducir cambio. Al finalizar presione Finalizar introducción )" />
                 </StackPanel>
 
                 <Grid Grid.Row="1">
@@ -165,7 +165,7 @@
                     VerticalAlignment="Center"
                     HeaderTemplate="{StaticResource CashFundsDataTemplatedHeader}"
                     ItemTemplate="{StaticResource CashFundsDataTemplated}"
-                    ItemsSource="{Binding RecyclerAmounts}"
+                    ItemsSource="{Binding RecyclerAmounts, Mode=TwoWay}"
                     SelectionMode="None" Height="400">
 
                     </GridView>
@@ -186,7 +186,7 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <TextBlock Text="Importes Totales:" FontSize="18" FontWeight="Bold" VerticalAlignment="Center"/>
-                            <TextBox  Grid.Column="1" Text="$0.00" Background="SkyBlue" TextAlignment="End" FontSize="18" FontWeight="SemiBold"/>
+                            <TextBox  Grid.Column="1" Text="{Binding RecyclerTotalAmount, Converter={StaticResource StringCurrencyFormat}}" Background="SkyBlue" TextAlignment="End" FontSize="18" FontWeight="SemiBold"/>
 
                             <TextBlock Grid.Row="1" Grid.Column="1" Text="*El Reciclador está casi lleno" Foreground="SkyBlue" FontWeight="SemiBold"/>
                         </Grid>
@@ -231,7 +231,7 @@
 
                     <Button Grid.Column="3" HorizontalAlignment="Center"
                     Width="160"
-                    Height="40"
+                    Height="40" Command="{Binding EndInsertionCommand}"
                     Content="Finalizar introducción" IsEnabled="{Binding IsInserting}"/>
                 </Grid>
             </Frame>

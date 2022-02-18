@@ -55,7 +55,11 @@ namespace ULALA.Core.Contracts.Zeus.DTO
         public uint RecyclerQuantity
         {
             get { return m_recyclerQuantity; }
-            set { SetProperty(ref m_recyclerQuantity, value); }
+            set 
+            { 
+                SetProperty(ref m_recyclerQuantity, value);
+                OnPropertyChanged("RecyclerAmount");
+            }
         }
 
         public double RecyclerAmount

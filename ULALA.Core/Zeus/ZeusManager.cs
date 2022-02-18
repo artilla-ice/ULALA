@@ -1,9 +1,12 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ULALA.Core.Contracts.Events;
 using ULALA.Core.Contracts.Zeus;
 using ULALA.Core.Contracts.Zeus.DTO;
+using ULALA.Infrastructure.PubSub;
 using ULALA.Services.Contracts.Events.MoneyInserted;
 using ULALA.Services.Contracts.Zeus;
 using ULALA.Services.Contracts.Zeus.DTO.CashInsertion;
@@ -18,8 +21,23 @@ namespace ULALA.Core.Zeus
         [Dependency]
         public IZeusConnectionService ZeusConnectionService { get; set; }
 
-        public ZeusManager() 
-        { }
+        private IEventAggregator EventAggregator { get; set; }
+
+        public ZeusManager()
+        {
+        }
+
+        public ZeusManager(IEventAggregator eventAggregator) 
+        {
+            this.EventAggregator = eventAggregator;
+        }
+
+        public Task Initialize()
+        {
+            SubscribeToEvents();
+
+            return Task.CompletedTask;
+        }
 
         public void OnStartListening()
         {
@@ -29,22 +47,31 @@ namespace ULALA.Core.Zeus
         public void OnCloseConnection()
         {
             this.ZeusConnectionService.StopComm();
+
         }
+
 
         public bool StartMoneyInsertion()
         {
-            return this.ZeusConnectionService.RequestMoneyInsertion();
+            m_isInsertSessionOpen = this.ZeusConnectionService.RequestMoneyInsertion();
+
+            if(m_isInsertSessionOpen)
+                this.EventAggregator.GetEvent<StartMoneyInsertionEvent>().Publish(new EventArgs());
+
+            return m_isInsertSessionOpen;
         }
 
-        public async Task<FinishInsertionResponse> CloseMoneyInsertion()
+        public async Task CloseMoneyInsertion()
         {
-            return await this.ZeusConnectionService.FinishMoneyInsertion();
+            m_isInsertSessionOpen = false;
+
+            await this.ZeusConnectionService.FinishMoneyInsertion();
         }
 
-        public async Task<MoneyInsertedEvent> GetEventResponse()
-        {
-            return await this.ZeusConnectionService.OnStartListeningForEvent<MoneyInsertedEvent>("event");
-        }
+        //public async Task<MoneyInsertedEvent> GetEventResponse()
+        //{
+        //    return await this.ZeusConnectionService.OnStartListeningForEvent<MoneyInsertedEvent>("event");
+        //}
 
         public async Task<MoneyRetrievalResponse> RetriveStackerCash()
         {
@@ -112,6 +139,25 @@ namespace ULALA.Core.Zeus
 
             return stackerValues;
         }
+
+        private void SubscribeToEvents()
+        {
+            this.EventAggregator.GetEvent<StartMoneyInsertionEvent>()
+                .Subscribe(async (args) =>
+                {
+                    while(m_isInsertSessionOpen)
+                    {
+                        var result = await this.ZeusConnectionService.OnStartListeningForEvent();
+                        this.EventAggregator.GetEvent<NewMoneyInsertEvent>().Publish(new NewMoneyInsertEventArgs
+                        {
+                            Response = result
+                        });
+                    }
+                }, ThreadOption.BackgroundThread);
+        }
+
         public bool IsConnected => this.ZeusConnectionService.IsConnected;
+
+        private bool m_isInsertSessionOpen = false;
     }
 }
