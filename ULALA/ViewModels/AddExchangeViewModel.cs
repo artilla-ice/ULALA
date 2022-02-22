@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using ULALA.Core.Contracts.Events;
+using ULALA.Core.Contracts.Logger;
 using ULALA.Core.Contracts.Zeus;
 using ULALA.Core.Contracts.Zeus.DTO;
 using ULALA.Infrastructure.PubSub;
@@ -17,6 +18,9 @@ namespace ULALA.ViewModels
     {
         [Unity.Dependency]
         public IZeusManager ZeusManager { get; set; }
+
+        [Unity.Dependency]
+        public ILogger Logger { get; set; }
 
         public Command StartInsertionCommand { get; }
         public Command EndInsertionCommand { get; }
@@ -38,6 +42,8 @@ namespace ULALA.ViewModels
         protected override void OnActivated()
         {
             OnLoadAllDenominationsInfo();
+
+            this.Logger.WriteEvent();
         }
 
         private async void OnStartMoneyInsertion()

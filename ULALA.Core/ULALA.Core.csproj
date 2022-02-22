@@ -12,7 +12,7 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.19041.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -120,6 +120,7 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Logger\Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Zeus\ZeusManager.cs" />
     <EmbeddedResource Include="Properties\ULALA.Core.rd.xml" />
@@ -136,6 +137,10 @@
     <ProjectReference Include="..\ULALA.Core.Contracts\ULALA.Core.Contracts.csproj">
       <Project>{D575C751-267B-4514-AE55-B3AE21C8D683}</Project>
       <Name>ULALA.Core.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ULALA.Domain.Contracts\ULALA.Domain.Contracts.csproj">
+      <Project>{3131464A-2483-4324-B623-DB898D1AE15C}</Project>
+      <Name>ULALA.Domain.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\ULALA.Infrastructure\ULALA.Infrastructure.csproj">
       <Project>{F16B67FF-93DD-4D04-9AC2-7CD6649EA684}</Project>
