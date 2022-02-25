@@ -125,6 +125,7 @@
     <Compile Include="Models\CashOutModel.cs" />
     <Compile Include="Models\MenuItemModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\NewChargeViewModel.cs" />
     <Compile Include="ViewModels\AddExchangeViewModel.cs" />
     <Compile Include="ViewModels\ZeusConnectionSettingsViewModel.cs" />
     <Compile Include="ViewModels\LogsViewModel.cs" />
@@ -137,6 +138,9 @@
     <Compile Include="ViewModels\WithdrawStackerViewModel.cs" />
     <Compile Include="ViewModels\WithdrawCashViewModel.cs" />
     <Compile Include="ViewModels\MainMenuViewModel.cs" />
+    <Compile Include="Views\NewChargeView.xaml.cs">
+      <DependentUpon>NewChargeView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AddExchangeView.xaml.cs">
       <DependentUpon>AddExchangeView.xaml</DependentUpon>
     </Compile>
@@ -208,6 +212,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\DefaultTheme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\NewChargeView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

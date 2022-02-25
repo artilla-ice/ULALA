@@ -165,6 +165,7 @@ namespace ULALA
             navigationManager.RegisterView(ViewNames.WithdrawCash, typeof(WithdrawCashView));
             navigationManager.RegisterView(ViewNames.ControlPanel, typeof(ControlPanelView));
             navigationManager.RegisterView(ViewNames.ZeusConnectionSettings, typeof(ZeusConnectionSettingsView));
+            navigationManager.RegisterView(ViewNames.NewCharge, typeof(NewChargeView));
         }
 
 

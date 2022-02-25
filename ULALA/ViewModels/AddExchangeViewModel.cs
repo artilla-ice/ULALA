@@ -40,7 +40,7 @@ namespace ULALA.ViewModels
             OnLoadAllDenominationsInfo();
         }
 
-        private async void OnStartMoneyInsertion()
+        private void OnStartMoneyInsertion()
         {
             var isReadyForInsertion = this.ZeusManager.StartMoneyInsertion();
             this.IsInserting = isReadyForInsertion;
@@ -89,7 +89,8 @@ namespace ULALA.ViewModels
                 dialog.PrimaryButtonText = "OK";
 
                 await dialog.ShowAsync();
-            });        }
+            });        
+        }
 
         private void OnLoadAllDenominationsInfo()
         {

@@ -32,7 +32,7 @@ namespace ULALA.ViewModels
         {
             var menuItems = new List<MenuItemModel>()
             {
-                new MenuItemModel("../Assets/Icons/Cobrar.png", "Cobrar", Color.DarkGray.Name, null),
+                new MenuItemModel("../Assets/Icons/Cobrar.png", "Cobrar", Color.DarkGray.Name, ViewNames.NewCharge),
                 new MenuItemModel("../Assets/Icons/Estatus.png", "Estado de CashLogy", Color.CadetBlue.Name, null),
                 new MenuItemModel("../Assets/Icons/AddCambios.png", "Añadir cambios", Color.DarkRed.Name, ViewNames.AddExchange),
                 new MenuItemModel("../Assets/Icons/Cambio.png", "Dar Cambio", Color.MediumVioletRed.Name, null),
