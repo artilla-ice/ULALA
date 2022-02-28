@@ -3,10 +3,11 @@ using System;
 using System.Data.Common;
 using ULALA.Domain.Contracts.Utility;
 using ULALA.Domain.Contracts.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ULALA.Domain.Data
 {
-    public class CoreDataRepositoryContext //: DbContext
+    public class CoreDataRepositoryContext : DbContext
     {
         //public CoreDataRepositoryContext(string connectionString) 
         //{

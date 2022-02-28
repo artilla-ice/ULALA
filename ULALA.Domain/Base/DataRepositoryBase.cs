@@ -1,11 +1,11 @@
-﻿//using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
 using ULALA.Domain.Contracts.Data;
 
 namespace ULALA.Domain.Data
 {
-    public class DataRepositoryBase<T> //: IDataRepository where T : DbContext
+    public class DataRepositoryBase<T> : IDataRepository where T : DbContext
 	{
 		public DataRepositoryBase(T ctx, bool bDisposeContext)
 		{
