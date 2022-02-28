@@ -123,6 +123,7 @@
     <Compile Include="Base\IInitializableManager.cs" />
     <Compile Include="Events\NewMoneyInsertEvent.cs" />
     <Compile Include="Events\StartMoneyInsertionEvent.cs" />
+    <Compile Include="Logger\ILogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Zeus\DTO\SystemInfo.cs" />
     <Compile Include="Zeus\DTO\FundsInfoModel.cs" />

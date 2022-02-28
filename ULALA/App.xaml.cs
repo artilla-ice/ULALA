@@ -2,7 +2,9 @@
 using System.Globalization;
 using System.Threading;
 using ULALA.Core.Contracts.Base;
+using ULALA.Core.Contracts.Logger;
 using ULALA.Core.Contracts.Zeus;
+using ULALA.Core.Logger;
 using ULALA.Core.Zeus;
 using ULALA.Infrastructure.IOC;
 using ULALA.Infrastructure.PubSub;
@@ -161,6 +163,7 @@ namespace ULALA
                 var m_zeusConnectionService = new ZeusConnectionService();
                 m_container.RegisterInstance<IZeusConnectionService>(m_zeusConnectionService);
 
+                m_container.RegisterType<ILogger, Logger>();
                 m_container.RegisterType<IZeusManager, ZeusManager>(new ContainerControlledLifetimeManager());
 
 

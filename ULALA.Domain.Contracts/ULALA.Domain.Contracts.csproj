@@ -4,15 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4D067CFB-DF21-4040-B274-6573C01F5F59}</ProjectGuid>
+    <ProjectGuid>{76F7CF12-A58B-41BC-A7FA-47DE793C116D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ULALA.Core</RootNamespace>
-    <AssemblyName>ULALA.Core</AssemblyName>
+    <RootNamespace>ULALA.Domain.Contracts</RootNamespace>
+    <AssemblyName>ULALA.Domain.Contracts</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.19041.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -120,36 +120,25 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Logger\Logger.cs" />
+    <Compile Include="Base\IDataRepository.cs" />
+    <Compile Include="Base\ITableRepository.cs" />
+    <Compile Include="Data\IDomainRepositoryFactory.cs" />
+    <Compile Include="Data\ILogsRepository.cs" />
+    <Compile Include="IDataSeeding.cs" />
+    <Compile Include="IDomainDataRepository.cs" />
+    <Compile Include="IRepositoryInitializer.cs" />
+    <Compile Include="Models\ActionsLog.cs" />
+    <Compile Include="Models\Device.cs" />
+    <Compile Include="Models\Role.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Zeus\ZeusManager.cs" />
-    <EmbeddedResource Include="Properties\ULALA.Core.rd.xml" />
+    <Compile Include="Utility\DateTimeKindAttribute.cs" />
+    <EmbeddedResource Include="Properties\ULALA.Domain.Contracts.rd.xml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.12</Version>
     </PackageReference>
-    <PackageReference Include="Unity">
-      <Version>5.11.10</Version>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ULALA.Core.Contracts\ULALA.Core.Contracts.csproj">
-      <Project>{D575C751-267B-4514-AE55-B3AE21C8D683}</Project>
-      <Name>ULALA.Core.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ULALA.Infrastructure\ULALA.Infrastructure.csproj">
-      <Project>{F16B67FF-93DD-4D04-9AC2-7CD6649EA684}</Project>
-      <Name>ULALA.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ULALA.Services.Contracts\ULALA.Services.Contracts.csproj">
-      <Project>{2545D2DE-05FE-4D0D-A36D-E65FECD7596A}</Project>
-      <Name>ULALA.Services.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ULALA.UI.Core\ULALA.UI.Core.csproj">
-      <Project>{58186948-4305-4455-85D8-5F7D540643AF}</Project>
-      <Name>ULALA.UI.Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
