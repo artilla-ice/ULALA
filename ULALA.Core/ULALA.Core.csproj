@@ -138,10 +138,6 @@
       <Project>{D575C751-267B-4514-AE55-B3AE21C8D683}</Project>
       <Name>ULALA.Core.Contracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ULALA.Domain.Contracts\ULALA.Domain.Contracts.csproj">
-      <Project>{3131464A-2483-4324-B623-DB898D1AE15C}</Project>
-      <Name>ULALA.Domain.Contracts</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ULALA.Infrastructure\ULALA.Infrastructure.csproj">
       <Project>{F16B67FF-93DD-4D04-9AC2-7CD6649EA684}</Project>
       <Name>ULALA.Infrastructure</Name>

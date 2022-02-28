@@ -28,12 +28,12 @@ namespace ULALA.Domain.Data
 
 		public Task<int> CommitAsync()
 		{
-			return this.DataContext.SaveChangesAsync();
+			return Task.FromResult(0);//this.DataContext.SaveChangesAsync();
 		}
 
 		public void DetachEntry(object entry)
         {
-            this.DataContext.Entry(entry).State = EntityState.Detached;
+            //this.DataContext.Entry(entry).State = EntityState.Detached;
         }
 
 		public void Dispose()
