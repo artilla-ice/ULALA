@@ -6,11 +6,11 @@ using ULALA.Domain.Contracts.Data;
 namespace ULALA.Domain.Data
 {
     public class DataRepositoryBase<T> : IDataRepository where T : DbContext
-	{
-		public DataRepositoryBase(T ctx, bool bDisposeContext)
-		{
-			m_bDisposeContext	= bDisposeContext;
-			this.DataContext	= ctx;
+    {
+        public DataRepositoryBase(T ctx, bool bDisposeContext)
+        {
+            m_bDisposeContext = bDisposeContext;
+            this.DataContext = ctx;
         }
 
         public object Context
@@ -22,49 +22,49 @@ namespace ULALA.Domain.Data
         }
 
         public void Commit()
-		{
-			//this.DataContext.SaveChanges();
-        }
-
-		public Task<int> CommitAsync()
-		{
-			return Task.FromResult(0);//this.DataContext.SaveChangesAsync();
-		}
-
-		public void DetachEntry(object entry)
         {
-            //this.DataContext.Entry(entry).State = EntityState.Detached;
+            this.DataContext.SaveChanges();
         }
 
-		public void Dispose()
-		{
-			Dispose(true);
-			GC.SuppressFinalize(this);
-		}
+        public Task<int> CommitAsync()
+        {
+            return this.DataContext.SaveChangesAsync();
+        }
 
-		~DataRepositoryBase()
-		{
-			Dispose(false);
-		}
+        public void DetachEntry(object entry)
+        {
+            this.DataContext.Entry(entry).State = EntityState.Detached;
+        }
 
-		protected virtual void Dispose(bool bDisposing)
-		{
-			//if ( bDisposing )
-			//{
-			//	if ( this.DataContext != null && m_bDisposeContext )
-			//		this.DataContext.Dispose();
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-			//	this.DataContext = null;
-			//}
-		}
+        ~DataRepositoryBase()
+        {
+            Dispose(false);
+        }
 
-		protected void ValidateDataContext()
-		{
-			if ( this.DataContext == null )
-				throw new InvalidOperationException("The repository data context is null");
-		}
+        protected virtual void Dispose(bool bDisposing)
+        {
+            if (bDisposing)
+            {
+                if (this.DataContext != null && m_bDisposeContext)
+                    this.DataContext.Dispose();
 
-		protected T DataContext { get; set; }
-		private  bool m_bDisposeContext;
-	}
+                this.DataContext = null;
+            }
+        }
+
+        protected void ValidateDataContext()
+        {
+            if (this.DataContext == null)
+                throw new InvalidOperationException("The repository data context is null");
+        }
+
+        protected T DataContext { get; set; }
+        private bool m_bDisposeContext;
+    }
 }

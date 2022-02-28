@@ -12,9 +12,9 @@ namespace ULALA.Domain.Data
 
         public void AddInfoLog(ActionsLog log)
         {
-            //ValidateDataContext();
+            ValidateDataContext();
 
-            //this.DataContext.ActionsLogs.Add(log);
+            this.DataContext.ActionsLogs.Add(log);
         }
     }
 }
