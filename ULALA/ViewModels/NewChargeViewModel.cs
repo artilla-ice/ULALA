@@ -39,6 +39,7 @@ namespace ULALA.ViewModels
         {
             this.PageIcon = "../Assets/Icons/Cobrar.png"; //TODO: agregar path de iconos a archivo de recursos
 
+            OnStartMoneyInsertion();
         }
 
         private void SubscribeToEvents()
@@ -53,21 +54,42 @@ namespace ULALA.ViewModels
 
             HandleAsyncCall(async () =>
             {
-                ContentDialog dialog = new ContentDialog();
-                dialog.Title = new InfoBar()
+                if(isReadyForInsertion)
                 {
-                    IsOpen = true,
-                    IsIconVisible = true,
-                    IsClosable = false,
-                    Severity = InfoBarSeverity.Informational,
-                    Title = "Listo para recibir el cobro",
-                    HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Stretch,
-                    VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Stretch
-                };
+                    ContentDialog dialog = new ContentDialog();
+                    dialog.Title = new InfoBar()
+                    {
+                        IsOpen = true,
+                        IsIconVisible = true,
+                        IsClosable = false,
+                        Severity = InfoBarSeverity.Informational,
+                        Title = "Listo para recibir el cobro",
+                        HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Stretch,
+                        VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Stretch
+                    };
 
-                dialog.PrimaryButtonText = "OK";
+                    dialog.PrimaryButtonText = "OK";
 
-                await dialog.ShowAsync();
+                    await dialog.ShowAsync();
+                }
+                else
+                {
+                    ContentDialog dialog = new ContentDialog();
+                    dialog.Title = new InfoBar()
+                    {
+                        IsOpen = true,
+                        IsIconVisible = true,
+                        IsClosable = false,
+                        Severity = InfoBarSeverity.Error,
+                        Title = "Ha ocurrido un error. Comprueba la conexión con el Stacker",
+                        HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Stretch,
+                        VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Stretch
+                    };
+
+                    dialog.PrimaryButtonText = "OK";
+
+                    await dialog.ShowAsync();
+                }
             });
         }
 

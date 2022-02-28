@@ -80,6 +80,52 @@ namespace ULALA
             }
         }
 
+        protected override void OnActivated(IActivatedEventArgs args)
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+
+            // Do not repeat app initialization when the Window already has content,
+            // just ensure that the window is active
+
+
+            if (rootFrame == null)
+            {
+                // Create a Frame to act as the navigation context and navigate to the first page
+                rootFrame = new Frame();
+
+                rootFrame.NavigationFailed += OnNavigationFailed;
+
+                if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
+                {
+                    //TODO: Load state from previously suspended application
+                }
+
+                // Place the frame in the current Window
+                Window.Current.Content = rootFrame;
+            }
+
+            InitializeConfiguration();
+            ConfigureNavigationManager();
+            //ConfigureZeusConnectionService();
+
+            if (args.Kind == ActivationKind.CommandLineLaunch)
+            {
+                var commandLineArgs = args as CommandLineActivatedEventArgs;
+            }
+
+            if (rootFrame.Content == null)
+            {
+                rootFrame.Navigate(typeof(MainMenuView));
+            }
+
+            // Ensure the current window is active
+            ConfigureWindowApplication();
+
+            Window.Current.Activate();
+
+            LoadCultureApplication();
+        }
+
         void LoadCultureApplication()
         {
             CultureInfo ci = new CultureInfo("en-US");
@@ -167,7 +213,6 @@ namespace ULALA
             navigationManager.RegisterView(ViewNames.ZeusConnectionSettings, typeof(ZeusConnectionSettingsView));
             navigationManager.RegisterView(ViewNames.NewCharge, typeof(NewChargeView));
         }
-
 
         private void ConfigureWindowApplication()
         {

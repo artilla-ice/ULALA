@@ -10,7 +10,7 @@
   <Identity
     Name="31ad3ffe-9aaf-4954-a7a0-77463a39bfb5"
     Publisher="CN=Windows"
-    Version="1.0.1.0" />
+    Version="1.0.3.0" />
 
   <mp:PhoneIdentity PhoneProductId="31ad3ffe-9aaf-4954-a7a0-77463a39bfb5" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
@@ -30,7 +30,7 @@
 
   <Applications>
     <Application Id="ULALA.MiddleOffice"
-      Executable="$targetnametoken$.exe"
+      Executable="ULALA.exe"
       EntryPoint="ULALA.App">
       <uap:VisualElements
         DisplayName="ULALA"

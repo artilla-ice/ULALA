@@ -53,11 +53,6 @@
             </Frame>
 
             <Grid Grid.Row="1" Margin="20">
-                <Button Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top"
-                        Width="180" FontSize="18"
-                        Height="50" Command="{Binding StartInsertionCommand}"
-                        Content="Cobrar"/>
-
                 <Frame Background="LightGray" CornerRadius="20"  IsEnabled="{Binding IsInserting}"
                        HorizontalAlignment="Center" VerticalAlignment="Center">
                     <StackPanel Margin="20" Width="300">
