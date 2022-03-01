@@ -195,10 +195,7 @@ namespace ULALA.Services.Zeus
                 
                 }
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            catch {}
 
             return Task.FromResult(result);
         }
