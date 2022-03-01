@@ -68,7 +68,10 @@ namespace ULALA.UI.Core.MVVM
 
         public static void BindParametersToViewModel(IParametrizedView paramView, object viewModel)
         {
-            foreach( var param in paramView.Parameters )
+            if (paramView == null || paramView.Parameters == null)
+                return;
+
+            foreach( var param in paramView.Parameters)
             {
                 var type = viewModel.GetType();
                 var paramProp = type.GetProperty(param.Key);
