@@ -170,29 +170,35 @@ namespace ULALA.Services.Zeus
             return Task.CompletedTask;
         }
 
-        public Task<MoneyInsertedEvent> OnStartListeningForEvent()
+        public Task<MoneyMovementEvent> OnStartListeningForEvent()
         {
-            MoneyInsertedEvent result = null;
-
-            if (m_client == null || !m_client.Connected)
-                return null;
-                
-            JsonSerializer serializer = new JsonSerializer();
-            using (var networkStream = new NetworkStream(m_client))
-            using (var streamWriter = new StreamReader(networkStream, new UTF8Encoding()))
-            using (var reader = new JsonTextReader(streamWriter))
+            MoneyMovementEvent result = null;
+            try
             {
-                var json = serializer.Deserialize(reader).ToString();
-                var jObject = JObject.Parse(json);
-                if (jObject != null)
-                {
-                    var jToken = jObject.GetValue("event");
-
-                    if (jToken != null)
-                        result = jToken.ToObject<MoneyInsertedEvent>();
-                }
+                if (m_client == null || !m_client.Connected)
+                    return null;
                 
-        }
+                JsonSerializer serializer = new JsonSerializer();
+                using (var networkStream = new NetworkStream(m_client))
+                using (var streamWriter = new StreamReader(networkStream, new UTF8Encoding()))
+                using (var reader = new JsonTextReader(streamWriter))
+                {
+                    var json = serializer.Deserialize(reader).ToString();
+                    var jObject = JObject.Parse(json);
+                    if (jObject != null)
+                    {
+                        var jToken = jObject.GetValue("event");
+
+                        if (jToken != null)
+                            result = jToken.ToObject<MoneyMovementEvent>();
+                    }
+                
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
             return Task.FromResult(result);
         }

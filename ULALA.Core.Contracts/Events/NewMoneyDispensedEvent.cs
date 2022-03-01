@@ -6,12 +6,12 @@ using ULALA.Services.Contracts.Events.MoneyInserted;
 
 namespace ULALA.Core.Contracts.Events
 {
-    public class NewMoneyInsertEventArgs
+    public class NewMoneyDispensedEventArgs
     {
         public MoneyMovementEvent Response { get; set; }
     }
 
-    public class NewMoneyInsertEvent : PubSubEvent<NewMoneyInsertEventArgs>
+    public class NewMoneyDispensedEvent : PubSubEvent<NewMoneyDispensedEventArgs>
     {
     }
 }

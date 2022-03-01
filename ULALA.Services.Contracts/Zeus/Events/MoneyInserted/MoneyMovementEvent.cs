@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace ULALA.Services.Contracts.Events.MoneyInserted
 {
-    public class MoneyInsertedEvent
+    public class MoneyMovementEvent
     {
 
         [JsonProperty("type")]
@@ -16,7 +16,7 @@ namespace ULALA.Services.Contracts.Events.MoneyInserted
         [JsonProperty("data")]
         public Data[] Data { get; set; }
 
-        public MoneyInsertedEvent()
+        public MoneyMovementEvent()
         {
             
         }

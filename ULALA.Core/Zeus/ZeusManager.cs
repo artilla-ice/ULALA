@@ -71,6 +71,9 @@ namespace ULALA.Core.Zeus
         {
             m_isDispenseSessionOpen = this.ZeusConnectionService.RequestDispenseSession(amount);
 
+            if (m_isDispenseSessionOpen)
+                this.EventAggregator.GetEvent<StartDispenseMoneySessionEvent>().Publish(new EventArgs());
+
             return m_isDispenseSessionOpen;
         }
 
@@ -162,10 +165,29 @@ namespace ULALA.Core.Zeus
                     while(m_isInsertSessionOpen)
                     {
                         var result = await this.ZeusConnectionService.OnStartListeningForEvent();
-                        this.EventAggregator.GetEvent<NewMoneyInsertEvent>().Publish(new NewMoneyInsertEventArgs
+                        if (result != null && result.Type == "moneyInsertedEvent")
                         {
-                            Response = result
-                        });
+                            this.EventAggregator.GetEvent<NewMoneyInsertEvent>().Publish(new NewMoneyInsertEventArgs
+                            {
+                                Response = result
+                            });
+                        }
+                    }
+                }, ThreadOption.BackgroundThread);
+
+            this.EventAggregator.GetEvent<StartDispenseMoneySessionEvent>()
+                .Subscribe(async (args) =>
+                {
+                    while (m_isDispenseSessionOpen)
+                    {
+                        var result = await this.ZeusConnectionService.OnStartListeningForEvent();
+                        if(result != null && result.Type == "moneyDispensedEvent")
+                        {
+                            this.EventAggregator.GetEvent<NewMoneyDispensedEvent>().Publish(new NewMoneyDispensedEventArgs
+                            {
+                                Response = result
+                            });
+                        }
                     }
                 }, ThreadOption.BackgroundThread);
         }

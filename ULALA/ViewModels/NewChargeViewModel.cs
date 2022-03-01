@@ -100,7 +100,7 @@ namespace ULALA.ViewModels
                 this.IsInserting = false;
 
                 this.ZeusManager.StartDispenseMoneySession(this.ExchangeAmount);
-                await this.ZeusManager.CloseDispenseSession();
+                //await this.ZeusManager.CloseDispenseSession(); //TODO: verificar si hay que cerrar la dispensacion desde el viewmodel o desde el emulador
 
                 ContentDialog dialog = new ContentDialog();
                 dialog.Title = new InfoBar()
@@ -129,6 +129,16 @@ namespace ULALA.ViewModels
                     if (currentInsertedMoney != null)
                     {
                         this.InsertedAmount += currentInsertedMoney.Data[0].Value;
+                    }
+                }, ThreadOption.UIThread);
+
+            this.EventAggregator.GetEvent<NewMoneyDispensedEvent>()
+                .Subscribe((args) =>
+                {
+                    var currentDispensedMoney = args.Response;
+                    if (currentDispensedMoney != null)
+                    {
+                        //Log dispensed denominations
                     }
                 }, ThreadOption.UIThread);
         }
