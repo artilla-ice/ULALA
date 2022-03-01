@@ -94,14 +94,12 @@ namespace ULALA.Services.Zeus
 
                         if (jToken != null)
                         {
-
                             var response = jToken.ToString();
                             result = response == "ACK";
                         }
                     }
                 }
             }
-
 
             return result;
         }
@@ -111,6 +109,63 @@ namespace ULALA.Services.Zeus
             OnCommand("finishInsertion", 2);
 
             //TODO: verificar el response del emulador que sea igual al dinero que se registro (en el viewmodel)
+
+            return Task.CompletedTask;
+        }
+
+        public bool RequestDispenseSession(double amount)
+        {
+            bool result = false;
+
+            if (m_client != null && m_client.Connected)
+            {
+                using (var networkStream = new NetworkStream(m_client))
+                using (var streamWriter = new StreamWriter(networkStream, Encoding.ASCII))
+                using (var writer = new JsonTextWriter(streamWriter))
+                {
+                    writer.WriteStartObject();
+                    {
+                        writer.WritePropertyName("version");
+                        writer.WriteValue("2.0");
+                        writer.WritePropertyName("method");
+                        writer.WriteValue("startDispenseSession");
+                        writer.WritePropertyName("params");
+                        writer.WriteStartObject();
+                        writer.WritePropertyName("amount");
+                        writer.WriteValue(amount);
+                        writer.WriteEndObject();
+                        writer.WritePropertyName("id");
+                        writer.WriteValue(1);
+                    }
+                    writer.WriteEndObject();
+                }
+
+                JsonSerializer serializer = new JsonSerializer();
+                using (var networkStream = new NetworkStream(m_client))
+                using (var streamWriter = new StreamReader(networkStream, new UTF8Encoding()))
+                using (var reader = new JsonTextReader(streamWriter))
+                {
+                    var json = serializer.Deserialize(reader).ToString();
+                    var jObject = JObject.Parse(json);
+                    if (jObject != null)
+                    {
+                        var jToken = jObject.GetValue("result");
+
+                        if (jToken != null)
+                        {
+                            var response = jToken.ToString();
+                            result = response == "ACK";
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public Task FinishDispenseSession()
+        {
+            OnCommand("finishDispenseSession", 2);
 
             return Task.CompletedTask;
         }

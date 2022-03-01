@@ -61,6 +61,7 @@ namespace ULALA.ViewModels
                         IsClosable = false,
                         Severity = InfoBarSeverity.Informational,
                         Title = "Listo para recibir el cobro",
+                        Message = "Para dispensar el cambio, presione 'Finalizar cobro'",
                         HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Stretch,
                         VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Stretch
                     };
@@ -98,6 +99,9 @@ namespace ULALA.ViewModels
 
                 this.IsInserting = false;
 
+                this.ZeusManager.StartDispenseMoneySession(this.ExchangeAmount);
+                await this.ZeusManager.CloseDispenseSession();
+
                 ContentDialog dialog = new ContentDialog();
                 dialog.Title = new InfoBar()
                 {
@@ -105,8 +109,7 @@ namespace ULALA.ViewModels
                     IsIconVisible = true,
                     IsClosable = false,
                     Severity = InfoBarSeverity.Success,
-                    Title = "Cambio agregado con éxito",
-                    Message = "El dinero ha sido agregado al reciclador",
+                    Title = "Cambio dispensado con éxito",
                     HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Stretch,
                     VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Stretch
                 };

@@ -60,13 +60,27 @@ namespace ULALA.Core.Zeus
 
             return m_isInsertSessionOpen;
         }
-
         public async Task CloseMoneyInsertion()
         {
             m_isInsertSessionOpen = false;
 
             await this.ZeusConnectionService.FinishMoneyInsertion();
         }
+
+        public bool StartDispenseMoneySession(double amount)
+        {
+            m_isDispenseSessionOpen = this.ZeusConnectionService.RequestDispenseSession(amount);
+
+            return m_isDispenseSessionOpen;
+        }
+
+        public async Task CloseDispenseSession()
+        {
+            m_isDispenseSessionOpen = false;
+
+            await this.ZeusConnectionService.FinishDispenseSession();
+        }
+
 
         //public async Task<MoneyInsertedEvent> GetEventResponse()
         //{
@@ -159,5 +173,6 @@ namespace ULALA.Core.Zeus
         public bool IsConnected => this.ZeusConnectionService.IsConnected;
 
         private bool m_isInsertSessionOpen = false;
+        private bool m_isDispenseSessionOpen = false;
     }
 }

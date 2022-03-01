@@ -24,6 +24,8 @@ namespace ULALA.Core.Contracts.Zeus
         //Task<MoneyInsertedEvent> GetEventResponse();
         Task CloseMoneyInsertion();
         bool StartMoneyInsertion();
+        bool StartDispenseMoneySession(double amount);
+        Task CloseDispenseSession();
         bool IsConnected { get; }
     }
 }

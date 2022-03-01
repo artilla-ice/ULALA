@@ -99,13 +99,13 @@
 
                     <Button Grid.Column="2" HorizontalAlignment="Center"
                         Width="160"
-                        Height="40" Command="{Binding EndInsertionCommand}"
+                        Height="40" 
                         Content="Añadir Cambio" />
 
                     <Button Grid.Column="3" HorizontalAlignment="Center"
-                        Width="160"
+                        Width="160" Command="{Binding EndInsertionCommand}"
                         Height="40"
-                        Content="Cancelar cobro"/>
+                        Content="Finalizar cobro"/>
                 </Grid>
             </Frame>
         </Grid>
