@@ -28,7 +28,7 @@
                         FontSize="36"
                         FontWeight="SemiBold"
                         Foreground="WhiteSmoke"
-                        Text="ULALA" />
+                        Text="OHLALA!" />
                 </Grid>
             </Frame>
 

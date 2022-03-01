@@ -13,6 +13,7 @@ using Xamarin.Forms;
 
 namespace ULALA.ViewModels
 {
+    [QueryProperty(nameof(TotalChargeAmount), nameof(TotalChargeAmount))]
     public class NewChargeViewModel : ViewModelBase
     {
         [Unity.Dependency]
@@ -42,10 +43,6 @@ namespace ULALA.ViewModels
             OnStartMoneyInsertion();
         }
 
-        private void SubscribeToEvents()
-        {
-            
-        }
 
         private void OnStartMoneyInsertion()
         {
@@ -118,6 +115,19 @@ namespace ULALA.ViewModels
 
                 await dialog.ShowAsync();
             });
+        }
+
+        private void SubscribeToEvents()
+        {
+            this.EventAggregator.GetEvent<NewMoneyInsertEvent>()
+                .Subscribe((args) =>
+                {
+                    var currentInsertedMoney = args.Response;
+                    if (currentInsertedMoney != null)
+                    {
+                        this.InsertedAmount += currentInsertedMoney.Data[0].Value;
+                    }
+                }, ThreadOption.UIThread);
         }
 
         private bool m_isInserting = false;

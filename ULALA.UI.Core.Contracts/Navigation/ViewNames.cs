@@ -1,5 +1,5 @@
 ﻿using System;
-namespace ULALA.Views
+namespace ULALA.UI.Core.Contracts.Navigation
 {
     public static class ViewNames
     {

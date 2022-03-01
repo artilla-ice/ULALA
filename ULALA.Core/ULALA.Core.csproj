@@ -120,6 +120,7 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DBListener\SQLDependencyManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Zeus\ZeusManager.cs" />
     <EmbeddedResource Include="Properties\ULALA.Core.rd.xml" />
@@ -127,6 +128,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.12</Version>
+    </PackageReference>
+    <PackageReference Include="System.Data.SqlClient">
+      <Version>4.8.3</Version>
     </PackageReference>
     <PackageReference Include="Unity">
       <Version>5.11.10</Version>
@@ -144,6 +148,10 @@
     <ProjectReference Include="..\ULALA.Services.Contracts\ULALA.Services.Contracts.csproj">
       <Project>{2545D2DE-05FE-4D0D-A36D-E65FECD7596A}</Project>
       <Name>ULALA.Services.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ULALA.UI.Core.Contracts\ULALA.UI.Core.Contracts.csproj">
+      <Project>{389388FD-CC17-4EBF-931F-6FF1094B01BB}</Project>
+      <Name>ULALA.UI.Core.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\ULALA.UI.Core\ULALA.UI.Core.csproj">
       <Project>{58186948-4305-4455-85D8-5F7D540643AF}</Project>

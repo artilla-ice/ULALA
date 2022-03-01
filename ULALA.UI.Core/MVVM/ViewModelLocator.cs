@@ -49,7 +49,7 @@ namespace ULALA.UI.Core.MVVM
             var viewModel = (IViewModelBase)ServiceLocator.Current.Resolve(viewModelType);
             view.DataContext = viewModel;
 
-            if ( bindable is IParametrizedView paramView )
+            if (bindable is IParametrizedView paramView)
                 BindParametersToViewModel(paramView, viewModel);
 
             if (bindable is Page page)
@@ -66,7 +66,7 @@ namespace ULALA.UI.Core.MVVM
             }
         }
 
-        private static void BindParametersToViewModel(IParametrizedView paramView, object viewModel)
+        public static void BindParametersToViewModel(IParametrizedView paramView, object viewModel)
         {
             foreach( var param in paramView.Parameters )
             {

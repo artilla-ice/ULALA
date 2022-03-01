@@ -162,6 +162,7 @@ namespace ULALA
                 m_container.RegisterInstance<IZeusConnectionService>(m_zeusConnectionService);
 
                 m_container.RegisterType<IZeusManager, ZeusManager>(new ContainerControlledLifetimeManager());
+                m_container.RegisterType<ISQLDependencyManager, SQLDependencyManager>(new ContainerControlledLifetimeManager());
 
 
                 // Como registrar un nuevo Service con su Manager
@@ -189,6 +190,8 @@ namespace ULALA
             m_container.RegisterInstance<INavigationManager>(navigationManager);
 
             RegisterNavigationPages(navigationManager);
+
+            InitializeManager<ISQLDependencyManager>();
         }
 
         private void ConfigureZeusConnectionService()
@@ -199,6 +202,15 @@ namespace ULALA
 
             zeusManager.OnStartListening();
         }
+
+        //private void ConfigureDBListener()
+        //{
+        //    var dbListenerManager = new SQLDependencyManager();
+        //    m_container.BuildUp(dbListenerManager);
+        //    m_container.RegisterInstance<ISQLDependencyManager>(dbListenerManager);
+
+        //    //dbListenerManager.StartListening();
+        //}
 
         private void RegisterNavigationPages(INavigationManager navigationManager)
         {

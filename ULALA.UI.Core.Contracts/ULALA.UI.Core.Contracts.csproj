@@ -130,6 +130,7 @@
     <Compile Include="MVVM\IParametrizedView.cs" />
     <Compile Include="MVVM\IViewModelBase.cs" />
     <Compile Include="Navigation\INavigationManager.cs" />
+    <Compile Include="Navigation\ViewNames.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\ULALA.UI.Core.Contracts.rd.xml" />
   </ItemGroup>

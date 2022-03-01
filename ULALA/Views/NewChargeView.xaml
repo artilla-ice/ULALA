@@ -56,8 +56,8 @@
                 <Frame Background="LightGray" CornerRadius="20"  IsEnabled="{Binding IsInserting}"
                        HorizontalAlignment="Center" VerticalAlignment="Center">
                     <StackPanel Margin="20" Width="300">
-                        <TextBox Header="Total a cobrar" Text="{Binding TotalChargeAmount, Converter={StaticResource StringCurrencyFormat}, Mode=TwoWay}"  TextAlignment="End" FontSize="24" FontWeight="SemiBold" Background="LimeGreen"/>
-                        <TextBox Header="Importe ingresado" Text="{Binding InsertedAmount, Converter={StaticResource StringCurrencyFormat}, Mode=TwoWay}"  TextAlignment="End" FontSize="18" FontWeight="SemiBold"/>
+                        <TextBox Header="Total a cobrar" Text="{Binding TotalChargeAmount, Converter={StaticResource StringCurrencyFormat}, Mode=TwoWay}"  TextAlignment="End" FontSize="24" FontWeight="SemiBold" Background="GreenYellow" IsReadOnly="True" AllowFocusOnInteraction="False"/>
+                        <TextBox Header="Importe ingresado" Text="{Binding InsertedAmount, Converter={StaticResource StringCurrencyFormat}, Mode=TwoWay}"  TextAlignment="End" FontSize="18" FontWeight="SemiBold" IsEnabled="False"/>
 
                         <TextBox Header="Pendiente de pago" Text="{Binding RemainingAmount, Converter={StaticResource StringCurrencyFormat}}" TextAlignment="End" FontSize="18" FontWeight="SemiBold" IsEnabled="False" Margin="0,20,0,0"/>
                         <TextBox Header="Cambio total" Text="{Binding ExchangeAmount, Converter={StaticResource StringCurrencyFormat}}"  TextAlignment="End" FontSize="18" FontWeight="SemiBold" IsEnabled="False"/>

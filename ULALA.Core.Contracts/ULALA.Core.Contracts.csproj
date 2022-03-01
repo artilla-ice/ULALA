@@ -121,6 +121,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Base\IInitializableManager.cs" />
+    <Compile Include="DBListener\ISQLDependencyManager.cs" />
     <Compile Include="Events\NewMoneyInsertEvent.cs" />
     <Compile Include="Events\StartMoneyInsertionEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

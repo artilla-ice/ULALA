@@ -176,7 +176,6 @@
     <Compile Include="Views\MainMenuView.xaml.cs">
       <DependentUpon>MainMenuView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ViewNames.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

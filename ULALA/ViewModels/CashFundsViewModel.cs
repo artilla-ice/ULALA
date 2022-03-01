@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ULALA.Core.Contracts.Zeus.DTO;
 using ULALA.Models;
+using ULALA.UI.Core.Contracts.Navigation;
 using ULALA.UI.Core.MVVM;
 using ULALA.Views;
 using Xamarin.Forms;
