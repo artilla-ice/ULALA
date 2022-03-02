@@ -36,9 +36,9 @@ namespace ULALA.ViewModels
                 //new MenuItemModel("../Assets/Icons/Estatus.png", "Estado de CashLogy", Color.CadetBlue.Name, null),
                 new MenuItemModel("../Assets/Icons/AddCambios.png", "Añadir cambios", Color.DarkRed.Name, ViewNames.AddExchange),
                 //new MenuItemModel("../Assets/Icons/Cambio.png", "Dar Cambio", Color.MediumVioletRed.Name, null),
-                new MenuItemModel("../Assets/Icons/RetirarEfectivo.png", "Retirar Efectivo", Color.Green.Name, ViewNames.WithdrawCash),
+               // new MenuItemModel("../Assets/Icons/RetirarEfectivo.png", "Retirar Efectivo", Color.Green.Name, ViewNames.WithdrawCash),
                 //TODO: APARTIR DE AQUI LOS ICONOS ESTAN DUPLICADOS, REEMPLAZAR                   
-                //new MenuItemModel("../Assets/Icons/Cobrar.png", "Retirar Stacker", Color.DarkSlateGray.Name, ViewNames.WithdrawStacker),
+                new MenuItemModel("../Assets/Icons/Cobrar.png", "Retirar Stacker", Color.DarkSlateGray.Name, ViewNames.WithdrawStacker),
                 new MenuItemModel("../Assets/Icons/Estatus.png", "Fondos de Caja", Color.YellowGreen.Name, ViewNames.CashFunds),
                // new MenuItemModel("../Assets/Icons/AddCambios.png", "Vaciado", Color.SkyBlue.Name, null ),
                 //new MenuItemModel("../Assets/Icons/Cambio.png", "Estadisticas ABS", Color.DarkViolet.Name, null),

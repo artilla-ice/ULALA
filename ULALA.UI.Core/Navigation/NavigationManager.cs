@@ -107,7 +107,7 @@ namespace ULALA.UI.Core.Navigation
                 else
                     throw new ArgumentException($"NavigationManager, view not registered: {viewName}");
             }
-
+            
             return Task.CompletedTask;
         }
 

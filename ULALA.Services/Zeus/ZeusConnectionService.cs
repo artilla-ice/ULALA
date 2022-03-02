@@ -275,7 +275,7 @@ namespace ULALA.Services.Zeus
                 {
                     try
                     {
-                        var json = serializer.Deserialize<string>(reader);
+                        var json = serializer.Deserialize(reader).ToString();
                         var jObject = JObject.Parse(json);
                         if (jObject != null)
                         {

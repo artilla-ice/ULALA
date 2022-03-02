@@ -50,12 +50,8 @@ namespace ULALA.Core.Zeus
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(this.CONNECTION_STRING))
+                using (SqlConnection connection = GetConnection())
                 {
-                    connection.Open();
-
-                    
-
                     String sql = this.GETINCOMINGCHARGESAMOUNTCOMMAND;
 
                     bool existRowsToDelete = false;
@@ -78,7 +74,6 @@ namespace ULALA.Core.Zeus
                                 }
                             }
                         }
-
                     }
 
                     if(existRowsToDelete)
@@ -96,6 +91,14 @@ namespace ULALA.Core.Zeus
                 throw e;
             }
 
+        }
+        
+        public SqlConnection GetConnection()
+        {
+            var connection = new SqlConnection(this.CONNECTION_STRING);
+            connection.Open();
+
+            return connection;
         }
 
         private async void OnStartNewChargeView(double args)

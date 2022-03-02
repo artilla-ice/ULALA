@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,9 +12,8 @@ using ULALA.Services.Contracts.Zeus.DTO.Status;
 
 namespace ULALA.Core.Contracts.Zeus
 {
-    public interface ISQLDependencyManager : IInitializableManager
+    public interface ILoggerManager : IInitializableManager
     {
-        void StartListening(Object state);
-        SqlConnection GetConnection();
+        void WriteInfo(string module, string action = "", string message = "");
     }
 }
