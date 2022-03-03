@@ -165,7 +165,7 @@ namespace ULALA.ViewModels
                    var currentInsertedMoney = args.Response;
                    if (currentInsertedMoney != null)
                    {
-                       var itemOnCollection = this.RecyclerAmounts.Where(r => currentInsertedMoney.Type == "moneyInsertedEvent"
+                       var itemOnCollection = this.RecyclerAmounts.Where(r => currentInsertedMoney.Type == "moneyInsertedEvent"//todo:
                                                        && currentInsertedMoney.Data[0] != null
                                                        && currentInsertedMoney.Data[0].Value == r.Denomination).FirstOrDefault();
 

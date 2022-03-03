@@ -30,8 +30,8 @@ namespace ULALA.Services.Zeus
 
         public bool StartListening()
         {
-            IPAddress ipAddress = IPAddress.Parse(GetLocalIPAddress());
-            IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 2021);
+            IPAddress ipAddress = IPAddress.Parse(GetLocalIPAddress());//IPAddress.Parse("10.37.140.220");
+            IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 2021);//new IPEndPoint(ipAddress, 1989);
 
             try
             {
@@ -195,7 +195,8 @@ namespace ULALA.Services.Zeus
                 
                 }
             }
-            catch {}
+            catch(Exception e) { 
+                throw e; }
 
             return Task.FromResult(result);
         }

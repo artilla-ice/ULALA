@@ -281,9 +281,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ULALA_TemporaryKey.pfx" />
-  </ItemGroup>
-  <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
