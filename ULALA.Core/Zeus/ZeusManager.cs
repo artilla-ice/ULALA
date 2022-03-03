@@ -2,17 +2,20 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
-using ULALA.Core.Contracts.Events;
 using ULALA.Core.Contracts.Zeus;
 using ULALA.Core.Contracts.Zeus.DTO;
+using ULALA.Infrastructure.Events;
 using ULALA.Infrastructure.PubSub;
 using ULALA.Services.Contracts.Events.MoneyInserted;
 using ULALA.Services.Contracts.Zeus;
 using ULALA.Services.Contracts.Zeus.DTO.CashInsertion;
 using ULALA.Services.Contracts.Zeus.DTO.CashRetrieval;
 using ULALA.Services.Contracts.Zeus.DTO.Status;
+using ULALA.UI.Core.Contracts.Navigation;
 using Unity;
+using Windows.UI.Core;
 
 namespace ULALA.Core.Zeus
 {
@@ -20,6 +23,9 @@ namespace ULALA.Core.Zeus
     {
         [Dependency]
         public IZeusConnectionService ZeusConnectionService { get; set; }
+
+        [Dependency]
+        public INavigationManager NavigationManager { get; set; }
 
         private IEventAggregator EventAggregator { get; set; }
 
@@ -34,7 +40,11 @@ namespace ULALA.Core.Zeus
 
         public Task Initialize()
         {
+            SetTimer();
+
             SubscribeToEvents();
+
+            this.EventAggregator.GetEvent<MoneyRetrievalEvent>().Publish(new MoneyRetrievalEventEventArgs());
 
             return Task.CompletedTask;
         }
@@ -53,9 +63,14 @@ namespace ULALA.Core.Zeus
 
         public bool StartMoneyInsertion()
         {
-            m_isInsertSessionOpen = this.ZeusConnectionService.RequestMoneyInsertion();
+            this.ZeusConnectionService.RequestMoneyInsertion();
+              this.EventAggregator.GetEvent<ReceivedResponseEvent>()
+                .Subscribe((args) =>
+                {
+                    m_isInsertSessionOpen = (bool)args.Response;
+                }, ThreadOption.BackgroundThread);
 
-            if(m_isInsertSessionOpen)
+            if (m_isInsertSessionOpen)
                 this.EventAggregator.GetEvent<StartMoneyInsertionEvent>().Publish(new EventArgs());
 
             return m_isInsertSessionOpen;
@@ -69,7 +84,7 @@ namespace ULALA.Core.Zeus
 
         public bool StartDispenseMoneySession(double amount)
         {
-            m_isDispenseSessionOpen = this.ZeusConnectionService.RequestDispenseSession(amount);
+            m_isDispenseSessionOpen = this.ZeusConnectionService.RequestDispenseSession(amount).Result;
 
             if (m_isDispenseSessionOpen)
                 this.EventAggregator.GetEvent<StartDispenseMoneySessionEvent>().Publish(new EventArgs());
@@ -95,23 +110,23 @@ namespace ULALA.Core.Zeus
             return await this.ZeusConnectionService.RetrieveStackerValues();
         }
 
-        public IEnumerable<SystemInfoResultCode> GetErrors()
+        public  IEnumerable<SystemInfoResultCode> GetErrors()
         {
-            return this.ZeusConnectionService.GetGeneralStatus().Errors
+            return  this.ZeusConnectionService.GetGeneralStatus().Result.Errors
                                             .Select(e => (SystemInfoResultCode)e.Code)
                                             .ToList();
         }
 
         public IEnumerable<SystemInfoResultCode> GetWarnings()
         {
-            return this.ZeusConnectionService.GetGeneralStatus().Warnings
+            return this.ZeusConnectionService.GetGeneralStatus().Result.Warnings
                                             .Select(e => (SystemInfoResultCode)e.Code)
                                             .ToList();
         }
 
         public IEnumerable<WithdrawalCashModel> GetRecyclerValues()
         {
-            var cashTotals = this.ZeusConnectionService.RequestCashTotals();
+            var cashTotals = this.ZeusConnectionService.RequestCashTotals().Result;
             if (!ZeusConnectionService.IsConnected)
                 return null;
 
@@ -139,7 +154,7 @@ namespace ULALA.Core.Zeus
 
         public IEnumerable<WithdrawalStackerCashModel> GetStackerValues()
         {
-            var cashTotals = this.ZeusConnectionService.RequestCashTotals();
+            var cashTotals = this.ZeusConnectionService.RequestCashTotals().Result;
             if (!ZeusConnectionService.IsConnected)
                 return null;
 
@@ -154,6 +169,16 @@ namespace ULALA.Core.Zeus
                                         StackerQuantity = r.Count
                                     }).ToList();
 
+            var coinsValues = cashTotals.CashTotals.CashBoxInfo.CoinsInfo
+                                    .Select(r => new WithdrawalStackerCashModel()
+                                    {
+                                        CashType = CashType.Coins,
+                                        Denomination = r.Value,
+                                        StackerQuantity = r.Count
+                                    }).ToList();
+
+            stackerValues.AddRange(coinsValues);
+
             return stackerValues;
         }
 
@@ -164,7 +189,7 @@ namespace ULALA.Core.Zeus
                 {
                     while(m_isInsertSessionOpen)
                     {
-                        var result = await this.ZeusConnectionService.OnStartListeningForEvent();
+                        var result = await this.ZeusConnectionService.OnStartListeningForEvent<MoneyMovementEvent>();
                         if (result != null && result.Type == "moneyInsertedEvent")
                         {
                             this.EventAggregator.GetEvent<NewMoneyInsertEvent>().Publish(new NewMoneyInsertEventArgs
@@ -180,7 +205,7 @@ namespace ULALA.Core.Zeus
                 {
                     while (m_isDispenseSessionOpen)
                     {
-                        var result = await this.ZeusConnectionService.OnStartListeningForEvent();
+                        var result = await this.ZeusConnectionService.OnStartListeningForEvent<MoneyMovementEvent>();
                         if(result != null && result.Type == "moneyDispensedEvent")
                         {
                             this.EventAggregator.GetEvent<NewMoneyDispensedEvent>().Publish(new NewMoneyDispensedEventArgs
@@ -190,7 +215,51 @@ namespace ULALA.Core.Zeus
                         }
                     }
                 }, ThreadOption.BackgroundThread);
+
+            this.EventAggregator.GetEvent<MoneyRetrievalEvent>()
+               .Subscribe((args) =>
+               {
+                   SetTimer();
+               }, ThreadOption.UIThread);
         }
+
+        private async void OnStartWithdrawalStackerView(MoneyRetrievalResponse args)
+        {
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                var param = new Dictionary<string, object>() { { "MoneyRetrieval", args } };
+                this.NavigationManager.NavigateTo(ViewNames.WithdrawStacker, param);
+                m_timer.Change(0, 500);
+            });
+        }
+
+        private void StartListening(object state)
+        {
+            if (!IsConnected)
+                return;
+
+            new Thread(async () =>
+            {
+                Thread.CurrentThread.IsBackground = true;
+
+                m_timer.Change(Timeout.Infinite, Timeout.Infinite);
+                var result = await this.ZeusConnectionService.OnStartListeningForEvent<MoneyRetrievalResponse>();
+                if (result != null && result.Type == "moneyRetrieval")
+                {
+                    OnStartWithdrawalStackerView(result);
+                }
+            }).Start();
+
+            
+        }
+
+        private void SetTimer()
+        {
+            // Create a timer with a two second interval.
+            m_timer = new Timer(StartListening, null, 0, 500);
+        }
+
+        private static Timer m_timer;
 
         public bool IsConnected => this.ZeusConnectionService.IsConnected;
 

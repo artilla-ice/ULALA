@@ -120,6 +120,12 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Events\MoneyRetrievalEvent.cs" />
+    <Compile Include="Events\NewMoneyDispensedEvent.cs" />
+    <Compile Include="Events\NewMoneyInsertEvent.cs" />
+    <Compile Include="Events\ReceivedResponseEvent.cs" />
+    <Compile Include="Events\StartDispenseMoneySessionEvent.cs" />
+    <Compile Include="Events\StartMoneyInsertionEvent.cs" />
     <Compile Include="IOC\ServiceLocator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PubSub\BackgroundEventSubscription.cs" />
@@ -145,6 +151,12 @@
     <PackageReference Include="Unity">
       <Version>5.11.10</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ULALA.Services.Contracts\ULALA.Services.Contracts.csproj">
+      <Project>{2545d2de-05fe-4d0d-a36d-e65fecd7596a}</Project>
+      <Name>ULALA.Services.Contracts</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

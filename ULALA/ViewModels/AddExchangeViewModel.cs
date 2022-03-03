@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using ULALA.Core.Contracts.Events;
 using ULALA.Core.Contracts.Zeus;
 using ULALA.Core.Contracts.Zeus.DTO;
+using ULALA.Infrastructure.Events;
 using ULALA.Infrastructure.PubSub;
 using ULALA.UI.Core.MVVM;
 using Windows.UI.Xaml.Controls;
@@ -89,7 +89,7 @@ namespace ULALA.ViewModels
                 dialog.PrimaryButtonText = "OK";
 
                 await dialog.ShowAsync();
-            });        
+            });
         }
 
         private void OnLoadAllDenominationsInfo()
@@ -129,28 +129,9 @@ namespace ULALA.ViewModels
                 new RecyclerToCashierFundsModel
                 {
                     CashType = CashType.Coins,
-                    Denomination = 10
+                    Denomination = -1,
+                    DenominationIconSize = 120
                 },
-                new RecyclerToCashierFundsModel
-                {
-                    CashType = CashType.Coins,
-                    Denomination = 5
-                },
-                 new RecyclerToCashierFundsModel
-                {
-                    CashType = CashType.Coins,
-                    Denomination = 2
-                },
-                  new RecyclerToCashierFundsModel
-                {
-                    CashType = CashType.Coins,
-                    Denomination = 1
-                },
-                new RecyclerToCashierFundsModel
-                {
-                    CashType = CashType.Coins,
-                    Denomination = .50
-                }
             };
 
             amounts = amounts.OrderByDescending(a => a.Denomination).ToList();
@@ -165,11 +146,22 @@ namespace ULALA.ViewModels
                    var currentInsertedMoney = args.Response;
                    if (currentInsertedMoney != null)
                    {
-                       var itemOnCollection = this.RecyclerAmounts.Where(r => currentInsertedMoney.Type == "moneyInsertedEvent"//todo:
-                                                       && currentInsertedMoney.Data[0] != null
-                                                       && currentInsertedMoney.Data[0].Value == r.Denomination).FirstOrDefault();
+                       var denominationItem = this.RecyclerAmounts.Where(r => currentInsertedMoney.Type == "moneyInsertedEvent"
+                                                           && currentInsertedMoney.Data[0].Value == r.Denomination).FirstOrDefault();
 
-                       itemOnCollection.RecyclerQuantity += (uint)currentInsertedMoney.Data.Count();
+                       var itemOnCollection = new FundsInfoModel();
+                       if (denominationItem == null)
+                       {
+                           itemOnCollection = this.RecyclerAmounts.Where(r => r.Denomination == -1).FirstOrDefault();
+                           itemOnCollection.RecyclerAmount += (uint)currentInsertedMoney.Data[0].Value;
+                       }
+                       else
+                       {
+                           itemOnCollection = denominationItem;
+
+                           itemOnCollection.RecyclerQuantity += (uint)currentInsertedMoney.Data.Count();
+                       }
+
 
                        CalculateTotalAmount();
                    }

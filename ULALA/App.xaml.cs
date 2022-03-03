@@ -168,8 +168,6 @@ namespace ULALA
                 // Como registrar un nuevo Service con su Manager
                 //m_container.RegisterType<ITestService, TestService>();
                 //m_container.RegisterType<ITestManage, TestManager>(new ContainerControlledLifetimeManager());
-
-                InitializeManager<IZeusManager>();
             }
 
         }
@@ -192,6 +190,7 @@ namespace ULALA
             RegisterNavigationPages(navigationManager);
 
             InitializeManager<ISQLDependencyManager>();
+            InitializeManager<IZeusManager>();
         }
 
         private void ConfigureZeusConnectionService()

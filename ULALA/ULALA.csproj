@@ -195,6 +195,7 @@
     <Content Include="Assets\Icons\Mon10.png" />
     <Content Include="Assets\Icons\Mon2.png" />
     <Content Include="Assets\Icons\Mon5.png" />
+    <Content Include="Assets\Icons\StackCoins.png" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
     <Content Include="Assets\Square150x150Logo.scale-200.png" />

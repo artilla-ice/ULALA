@@ -122,10 +122,6 @@
   <ItemGroup>
     <Compile Include="Base\IInitializableManager.cs" />
     <Compile Include="DBListener\ISQLDependencyManager.cs" />
-    <Compile Include="Events\NewMoneyDispensedEvent.cs" />
-    <Compile Include="Events\NewMoneyInsertEvent.cs" />
-    <Compile Include="Events\StartDispenseMoneySessionEvent.cs" />
-    <Compile Include="Events\StartMoneyInsertionEvent.cs" />
     <Compile Include="Logger\ILoggerManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Zeus\DTO\SystemInfo.cs" />

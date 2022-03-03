@@ -12,17 +12,17 @@ using ULALA.Services.Contracts.Events.MoneyInserted;
 
 namespace ULALA.Services.Contracts.Zeus
 {
-    public interface IZeusConnectionService
+    public interface IZeusConnectionService 
     {
         bool StartListening();
         void StopComm();
-        Status GetGeneralStatus();
-        CashTotalsResponse RequestCashTotals();
+        Task<Status> GetGeneralStatus();
+        Task<CashTotalsResponse> RequestCashTotals();
         Task<MoneyRetrievalResponse> RetrieveStackerValues();
-        bool RequestMoneyInsertion();
-        Task<MoneyMovementEvent> OnStartListeningForEvent();
+        Task<bool> RequestMoneyInsertion();
+        Task<T> OnStartListeningForEvent<T>(string expectedResponse = "event");
         Task FinishMoneyInsertion();
-        bool RequestDispenseSession(double amount);
+        Task<bool> RequestDispenseSession(double amount);
         Task FinishDispenseSession();
         bool IsConnected { get; }
     }

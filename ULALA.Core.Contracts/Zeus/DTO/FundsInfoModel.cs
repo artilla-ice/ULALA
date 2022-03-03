@@ -43,11 +43,15 @@ namespace ULALA.Core.Contracts.Zeus.DTO
             get => GetDenominationIcon(); 
         }
 
+        private int m_denominationIconSize = -1;
         public int DenominationIconSize
         {
+            set { SetProperty(ref m_denominationIconSize, value); }
             get
             {
-                return (this.CashType == CashType.Bills) ? 90 : 40;
+                var x =  (m_denominationIconSize == -1) ? ((this.CashType == CashType.Bills) ? 90 : 40) :
+                    m_denominationIconSize;
+                return x;
             }
         }
 
@@ -62,14 +66,25 @@ namespace ULALA.Core.Contracts.Zeus.DTO
             }
         }
 
+        private double m_recyclerAmount = -1;
         public double RecyclerAmount
         {
-            get { return this.RecyclerQuantity * this.Denomination; }
+            set { SetProperty(ref m_recyclerAmount, value);}
+            get     
+            {
+                return (m_recyclerAmount == -1) ? this.RecyclerQuantity * this.Denomination : m_recyclerAmount; 
+            }
         }
 
         private string GetDenominationIcon()
         {
             var iconName = string.Empty;
+
+            if (this.Denomination == -1)
+            {
+                iconName = "StackCoins";
+                return string.Format("../Assets/Icons/{0}.png", iconName);
+            }
 
             iconName = (this.CashType == CashType.Bills) ? "Bill" : "Mon";
 
@@ -82,6 +97,9 @@ namespace ULALA.Core.Contracts.Zeus.DTO
 
         private string GetTitle()
         {
+            if (this.Denomination == -1)
+                return "Monedas";
+
             var title = (this.Denomination == .50) ? string.Format("¢{0}", (this.Denomination*100)) 
                                                         : string.Format("${0}", this.Denomination);
 

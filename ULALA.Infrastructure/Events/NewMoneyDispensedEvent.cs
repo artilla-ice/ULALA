@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using ULALA.Infrastructure.PubSub;
 using ULALA.Services.Contracts.Events.MoneyInserted;
 
-namespace ULALA.Core.Contracts.Events
+namespace ULALA.Infrastructure.Events
 {
     public class NewMoneyDispensedEventArgs
     {
