@@ -126,7 +126,7 @@ namespace ULALA.Services.Zeus
                     writer.WriteEndObject();
                 }
 
-                result = await WaitingResponse<bool>("result");
+                result = await Task.Run(async () =>  await WaitingResponse<bool>("result"));
             }
 
             return result;
@@ -134,7 +134,7 @@ namespace ULALA.Services.Zeus
 
         public Task FinishDispenseSession()
         {
-            OnCommand("finishDispenseSession", 2);
+            OnCommand("finishDispenseSession", 2);  
 
             return Task.CompletedTask;
         }
@@ -194,37 +194,45 @@ namespace ULALA.Services.Zeus
             return result;
         }
 
-        private Task<T> WaitingResponse<T>(string jsonResponseValue)
+        private  Task<T> WaitingResponse<T>(string jsonResponseValue)
         {
             T result = default(T);
 
             JsonSerializer serializer = new JsonSerializer();
             using (var networkStream = new NetworkStream(m_client))
-            using (var streamWriter = new StreamReader(networkStream, new UTF8Encoding()))
-            using (var reader = new JsonTextReader(streamWriter))
             {
-                try
+                using (var streamWriter = new StreamReader(networkStream, new UTF8Encoding()))
+                using (var reader = new JsonTextReader(streamWriter))
                 {
-                    var json = serializer.Deserialize(reader).ToString();
-                    var jObject = JObject.Parse(json);
-                    if (jObject != null)
+                    try
                     {
-                        var jToken = jObject.GetValue(jsonResponseValue);
-                        if (jToken != null)
+                        if (!networkStream.DataAvailable)
+                            return Task.FromResult(result);
+
+                        var json = serializer.Deserialize(reader).ToString();
+                        var jObject = JObject.Parse(json);
+                        if (jObject != null)
                         {
-                            if (jsonResponseValue == "result")
+                            var jToken = jObject.GetValue(jsonResponseValue);
+                            if (jToken != null)
                             {
-                                var response = jToken.ToString();
-                                result = (T)(object)(response == "ACK");
+                                if (jsonResponseValue == "result")
+                                {
+                                    var response = jToken.ToString();
+                                    result = (T)(object)(response == "ACK");
+                                }
+                                else if (jsonResponseValue == "event")
+                                    result = jToken.ToObject<T>();
                             }
-                            else if (jsonResponseValue == "event")
-                                result = jToken.ToObject<T>();
                         }
                     }
+                    catch (Exception e)
+                    {
+                        throw e;
+                    }
                 }
-                catch(Exception e)
-                { throw e; }
             }
+
 
             return Task.FromResult(result);
         }

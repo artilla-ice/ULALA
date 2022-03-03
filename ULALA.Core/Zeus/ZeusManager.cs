@@ -40,11 +40,11 @@ namespace ULALA.Core.Zeus
 
         public Task Initialize()
         {
-            SetTimer();
+           // SetTimer();
 
             SubscribeToEvents();
 
-            this.EventAggregator.GetEvent<MoneyRetrievalEvent>().Publish(new MoneyRetrievalEventEventArgs());
+            //this.EventAggregator.GetEvent<MoneyRetrievalEvent>().Publish(new MoneyRetrievalEventEventArgs());
 
             return Task.CompletedTask;
         }
@@ -63,12 +63,12 @@ namespace ULALA.Core.Zeus
 
         public bool StartMoneyInsertion()
         {
-            this.ZeusConnectionService.RequestMoneyInsertion();
-              this.EventAggregator.GetEvent<ReceivedResponseEvent>()
-                .Subscribe((args) =>
-                {
-                    m_isInsertSessionOpen = (bool)args.Response;
-                }, ThreadOption.BackgroundThread);
+            m_isInsertSessionOpen = this.ZeusConnectionService.RequestMoneyInsertion().Result;
+              //this.EventAggregator.GetEvent<ReceivedResponseEvent>()
+              //  .Subscribe((args) =>
+              //  {
+              //      m_isInsertSessionOpen = (bool)args.Response;
+              //  }, ThreadOption.BackgroundThread);
 
             if (m_isInsertSessionOpen)
                 this.EventAggregator.GetEvent<StartMoneyInsertionEvent>().Publish(new EventArgs());
@@ -216,11 +216,11 @@ namespace ULALA.Core.Zeus
                     }
                 }, ThreadOption.BackgroundThread);
 
-            this.EventAggregator.GetEvent<MoneyRetrievalEvent>()
-               .Subscribe((args) =>
-               {
-                   SetTimer();
-               }, ThreadOption.UIThread);
+            //this.EventAggregator.GetEvent<MoneyRetrievalEvent>()
+            //   .Subscribe( (args) =>
+            //   {
+            //       SetTimer();
+            //   }, ThreadOption.PublisherThread);
         }
 
         private async void OnStartWithdrawalStackerView(MoneyRetrievalResponse args)
@@ -229,34 +229,28 @@ namespace ULALA.Core.Zeus
             {
                 var param = new Dictionary<string, object>() { { "MoneyRetrieval", args } };
                 this.NavigationManager.NavigateTo(ViewNames.WithdrawStacker, param);
-                m_timer.Change(0, 500);
+                //m_timer.Change(0, 500);
             });
         }
 
-        private void StartListening(object state)
+        private async void StartListening(object state)
         {
             if (!IsConnected)
                 return;
 
-            new Thread(async () =>
+            m_timer.Change(Timeout.Infinite, Timeout.Infinite);
+            var result = await this.ZeusConnectionService.OnStartListeningForEvent<MoneyRetrievalResponse>();
+            if (result != null && result.Type == "moneyRetrieval")
             {
-                Thread.CurrentThread.IsBackground = true;
-
-                m_timer.Change(Timeout.Infinite, Timeout.Infinite);
-                var result = await this.ZeusConnectionService.OnStartListeningForEvent<MoneyRetrievalResponse>();
-                if (result != null && result.Type == "moneyRetrieval")
-                {
-                    OnStartWithdrawalStackerView(result);
-                }
-            }).Start();
-
-            
+                OnStartWithdrawalStackerView(result);
+            }
+            m_timer.Change(2000, 2000);
         }
 
         private void SetTimer()
         {
             // Create a timer with a two second interval.
-            m_timer = new Timer(StartListening, null, 0, 500);
+            m_timer = new Timer(StartListening, null, 0, 2000);
         }
 
         private static Timer m_timer;
