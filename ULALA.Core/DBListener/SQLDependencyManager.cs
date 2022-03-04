@@ -87,7 +87,7 @@ namespace ULALA.Core.Zeus
             }
             catch (SqlException e)
             {
-                throw e;
+                // throw e;
             }
 
         }

@@ -47,6 +47,18 @@ namespace ULALA.Core.Zeus
 
         }
 
+        public void WriteException(string Date, string Code, string Description)
+        {
+            //String query = "INSERT INTO dbo.ErrorLogs (Date,Code,Description) VALUES (@Date,@Code, @Description)";
+
+            //SqlCommand command = new SqlCommand(query, db.Connection);
+            //command.Parameters.Add("@Date", Date);
+            //command.Parameters.Add("@useCodername", Code);
+            //command.Parameters.Add("@Description", Description);
+         
+            //command.ExecuteNonQuery();
+        }
+
         private readonly string INSERT_ACTION_LOG = "INSERT INTO [ActionsLogs] VALUES ({0}, {1}, {2}, {3}, {4}, {5}, {6})"; 
     }
 }

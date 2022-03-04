@@ -10,9 +10,7 @@ namespace ULALA.Services.Contracts.Zeus
     {
         //Global exception catcher
 
-        void SendToLogger(Exception e);
-
-
-        
+        void SendException(Exception e);
+       
     }
 }

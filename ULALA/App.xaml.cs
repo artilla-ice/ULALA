@@ -163,8 +163,8 @@ namespace ULALA
 
                 m_container.RegisterType<IZeusManager, ZeusManager>(new ContainerControlledLifetimeManager());
                 m_container.RegisterType<ISQLDependencyManager, SQLDependencyManager>(new ContainerControlledLifetimeManager());
-
-
+                m_container.RegisterType<ILoggerManager, LoggerManager>(new ContainerControlledLifetimeManager());
+                m_container.RegisterType<IZeusException, Zey
                 // Como registrar un nuevo Service con su Manager
                 //m_container.RegisterType<ITestService, TestService>();
                 //m_container.RegisterType<ITestManage, TestManager>(new ContainerControlledLifetimeManager());

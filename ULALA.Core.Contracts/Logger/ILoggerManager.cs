@@ -15,5 +15,7 @@ namespace ULALA.Core.Contracts.Zeus
     public interface ILoggerManager : IInitializableManager
     {
         void WriteInfo(string module, string action = "", string message = "");
+
+        void WriteException(string Date, string Code, string Description);
     }
 }

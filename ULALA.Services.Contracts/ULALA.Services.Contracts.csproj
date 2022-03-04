@@ -146,6 +146,7 @@
     <Compile Include="Zeus\Events\MoneyInserted\Data.cs" />
     <Compile Include="Zeus\Events\MoneyInserted\MoneyMovementEvent.cs" />
     <Compile Include="Zeus\IZeusConnectionService.cs" />
+    <Compile Include="Zeus\IZeusException.cs" />
     <EmbeddedResource Include="Properties\ULALA.Services.Contracts.rd.xml" />
   </ItemGroup>
   <ItemGroup>
