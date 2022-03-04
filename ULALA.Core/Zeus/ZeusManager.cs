@@ -40,6 +40,8 @@ namespace ULALA.Core.Zeus
 
         public Task Initialize()
         {
+            SubscribeToEvents();
+
             return Task.CompletedTask;
         }
 
@@ -53,7 +55,6 @@ namespace ULALA.Core.Zeus
             this.ZeusConnectionService.StopComm();
 
         }
-
 
         public Task StartMoneyInsertion()
         {
@@ -72,9 +73,6 @@ namespace ULALA.Core.Zeus
         {
              this.ZeusConnectionService.RequestDispenseSession(amount);
 
-            //if (m_isDispenseSessionOpen)
-            //    this.EventAggregator.GetEvent<StartDispenseMoneySessionEvent>().Publish(new EventArgs());
-
             return Task.CompletedTask; ;
         }
 
@@ -84,12 +82,6 @@ namespace ULALA.Core.Zeus
 
             await this.ZeusConnectionService.FinishDispenseSession();
         }
-
-
-        //public async Task<MoneyInsertedEvent> GetEventResponse()
-        //{
-        //    return await this.ZeusConnectionService.OnStartListeningForEvent<MoneyInsertedEvent>("event");
-        //}
 
         public async Task<MoneyRetrievalResponse> RetriveStackerCash()
         {
@@ -174,31 +166,17 @@ namespace ULALA.Core.Zeus
             {
                 var param = new Dictionary<string, object>() { { "MoneyRetrieval", args } };
                 this.NavigationManager.NavigateTo(ViewNames.WithdrawStacker, param);
-                //m_timer.Change(0, 500);
             });
         }
 
-        private void StartListening(object state)
+        private void SubscribeToEvents()
         {
-            //if (!IsConnected)
-            //    return;
-
-            //m_timer.Change(Timeout.Infinite, Timeout.Infinite);
-            //var result = await this.ZeusConnectionService.OnStartListeningForEvent<MoneyRetrievalResponse>();
-            //if (result != null && result.Type == "moneyRetrieval")
-            //{
-            //    OnStartWithdrawalStackerView(result);
-            //}
-            //m_timer.Change(2000, 2000);
+            this.EventAggregator.GetEvent<MoneyRetrievalEvent>()
+                .Subscribe((args) =>
+                {
+                    OnStartWithdrawalStackerView(args.Result);
+                }, ThreadOption.UIThread);
         }
-
-        private void SetTimer()
-        {
-            // Create a timer with a two second interval.
-            m_timer = new Timer(StartListening, null, 0, 2000);
-        }
-
-        private static Timer m_timer;
 
         public bool IsConnected => this.ZeusConnectionService.IsConnected;
         public bool IsInsertSessionOpen { get; set; }

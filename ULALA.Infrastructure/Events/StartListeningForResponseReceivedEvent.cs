@@ -8,9 +8,9 @@ namespace ULALA.Infrastructure.Events
 {
     public class StartListeningForResponseReceivedEventArgs
     {
-        public int ResponseId { get; set; }
-        public string EvenType { get; set; }
-        public string Response { get; set; }
+        public int ResponseId { get; set; } = -1;
+        public string EvenType { get; set; } = "";
+        public string Response { get; set; } = "";
     }
 
     public class StartListeningForResponseReceivedEvent : PubSubEvent<StartListeningForResponseReceivedEventArgs>

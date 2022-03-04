@@ -253,7 +253,7 @@ namespace ULALA.Services.Zeus
                             {
                                 jsonResponseValue = "result";
                                 eventType = "commandResponse";
-                                
+
                                 jToken = jObject.GetValue(jsonResponseValue);
 
                                 if (jToken == null)
@@ -271,9 +271,12 @@ namespace ULALA.Services.Zeus
                                 {
                                     objResult = jToken.ToObject<MoneyMovementEvent>();
                                 }
-                                else if (eventType == "moneyRetrievalResponse")
+                                else if (eventType == "moneyRetrieval")
                                 {
-                                    objResult = jToken.ToObject<MoneyRetrievalResponse>();
+                                    var args = jToken.ToObject<MoneyRetrievalResponse>();
+                                    this.EventAggregator.GetEvent<MoneyRetrievalEvent>()
+                                        .Publish(new MoneyRetrievalEventEventArgs() { Result =  args});
+
                                 }
                                 else if (eventType == "commandResponse")
                                 {
@@ -281,21 +284,21 @@ namespace ULALA.Services.Zeus
                                     responseId = valueId.ToObject<int>();
 
                                     var response = jToken.ToString();
-                                    if(response != null)
+                                    if (response != null)
                                     {
                                         objResult = (bool)(response == "ACK");
-                                        if(!(bool)objResult && response != "NACK")
+                                        if (!(bool)objResult && response != "NACK")
                                         {
                                             var resultJObject = JObject.Parse(response);
-                                            if(resultJObject != null)
+                                            if (resultJObject != null)
                                             {
                                                 var objProperties = resultJObject.Properties().ToList();
                                                 var firstPropertyName = objProperties.ElementAt(0).Name;
-                                                if(firstPropertyName == "totalMoneyInserted")
+                                                if (firstPropertyName == "totalMoneyInserted")
                                                 {
                                                     objResult = jToken.ToObject<FinishInsertionResponse>();
                                                 }
-                                                else if(firstPropertyName == "totalMoneyDispensed")
+                                                else if (firstPropertyName == "totalMoneyDispensed")
                                                 {
                                                     objResult = jToken.ToObject<FinishDispenseResponse>();
                                                     eventType = firstPropertyName;
@@ -311,7 +314,7 @@ namespace ULALA.Services.Zeus
                                 }
 
                                 result = new ResponseReceivedEventArgs()
-                                { 
+                                {
                                     ResponseId = responseId,
                                     CommandId = eventType,
                                     Result = objResult
