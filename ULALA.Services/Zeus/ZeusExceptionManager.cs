@@ -16,8 +16,24 @@ namespace ULALA.Services.Zeus
     public enum ErrorCode
     {
         GeneralError = 200,
+        ParseError = 1,
+        InvalidRequest = 2,
+        MethodNotFound = 3,
+        InvalidParams = 4,
+        InternalError = 5,
+        ServerBusy = 6,
+        UnknownOperationError = 100,
+        InsuficientFunds = 101,
+        BillrecyclerNotResponding = 102,
+        CoinValidatorNotResponding = 103,
+        BillJammed = 104,
+        CoinStuck = 105,
+        BillStackerFull = 106,
+        BillStackerMissing = 107,
+        BillrecyclerFailure = 1z,
 
-     
+
+
 
 
 
