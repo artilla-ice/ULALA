@@ -22,9 +22,9 @@ namespace ULALA.Core.Contracts.Zeus
         IEnumerable<SystemInfoResultCode> GetWarnings();
         Task<MoneyRetrievalResponse> RetriveStackerCash();
         //Task<MoneyInsertedEvent> GetEventResponse();
-        Task CloseMoneyInsertion();
+        Task CloseMoneyInsertion(); 
         Task StartMoneyInsertion();
-        bool StartDispenseMoneySession(double amount);
+        Task StartDispenseMoneySession(double amount);
         Task CloseDispenseSession();
         bool IsConnected { get; }
         bool IsInsertSessionOpen { get; set; }

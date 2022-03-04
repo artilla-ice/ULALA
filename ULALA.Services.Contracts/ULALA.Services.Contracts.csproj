@@ -121,6 +121,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Zeus\DTO\CashDispension\DispensedDenominationInfo.cs" />
+    <Compile Include="Zeus\DTO\CashDispension\FinishDispenseResponse.cs" />
     <Compile Include="Zeus\DTO\CashInsertion\FinishInsertionResponse.cs" />
     <Compile Include="Zeus\DTO\CashInsertion\InsertedDenominationInfo.cs" />
     <Compile Include="Zeus\DTO\CashTotals\BillInfo.cs" />

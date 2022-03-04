@@ -18,6 +18,7 @@ using ULALA.Infrastructure.Events;
 using Unity;
 using System.Collections.Generic;
 using System.Linq;
+using ULALA.Services.Contracts.Zeus.DTO.CashDispension;
 
 namespace ULALA.Services.Zeus
 {
@@ -106,7 +107,8 @@ namespace ULALA.Services.Zeus
                 this.EventAggregator.GetEvent<StartListeningForResponseReceivedEvent>().Publish(new StartListeningForResponseReceivedEventArgs
                 {
                     Response = "result",
-                    EvenType = "commandResponse"
+                    EvenType = "commandResponse",
+                    ResponseId = 1
                 });
 
             }
@@ -145,10 +147,17 @@ namespace ULALA.Services.Zeus
                         writer.WriteValue(amount);
                         writer.WriteEndObject();
                         writer.WritePropertyName("id");
-                        writer.WriteValue(1);
+                        writer.WriteValue(12);
                     }
                     writer.WriteEndObject();
                 }
+
+                this.EventAggregator.GetEvent<StartListeningForResponseReceivedEvent>().Publish(new StartListeningForResponseReceivedEventArgs
+                {
+                    Response = "result",
+                    EvenType = "commandResponse",
+                    ResponseId = 12
+                });
             }
 
             return Task.FromResult(result);
@@ -157,6 +166,13 @@ namespace ULALA.Services.Zeus
         public Task FinishDispenseSession()
         {
             OnCommand("finishDispenseSession", 2);
+
+            this.EventAggregator.GetEvent<StartListeningForResponseReceivedEvent>().Publish(new StartListeningForResponseReceivedEventArgs
+            {
+                Response = "result",
+                EvenType = "commandResponse",
+                ResponseId = 12
+            });
 
             return Task.CompletedTask;
         }
@@ -211,9 +227,11 @@ namespace ULALA.Services.Zeus
             return result;
         }
 
-        private Task<Tuple<string, object>> WaitingResponse(string jsonResponseValue, string eventType, int id = 0)
+        private Task<ResponseReceivedEventArgs> WaitingResponse(string jsonResponseValue, string eventType, int id = -1)
         {
-            Tuple<string, object> result = null;
+            ResponseReceivedEventArgs result = null;
+
+            int responseId = id;
 
             JsonSerializer serializer = new JsonSerializer();
             using (var networkStream = new NetworkStream(m_client))
@@ -259,6 +277,9 @@ namespace ULALA.Services.Zeus
                                 }
                                 else if (eventType == "commandResponse")
                                 {
+                                    var valueId = jObject.GetValue("id");
+                                    responseId = valueId.ToObject<int>();
+
                                     var response = jToken.ToString();
                                     if(response != null)
                                     {
@@ -274,17 +295,27 @@ namespace ULALA.Services.Zeus
                                                 {
                                                     objResult = jToken.ToObject<FinishInsertionResponse>();
                                                 }
+                                                else if(firstPropertyName == "totalMoneyDispensed")
+                                                {
+                                                    objResult = jToken.ToObject<FinishDispenseResponse>();
+                                                    eventType = firstPropertyName;
+                                                }
                                             }
                                         }
 
                                     }
                                 }
-                                else if (eventType == "moneyInsertedEvent")
+                                else if (eventType == "moneyInsertedEvent" || eventType == "moneyDispensedEvent")
                                 {
                                     objResult = jToken.ToObject<MoneyMovementEvent>();
                                 }
 
-                                result = new Tuple<string, object>(eventType, objResult);
+                                result = new ResponseReceivedEventArgs()
+                                { 
+                                    ResponseId = responseId,
+                                    CommandId = eventType,
+                                    Result = objResult
+                                };
                             }
                         }
                     }
@@ -309,8 +340,9 @@ namespace ULALA.Services.Zeus
                        {
                            this.EventAggregator.GetEvent<ResponseReceivedEvent>().Publish(new ResponseReceivedEventArgs
                            {
-                               CommandId = result.Item1,
-                               Result = result.Item2
+                               ResponseId = result.ResponseId,
+                               CommandId = result.CommandId,
+                               Result = result.Result
                            });
                        }
                    }

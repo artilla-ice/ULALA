@@ -128,13 +128,12 @@ namespace ULALA.ViewModels
             this.EventAggregator.GetEvent<ResponseReceivedEvent>()
                 .Subscribe((args) =>
                 {
-
                     if (args.CommandId == "moneyInsertedEvent")
                         OnUpdateInsertedMoney((MoneyMovementEvent)args.Result);
                     else if (args.CommandId == "commandResponse")
                     {
                         var isValidResult = typeof(bool) == args.Result.GetType();
-                        if(isValidResult)
+                        if(isValidResult && args.ResponseId == 1)
                             GetCommandResponse((bool)args.Result);
                     }
 
