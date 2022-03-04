@@ -100,7 +100,6 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <Frame
@@ -156,7 +155,7 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
@@ -173,7 +172,7 @@
                     <!--Importes-->
                     <StackPanel Grid.Row="2"
                     Grid.ColumnSpan="2"
-                    Orientation="Vertical">
+                    Orientation="Vertical" VerticalAlignment="Bottom">
                         <UControls:Separator/>
 
                         <Grid HorizontalAlignment="Right">
@@ -195,7 +194,7 @@
             </Grid>
 
             <Frame
-            Grid.Row="1"
+            Grid.Row="2"
             MinHeight="80"
             VerticalAlignment="Bottom"
             Background="CornflowerBlue">

@@ -160,6 +160,7 @@ namespace ULALA
 
                 var m_zeusConnectionService = new ZeusConnectionService();
                 m_container.RegisterInstance<IZeusConnectionService>(m_zeusConnectionService);
+                m_container.RegisterType<IZeusConnectionService, ZeusConnectionService>(new ContainerControlledLifetimeManager());
 
                 m_container.RegisterType<IZeusManager, ZeusManager>(new ContainerControlledLifetimeManager());
                 m_container.RegisterType<ISQLDependencyManager, SQLDependencyManager>(new ContainerControlledLifetimeManager());
@@ -181,6 +182,13 @@ namespace ULALA
 
         }
 
+        private void InitializeZeusConnection()
+        {
+            var zeusService = m_container.Resolve<IZeusConnectionService>();
+            if (zeusService != null)
+                zeusService.Initialize().Wait();
+        }
+
         private void ConfigureNavigationManager()
         {
             var navigationManager = new NavigationManager();
@@ -191,6 +199,8 @@ namespace ULALA
 
             InitializeManager<ISQLDependencyManager>();
             InitializeManager<IZeusManager>();
+
+            InitializeZeusConnection();
         }
 
         private void ConfigureZeusConnectionService()

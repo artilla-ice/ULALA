@@ -7,6 +7,7 @@ using ULALA.Core.Contracts.Zeus;
 using ULALA.Core.Contracts.Zeus.DTO;
 using ULALA.Infrastructure.Events;
 using ULALA.Infrastructure.PubSub;
+using ULALA.Services.Contracts.Events.MoneyInserted;
 using ULALA.UI.Core.MVVM;
 using Windows.UI.Xaml.Controls;
 using Xamarin.Forms;
@@ -42,26 +43,9 @@ namespace ULALA.ViewModels
 
         private void OnStartMoneyInsertion()
         {
-            var isReadyForInsertion = this.ZeusManager.StartMoneyInsertion();
-            this.IsInserting = isReadyForInsertion;
-
             HandleAsyncCall(async () =>
             {
-                ContentDialog dialog = new ContentDialog();
-                dialog.Title = new InfoBar()
-                {
-                    IsOpen = true,
-                    IsIconVisible = true,
-                    IsClosable = false,
-                    Severity = InfoBarSeverity.Informational,
-                    Title = "Ya puedes ingresar cambio",
-                    HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Stretch,
-                    VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Stretch
-                };
-
-                dialog.PrimaryButtonText = "OK";
-
-                await dialog.ShowAsync();
+                await this.ZeusManager.StartMoneyInsertion();
             });
         }
 
@@ -70,6 +54,7 @@ namespace ULALA.ViewModels
             HandleAsyncCall(async () =>
             {
                 await this.ZeusManager.CloseMoneyInsertion();
+                this.ZeusManager.IsInsertSessionOpen = false;
 
                 this.IsInserting = false;
 
@@ -140,32 +125,94 @@ namespace ULALA.ViewModels
 
         private void SubscribeToEvents()
         {
-            this.EventAggregator.GetEvent<NewMoneyInsertEvent>()
+            this.EventAggregator.GetEvent<ResponseReceivedEvent>()
                 .Subscribe((args) =>
-               {
-                   var currentInsertedMoney = args.Response;
-                   if (currentInsertedMoney != null)
-                   {
-                       var denominationItem = this.RecyclerAmounts.Where(r => currentInsertedMoney.Type == "moneyInsertedEvent"
-                                                           && currentInsertedMoney.Data[0].Value == r.Denomination).FirstOrDefault();
+                {
 
-                       var itemOnCollection = new FundsInfoModel();
-                       if (denominationItem == null)
-                       {
-                           itemOnCollection = this.RecyclerAmounts.Where(r => r.Denomination == -1).FirstOrDefault();
-                           itemOnCollection.RecyclerAmount += (uint)currentInsertedMoney.Data[0].Value;
-                       }
-                       else
-                       {
-                           itemOnCollection = denominationItem;
+                    if (args.CommandId == "moneyInsertedEvent")
+                        OnUpdateInsertedMoney((MoneyMovementEvent)args.Result);
+                    else if (args.CommandId == "commandResponse")
+                    {
+                        var isValidResult = typeof(bool) == args.Result.GetType();
+                        if(isValidResult)
+                            GetCommandResponse((bool)args.Result);
+                    }
 
-                           itemOnCollection.RecyclerQuantity += (uint)currentInsertedMoney.Data.Count();
-                       }
+                }, ThreadOption.UIThread);
+        }
+
+        private void GetCommandResponse(bool result)
+        {
+            this.IsInserting = result;
+            this.ZeusManager.IsInsertSessionOpen = IsInserting;
+
+            ContentDialog dialog = new ContentDialog();
+            if (IsInserting)
+            {
+                this.EventAggregator.GetEvent<StartListeningForResponseReceivedEvent>().Publish(new StartListeningForResponseReceivedEventArgs
+                {
+                    Response = "event",
+                    EvenType = "moneyInsertedEvent"
+                });
+
+                dialog.Title = new InfoBar()
+                {
+                    IsOpen = true,
+                    IsIconVisible = true,
+                    IsClosable = false,
+                    Severity = InfoBarSeverity.Informational,
+                    Title = "Ya puedes ingresar cambio",
+                    HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Stretch,
+                    VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Stretch
+                };
+            }
+            else
+            {
+                dialog.Title = new InfoBar()
+                {
+                    IsOpen = true,
+                    IsIconVisible = true,
+                    IsClosable = false,
+                    Severity = InfoBarSeverity.Error,
+                    Title = "Algo salió mal",
+                    Message = "Comprueba la conexión con la caja",
+                    HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Stretch,
+                    VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Stretch
+                };
+            }
+
+            HandleAsyncCall(async () =>
+            {
+                dialog.PrimaryButtonText = "OK";
+
+                await dialog.ShowAsync();
+            });
+        }
+
+        private void OnUpdateInsertedMoney(MoneyMovementEvent movementEvent)
+        {
+            var currentInsertedMoney = movementEvent;
+            if (currentInsertedMoney != null)
+            {
+                var denominationItem = this.RecyclerAmounts.Where(r => currentInsertedMoney.Type == "moneyInsertedEvent"
+                                                    && currentInsertedMoney.Data[0].Value == r.Denomination).FirstOrDefault();
+
+                var itemOnCollection = new FundsInfoModel();
+                if (denominationItem == null)
+                {
+                    itemOnCollection = this.RecyclerAmounts.Where(r => r.Denomination == -1).FirstOrDefault();
+                    itemOnCollection.RecyclerAmount += (uint)currentInsertedMoney.Data[0].Value;
+                }
+                else
+                {
+                    itemOnCollection = denominationItem;
+
+                    itemOnCollection.RecyclerQuantity += (uint)currentInsertedMoney.Data.Count();
+                }
 
 
-                       CalculateTotalAmount();
-                   }
-               }, ThreadOption.UIThread);
+                CalculateTotalAmount();
+            }
         }
 
         private void CalculateTotalAmount()

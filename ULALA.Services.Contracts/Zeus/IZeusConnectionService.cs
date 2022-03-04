@@ -14,13 +14,14 @@ namespace ULALA.Services.Contracts.Zeus
 {
     public interface IZeusConnectionService 
     {
+        Task Initialize();
         bool StartListening();
         void StopComm();
         Task<Status> GetGeneralStatus();
         Task<CashTotalsResponse> RequestCashTotals();
         Task<MoneyRetrievalResponse> RetrieveStackerValues();
-        Task<bool> RequestMoneyInsertion();
-        Task<T> OnStartListeningForEvent<T>(string expectedResponse = "event");
+        Task RequestMoneyInsertion();
+        //Task<T> OnStartListeningForEvent<T>(string expectedResponse = "event");
         Task FinishMoneyInsertion();
         Task<bool> RequestDispenseSession(double amount);
         Task FinishDispenseSession();

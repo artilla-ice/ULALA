@@ -23,9 +23,11 @@ namespace ULALA.Core.Contracts.Zeus
         Task<MoneyRetrievalResponse> RetriveStackerCash();
         //Task<MoneyInsertedEvent> GetEventResponse();
         Task CloseMoneyInsertion();
-        bool StartMoneyInsertion();
+        Task StartMoneyInsertion();
         bool StartDispenseMoneySession(double amount);
         Task CloseDispenseSession();
         bool IsConnected { get; }
+        bool IsInsertSessionOpen { get; set; }
+
     }
 }

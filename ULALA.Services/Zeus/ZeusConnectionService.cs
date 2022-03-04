@@ -16,19 +16,36 @@ using ULALA.Services.Contracts.Events.MoneyInserted;
 using ULALA.Infrastructure.PubSub;
 using ULALA.Infrastructure.Events;
 using Unity;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ULALA.Services.Zeus
 {
     public class ZeusConnectionService : IZeusConnectionService
     {
+        [Dependency]
+        public IEventAggregator EventAggregator { get; set; }
 
         public ZeusConnectionService()
         {
         }
 
+        public ZeusConnectionService(IEventAggregator eventAggregator)
+        {
+            this.EventAggregator = eventAggregator;
+        }
+
         public static ManualResetEvent allDone = new ManualResetEvent(false);
 
         public bool IsConnected { get => m_client != null && m_client.Connected; }
+
+        public Task Initialize()
+        {
+            SubscribeToEvents();
+
+            this.EventAggregator.GetEvent<StartListeningForResponseReceivedEvent>().Publish(new StartListeningForResponseReceivedEventArgs());
+            return Task.CompletedTask;
+        }
 
         public bool StartListening()
         {
@@ -39,6 +56,10 @@ namespace ULALA.Services.Zeus
             {
                 m_client = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
                 m_client.Connect(localEndPoint);
+
+                if (m_client.Connected)
+                    this.EventAggregator.GetEvent<StartListeningForResponseReceivedEvent>().Publish(new StartListeningForResponseReceivedEventArgs());
+
 
                 return m_client.Connected;
             }
@@ -56,9 +77,8 @@ namespace ULALA.Services.Zeus
             }
         }
 
-        public async Task<bool> RequestMoneyInsertion()
+        public Task RequestMoneyInsertion()
         {
-            bool result = false;
 
             if (m_client != null && m_client.Connected)
             {
@@ -83,11 +103,15 @@ namespace ULALA.Services.Zeus
                     writer.WriteEndObject();
                 }
 
-                result = await WaitingResponse<bool>("result");
+                this.EventAggregator.GetEvent<StartListeningForResponseReceivedEvent>().Publish(new StartListeningForResponseReceivedEventArgs
+                {
+                    Response = "result",
+                    EvenType = "commandResponse"
+                });
 
             }
 
-            return result;
+            return Task.CompletedTask;
         }
 
         public Task FinishMoneyInsertion()
@@ -99,7 +123,7 @@ namespace ULALA.Services.Zeus
             return Task.CompletedTask;
         }
 
-        public async Task<bool> RequestDispenseSession(double amount)
+        public Task<bool> RequestDispenseSession(double amount)
         {
             bool result = false;
 
@@ -125,23 +149,16 @@ namespace ULALA.Services.Zeus
                     }
                     writer.WriteEndObject();
                 }
-
-                result = await Task.Run(async () =>  await WaitingResponse<bool>("result"));
             }
 
-            return result;
+            return Task.FromResult(result);
         }
 
         public Task FinishDispenseSession()
         {
-            OnCommand("finishDispenseSession", 2);  
+            OnCommand("finishDispenseSession", 2);
 
             return Task.CompletedTask;
-        }
-
-        public async Task<T> OnStartListeningForEvent<T>(string expectedResponse = "event")
-        {
-            return await WaitingResponse<T>(expectedResponse);
         }
 
         public async Task<Status> GetGeneralStatus()
@@ -188,15 +205,15 @@ namespace ULALA.Services.Zeus
             {
                 OnCommand(commandName, id, version);
 
-                result = await WaitingResponse<T>(jsonResponseValue);
+                result = default(T); //await WaitingResponse(jsonResponseValue, "");
             }
 
             return result;
         }
 
-        private  Task<T> WaitingResponse<T>(string jsonResponseValue)
+        private Task<Tuple<string, object>> WaitingResponse(string jsonResponseValue, string eventType, int id = 0)
         {
-            T result = default(T);
+            Tuple<string, object> result = null;
 
             JsonSerializer serializer = new JsonSerializer();
             using (var networkStream = new NetworkStream(m_client))
@@ -209,32 +226,96 @@ namespace ULALA.Services.Zeus
                         if (!networkStream.DataAvailable)
                             return Task.FromResult(result);
 
-                        var json = serializer.Deserialize(reader).ToString();
+                        var json = serializer.Deserialize(reader).ToString();//\"totalMoneyInserted
                         var jObject = JObject.Parse(json);
                         if (jObject != null)
                         {
                             var jToken = jObject.GetValue(jsonResponseValue);
+                            if (jToken == null)
+                            {
+                                jsonResponseValue = "result";
+                                eventType = "commandResponse";
+                                
+                                jToken = jObject.GetValue(jsonResponseValue);
+
+                                if (jToken == null)
+                                {
+                                    jsonResponseValue = "event";
+                                    jToken = jObject.GetValue(jsonResponseValue);
+                                    eventType = jToken.Value<string>("type");
+                                }
+                            }
+
                             if (jToken != null)
                             {
-                                if (jsonResponseValue == "result")
+                                object objResult = null;
+                                if (eventType == "moneyMovementEvent")
+                                {
+                                    objResult = jToken.ToObject<MoneyMovementEvent>();
+                                }
+                                else if (eventType == "moneyRetrievalResponse")
+                                {
+                                    objResult = jToken.ToObject<MoneyRetrievalResponse>();
+                                }
+                                else if (eventType == "commandResponse")
                                 {
                                     var response = jToken.ToString();
-                                    result = (T)(object)(response == "ACK");
+                                    if(response != null)
+                                    {
+                                        objResult = (bool)(response == "ACK");
+                                        if(!(bool)objResult && response != "NACK")
+                                        {
+                                            var resultJObject = JObject.Parse(response);
+                                            if(resultJObject != null)
+                                            {
+                                                var objProperties = resultJObject.Properties().ToList();
+                                                var firstPropertyName = objProperties.ElementAt(0).Name;
+                                                if(firstPropertyName == "totalMoneyInserted")
+                                                {
+                                                    objResult = jToken.ToObject<FinishInsertionResponse>();
+                                                }
+                                            }
+                                        }
+
+                                    }
                                 }
-                                else if (jsonResponseValue == "event")
-                                    result = jToken.ToObject<T>();
+                                else if (eventType == "moneyInsertedEvent")
+                                {
+                                    objResult = jToken.ToObject<MoneyMovementEvent>();
+                                }
+
+                                result = new Tuple<string, object>(eventType, objResult);
                             }
                         }
                     }
-                    catch (Exception e)
+                    catch
                     {
-                        throw e;
                     }
                 }
             }
 
-
             return Task.FromResult(result);
+        }
+
+        private void SubscribeToEvents()
+        {
+            this.EventAggregator.GetEvent<StartListeningForResponseReceivedEvent>()
+                .Subscribe(async (args) =>
+               {
+                   while (IsConnected)
+                   {
+                       var result = await WaitingResponse(args.Response, args.EvenType);
+                       if (result != null)
+                       {
+                           this.EventAggregator.GetEvent<ResponseReceivedEvent>().Publish(new ResponseReceivedEventArgs
+                           {
+                               CommandId = result.Item1,
+                               Result = result.Item2
+                           });
+                       }
+                   }
+
+               }, ThreadOption.BackgroundThread);
         }
 
         private static string GetLocalIPAddress()
@@ -252,5 +333,11 @@ namespace ULALA.Services.Zeus
 
         private Socket m_client;
         private static int DefaultMaxInsertionAmount = 1000000;
+        private static IDictionary<string, Type> m_responseTypesMap = new Dictionary<string, Type>()
+        {
+            { "moneyMovementEvent", typeof(MoneyMovementEvent) },
+            { "boolean", typeof(bool) }
+
+        };
     }
 }

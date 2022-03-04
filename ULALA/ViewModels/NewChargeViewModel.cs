@@ -47,48 +47,48 @@ namespace ULALA.ViewModels
         private void OnStartMoneyInsertion()
         {
             var isReadyForInsertion = this.ZeusManager.StartMoneyInsertion();
-            this.IsInserting = isReadyForInsertion;
+            //this.IsInserting = isReadyForInsertion;
 
-            HandleAsyncCall(async () =>
-            {
-                if(isReadyForInsertion)
-                {
-                    ContentDialog dialog = new ContentDialog();
-                    dialog.Title = new InfoBar()
-                    {
-                        IsOpen = true,
-                        IsIconVisible = true,
-                        IsClosable = false,
-                        Severity = InfoBarSeverity.Informational,
-                        Title = "Listo para recibir el cobro",
-                        Message = "Para dispensar el cambio, presione 'Finalizar cobro'",
-                        HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Stretch,
-                        VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Stretch
-                    };
+            //HandleAsyncCall(async () =>
+            //{
+            //    if(isReadyForInsertion)
+            //    {
+            //        ContentDialog dialog = new ContentDialog();
+            //        dialog.Title = new InfoBar()
+            //        {
+            //            IsOpen = true,
+            //            IsIconVisible = true,
+            //            IsClosable = false,
+            //            Severity = InfoBarSeverity.Informational,
+            //            Title = "Listo para recibir el cobro",
+            //            Message = "Para dispensar el cambio, presione 'Finalizar cobro'",
+            //            HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Stretch,
+            //            VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Stretch
+            //        };
 
-                    dialog.PrimaryButtonText = "OK";
+            //        dialog.PrimaryButtonText = "OK";
 
-                    await dialog.ShowAsync();
-                }
-                else
-                {
-                    ContentDialog dialog = new ContentDialog();
-                    dialog.Title = new InfoBar()
-                    {
-                        IsOpen = true,
-                        IsIconVisible = true,
-                        IsClosable = false,
-                        Severity = InfoBarSeverity.Error,
-                        Title = "Ha ocurrido un error. Comprueba la conexión con el Stacker",
-                        HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Stretch,
-                        VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Stretch
-                    };
+            //        await dialog.ShowAsync();
+            //    }
+            //    else
+            //    {
+            //        ContentDialog dialog = new ContentDialog();
+            //        dialog.Title = new InfoBar()
+            //        {
+            //            IsOpen = true,
+            //            IsIconVisible = true,
+            //            IsClosable = false,
+            //            Severity = InfoBarSeverity.Error,
+            //            Title = "Ha ocurrido un error. Comprueba la conexión con el Stacker",
+            //            HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Stretch,
+            //            VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Stretch
+            //        };
 
-                    dialog.PrimaryButtonText = "OK";
+            //        dialog.PrimaryButtonText = "OK";
 
-                    await dialog.ShowAsync();
-                }
-            });
+            //        await dialog.ShowAsync();
+            //    }
+            //});
         }
 
         private void OnFinalizeMoneyInsertion()

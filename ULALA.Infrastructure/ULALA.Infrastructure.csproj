@@ -120,6 +120,8 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Events\StartListeningForResponseReceivedEvent.cs" />
+    <Compile Include="Events\ResponseReceivedEvent.cs" />
     <Compile Include="Events\MoneyRetrievalEvent.cs" />
     <Compile Include="Events\NewMoneyDispensedEvent.cs" />
     <Compile Include="Events\NewMoneyInsertEvent.cs" />

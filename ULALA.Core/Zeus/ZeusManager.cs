@@ -40,12 +40,6 @@ namespace ULALA.Core.Zeus
 
         public Task Initialize()
         {
-           // SetTimer();
-
-            SubscribeToEvents();
-
-            //this.EventAggregator.GetEvent<MoneyRetrievalEvent>().Publish(new MoneyRetrievalEventEventArgs());
-
             return Task.CompletedTask;
         }
 
@@ -61,23 +55,15 @@ namespace ULALA.Core.Zeus
         }
 
 
-        public bool StartMoneyInsertion()
+        public Task StartMoneyInsertion()
         {
-            m_isInsertSessionOpen = this.ZeusConnectionService.RequestMoneyInsertion().Result;
-              //this.EventAggregator.GetEvent<ReceivedResponseEvent>()
-              //  .Subscribe((args) =>
-              //  {
-              //      m_isInsertSessionOpen = (bool)args.Response;
-              //  }, ThreadOption.BackgroundThread);
+            this.ZeusConnectionService.RequestMoneyInsertion();
 
-            if (m_isInsertSessionOpen)
-                this.EventAggregator.GetEvent<StartMoneyInsertionEvent>().Publish(new EventArgs());
-
-            return m_isInsertSessionOpen;
+            return Task.CompletedTask;
         }
         public async Task CloseMoneyInsertion()
         {
-            m_isInsertSessionOpen = false;
+            IsInsertSessionOpen = false;
 
             await this.ZeusConnectionService.FinishMoneyInsertion();
         }
@@ -182,47 +168,6 @@ namespace ULALA.Core.Zeus
             return stackerValues;
         }
 
-        private void SubscribeToEvents()
-        {
-            this.EventAggregator.GetEvent<StartMoneyInsertionEvent>()
-                .Subscribe(async (args) =>
-                {
-                    while(m_isInsertSessionOpen)
-                    {
-                        var result = await this.ZeusConnectionService.OnStartListeningForEvent<MoneyMovementEvent>();
-                        if (result != null && result.Type == "moneyInsertedEvent")
-                        {
-                            this.EventAggregator.GetEvent<NewMoneyInsertEvent>().Publish(new NewMoneyInsertEventArgs
-                            {
-                                Response = result
-                            });
-                        }
-                    }
-                }, ThreadOption.BackgroundThread);
-
-            this.EventAggregator.GetEvent<StartDispenseMoneySessionEvent>()
-                .Subscribe(async (args) =>
-                {
-                    while (m_isDispenseSessionOpen)
-                    {
-                        var result = await this.ZeusConnectionService.OnStartListeningForEvent<MoneyMovementEvent>();
-                        if(result != null && result.Type == "moneyDispensedEvent")
-                        {
-                            this.EventAggregator.GetEvent<NewMoneyDispensedEvent>().Publish(new NewMoneyDispensedEventArgs
-                            {
-                                Response = result
-                            });
-                        }
-                    }
-                }, ThreadOption.BackgroundThread);
-
-            //this.EventAggregator.GetEvent<MoneyRetrievalEvent>()
-            //   .Subscribe( (args) =>
-            //   {
-            //       SetTimer();
-            //   }, ThreadOption.PublisherThread);
-        }
-
         private async void OnStartWithdrawalStackerView(MoneyRetrievalResponse args)
         {
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
@@ -233,18 +178,18 @@ namespace ULALA.Core.Zeus
             });
         }
 
-        private async void StartListening(object state)
+        private void StartListening(object state)
         {
-            if (!IsConnected)
-                return;
+            //if (!IsConnected)
+            //    return;
 
-            m_timer.Change(Timeout.Infinite, Timeout.Infinite);
-            var result = await this.ZeusConnectionService.OnStartListeningForEvent<MoneyRetrievalResponse>();
-            if (result != null && result.Type == "moneyRetrieval")
-            {
-                OnStartWithdrawalStackerView(result);
-            }
-            m_timer.Change(2000, 2000);
+            //m_timer.Change(Timeout.Infinite, Timeout.Infinite);
+            //var result = await this.ZeusConnectionService.OnStartListeningForEvent<MoneyRetrievalResponse>();
+            //if (result != null && result.Type == "moneyRetrieval")
+            //{
+            //    OnStartWithdrawalStackerView(result);
+            //}
+            //m_timer.Change(2000, 2000);
         }
 
         private void SetTimer()
@@ -256,8 +201,8 @@ namespace ULALA.Core.Zeus
         private static Timer m_timer;
 
         public bool IsConnected => this.ZeusConnectionService.IsConnected;
+        public bool IsInsertSessionOpen { get; set; }
 
-        private bool m_isInsertSessionOpen = false;
         private bool m_isDispenseSessionOpen = false;
     }
 }
