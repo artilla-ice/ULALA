@@ -281,7 +281,7 @@ namespace ULALA.Infrastructure.PubSub
         {
             lock (Subscriptions)
             {
-                IEventSubscription eventSubscription = Subscriptions.Cast<EventSubscription<TPayload>>().FirstOrDefault(evt => evt.Action == subscriber);
+                IEventSubscription eventSubscription = Subscriptions.Cast<EventSubscription<TPayload>>().FirstOrDefault(evt => evt.Action.Target == subscriber.Target);
                 if (eventSubscription != null)
                 {
                     Subscriptions.Remove(eventSubscription);

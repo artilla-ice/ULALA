@@ -34,15 +34,23 @@ namespace ULALA.ViewModels
 
             this.StartInsertionCommand = new Command(OnStartMoneyInsertion);
             this.EndInsertionCommand = new Command(OnFinalizeMoneyInsertion);
-
-            SubscribeToEvents();
         }
 
         protected override void OnActivated()
         {
             this.PageIcon = "../Assets/Icons/Cobrar.png"; //TODO: agregar path de iconos a archivo de recursos
 
+            SubscribeToEvents();
             OnStartMoneyInsertion();
+        }
+
+        protected override void OnDeactivated()
+        {
+            this.EventAggregator.GetEvent<ResponseReceivedEvent>()
+                .Unsubscribe((args) =>
+                {
+                    HandleResponse(args);
+                });
         }
 
         private void OnStartMoneyInsertion()
@@ -86,26 +94,29 @@ namespace ULALA.ViewModels
             this.EventAggregator.GetEvent<ResponseReceivedEvent>()
                 .Subscribe((args) =>
                 {
-
-                    if (args.CommandId == "moneyInsertedEvent")
-                        OnUpdateInsertedMoney((MoneyMovementEvent)args.Result);
-                    else if (args.CommandId == "totalMoneyDispensed")
-                        OnFinishDispenseSession((FinishDispenseResponse)args.Result);
-                    else if (args.CommandId == "moneyDispensedEvent")
-                        OnMoneyDispensed((MoneyMovementEvent)args.Result);
-                    else if (args.CommandId == "commandResponse")
-                    {
-                        var isValidResult = typeof(bool) == args.Result.GetType();
-                        if (isValidResult)
-                        {
-                            if (args.ResponseId == 1)// startMoneyInsertion
-                                GetStartMoneyInsertionCommandResponse((bool)args.Result);
-                            else if (args.ResponseId == 12)// startDispensionSession
-                                GetStartMoneyDispensionSessionCommandResponse((bool)args.Result);
-                        }
-                    }
-
+                    HandleResponse(args);
                 }, ThreadOption.UIThread);
+        }
+
+        private void HandleResponse(ResponseReceivedEventArgs args = null)
+        {
+            if (args.CommandId == "moneyInsertedEvent")
+                OnUpdateInsertedMoney((MoneyMovementEvent)args.Result);
+            else if (args.CommandId == "totalMoneyDispensed")
+                OnFinishDispenseSession((FinishDispenseResponse)args.Result);
+            else if (args.CommandId == "moneyDispensedEvent")
+                OnMoneyDispensed((MoneyMovementEvent)args.Result);
+            else if (args.CommandId == "commandResponse")
+            {
+                var isValidResult = typeof(bool) == args.Result.GetType();
+                if (isValidResult)
+                {
+                    if (args.ResponseId == 1)// startMoneyInsertion
+                        GetStartMoneyInsertionCommandResponse((bool)args.Result);
+                    else if (args.ResponseId == 12)// startDispensionSession
+                        GetStartMoneyDispensionSessionCommandResponse((bool)args.Result);
+                }
+            }
         }
 
         private void GetStartMoneyInsertionCommandResponse(bool result)

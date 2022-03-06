@@ -266,6 +266,13 @@ namespace ULALA.Services.Zeus
 
                             if (jToken != null)
                             {
+                                //verify eventType
+                                if(jsonResponseValue == "event"
+                                     && eventType != jToken.Value<string>("type"))
+                                {
+                                    eventType = jToken.Value<string>("type");
+                                }
+
                                 object objResult = null;
                                 if (eventType == "moneyMovementEvent")
                                 {

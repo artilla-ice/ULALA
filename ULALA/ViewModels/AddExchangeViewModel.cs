@@ -32,13 +32,21 @@ namespace ULALA.ViewModels
 
             this.StartInsertionCommand = new Command(OnStartMoneyInsertion);
             this.EndInsertionCommand = new Command(OnFinalizeMoneyInsertion);
-
-            SubscribeToEvents();
         }
 
         protected override void OnActivated()
         {
+            SubscribeToEvents();
             OnLoadAllDenominationsInfo();
+        }
+
+        protected override void OnDeactivated()
+        {
+            this.EventAggregator.GetEvent<ResponseReceivedEvent>()
+                .Unsubscribe((args) =>
+                {
+                    HandleResponse(args);
+                });
         }
 
         private void OnStartMoneyInsertion()
@@ -128,16 +136,23 @@ namespace ULALA.ViewModels
             this.EventAggregator.GetEvent<ResponseReceivedEvent>()
                 .Subscribe((args) =>
                 {
-                    if (args.CommandId == "moneyInsertedEvent")
-                        OnUpdateInsertedMoney((MoneyMovementEvent)args.Result);
-                    else if (args.CommandId == "commandResponse")
-                    {
-                        var isValidResult = typeof(bool) == args.Result.GetType();
-                        if(isValidResult && args.ResponseId == 1)
-                            GetCommandResponse((bool)args.Result);
-                    }
-
+                    HandleResponse(args);
                 }, ThreadOption.UIThread);
+        }
+
+        private void HandleResponse(ResponseReceivedEventArgs args = null )
+        {
+            if (args == null)
+                return;
+
+            if (args.CommandId == "moneyInsertedEvent")
+                OnUpdateInsertedMoney((MoneyMovementEvent)args.Result);
+            else if (args.CommandId == "commandResponse")
+            {
+                var isValidResult = typeof(bool) == args.Result.GetType();
+                if (isValidResult && args.ResponseId == 1)
+                    GetCommandResponse((bool)args.Result);
+            }
         }
 
         private void GetCommandResponse(bool result)
