@@ -11,62 +11,59 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
-            <Frame
+        <Frame
                 MinHeight="100"
                 VerticalAlignment="Top"
-                Background="CornflowerBlue">
-                <Grid>
-                    <TextBlock
-                        HorizontalAlignment="Center"
+                Background="#c29c5f">
+            <Grid>
+                <Image Source="{Binding OHLALALogo}"
+                       HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        FontSize="36"
-                        FontWeight="SemiBold"
-                        Foreground="WhiteSmoke"
-                        Text="OHLALA!" />
-                </Grid>
-            </Frame>
+                       Height="80"/>
+            </Grid>
+        </Frame>
 
-            <controls:AdaptiveGridView  Grid.Row="1" HorizontalAlignment="Center" ItemsSource="{Binding MenuItems}" Margin="12" VerticalContentAlignment="Center"
+        <controls:AdaptiveGridView  Grid.Row="1" HorizontalAlignment="Center" ItemsSource="{Binding MenuItems}" Margin="12" VerticalContentAlignment="Center"
                                    HorizontalContentAlignment="Stretch"
                                    VerticalAlignment="Center" 
                                    SelectionMode="Single"
                                    ItemHeight="180" DesiredWidth="220" 
                                    SelectedItem="{Binding SelectedMenuItem, Mode=TwoWay}" IsItemClickEnabled="True">
-                <controls:AdaptiveGridView.ItemContainerStyle>
-                    <Style TargetType="GridViewItem">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="GridViewItem">
-                                    <ListViewItemPresenter
+            <controls:AdaptiveGridView.ItemContainerStyle>
+                <Style TargetType="GridViewItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="GridViewItem">
+                                <ListViewItemPresenter
                                         PressedBackground="Transparent"
                                         SelectedBackground="Transparent"
                                         SelectedPointerOverBackground="Transparent"
                                         SelectedPressedBackground="Transparent" />
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </controls:AdaptiveGridView.ItemContainerStyle>
-                <controls:AdaptiveGridView.ItemTemplate>
-                    <DataTemplate>
-                        <Viewbox VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </controls:AdaptiveGridView.ItemContainerStyle>
+            <controls:AdaptiveGridView.ItemTemplate>
+                <DataTemplate>
+                    <Viewbox VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                                  MinWidth="80" MinHeight="40" Width="220" Height="180">
-                            <Frame CornerRadius="10" Padding="10" Background="{Binding Color}"
+                        <Frame CornerRadius="10" Padding="10" Background="{Binding Color}"
                                    MinWidth="80" MinHeight="40" Width="220" Height="180"
                                    VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="*" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
 
-                                    <Image
+                                <Image
                                         Width="80"
                                         Height="80"
                                         MinWidth="40"
@@ -75,7 +72,7 @@
                                         VerticalAlignment="Center"
                                         Source="{Binding Icon}" />
 
-                                    <TextBlock
+                                <TextBlock
                                         Grid.Row="1"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Bottom"
@@ -85,44 +82,44 @@
                                         Text="{Binding Name}"
                                         TextWrapping="Wrap" />
 
-                                </Grid>
-                            </Frame>
-                        </Viewbox>
-                    </DataTemplate>
-                </controls:AdaptiveGridView.ItemTemplate>
-            </controls:AdaptiveGridView>
+                            </Grid>
+                        </Frame>
+                    </Viewbox>
+                </DataTemplate>
+            </controls:AdaptiveGridView.ItemTemplate>
+        </controls:AdaptiveGridView>
 
-            <Frame
+        <Frame
                 Grid.Row="2"
                 MinHeight="80"
                 VerticalAlignment="Bottom"
-                Background="CornflowerBlue">
-                <Grid
+                Background="#c29c5f">
+            <Grid
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     ColumnSpacing="40">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
 
-                    <Button
+                <Button
                         Width="140"
                         Height="40"
                         Content="Detener" />
-                    <Button
+                <Button
                         Grid.Column="1"
                         Width="140"
                         Height="40"
                         Content="Configuración" 
                         Command="{Binding ConfigurationCommand}"/>
-                    <Button
+                <Button
                         Grid.Column="2"
                         Width="140"
                         Height="40"
                         Content="Salir" />
-                </Grid>
-            </Frame>
-        </Grid>
+            </Grid>
+        </Frame>
+    </Grid>
 </Page>

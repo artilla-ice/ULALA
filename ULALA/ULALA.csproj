@@ -146,6 +146,14 @@
     <Compile Include="ViewModels\WithdrawStackerViewModel.cs" />
     <Compile Include="ViewModels\WithdrawCashViewModel.cs" />
     <Compile Include="ViewModels\MainMenuViewModel.cs" />
+    <Compile Include="Views\Events\MoneyRetrievalEvent.cs" />
+    <Compile Include="Views\Events\NewMoneyDispensedEvent.cs" />
+    <Compile Include="Views\Events\NewMoneyInsertEvent.cs" />
+    <Compile Include="Views\Events\ReceivedResponseEvent.cs" />
+    <Compile Include="Views\Events\ResponseReceivedEvent.cs" />
+    <Compile Include="Views\Events\StartDispenseMoneySessionEvent.cs" />
+    <Compile Include="Views\Events\StartListeningForResponseReceivedEvent.cs" />
+    <Compile Include="Views\Events\StartMoneyInsertionEvent.cs" />
     <Compile Include="Views\NewChargeView.xaml.cs">
       <DependentUpon>NewChargeView.xaml</DependentUpon>
     </Compile>
@@ -195,6 +203,7 @@
     <Content Include="Assets\Icons\Mon10.png" />
     <Content Include="Assets\Icons\Mon2.png" />
     <Content Include="Assets\Icons\Mon5.png" />
+    <Content Include="Assets\Icons\OHLALABoulangerieBistrotLogo.svg" />
     <Content Include="Assets\Icons\StackCoins.png" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

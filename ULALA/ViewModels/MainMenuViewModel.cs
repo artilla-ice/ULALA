@@ -25,6 +25,7 @@ namespace ULALA.ViewModels
 
         protected override void OnActivated()
         {
+            this.OHLALALogo = "../Assets/Icons/OHLALABoulangerieBistrotLogo.svg";
             OnLoadMenuItems();
         }
 
@@ -32,7 +33,7 @@ namespace ULALA.ViewModels
         {
             var menuItems = new List<MenuItemModel>()
             {
-                new MenuItemModel("../Assets/Icons/Cobrar.png", "Cobrar", Color.DarkGray.Name, ViewNames.NewCharge),
+                new MenuItemModel("../Assets/Icons/Cobrar.png", "Cobrar", Color.BlueViolet.Name, ViewNames.NewCharge),
                 //new MenuItemModel("../Assets/Icons/Estatus.png", "Estado de CashLogy", Color.CadetBlue.Name, null),
                 new MenuItemModel("../Assets/Icons/AddCambios.png", "Añadir cambios", Color.DarkRed.Name, ViewNames.AddExchange),
                 //new MenuItemModel("../Assets/Icons/Cambio.png", "Dar Cambio", Color.MediumVioletRed.Name, null),
@@ -67,6 +68,13 @@ namespace ULALA.ViewModels
         {
             get { return m_menuItems; }
             set { SetProperty(ref m_menuItems, value); }
+        }
+
+        private string m_OHLALALogo;
+        public string OHLALALogo
+        {
+            get { return m_OHLALALogo; }
+            set { SetProperty(ref m_OHLALALogo, value); }
         }
 
         private MenuItemModel m_selectedMenuItem;
