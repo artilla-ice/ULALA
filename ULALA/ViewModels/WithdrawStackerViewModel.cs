@@ -33,8 +33,7 @@ namespace ULALA.ViewModels
         {
             this.PageIcon = "../Assets/Icons/Cobrar.png";
 
-            this.StackerTotalAmount = this.MoneyRetrieval.Data.TotalMoneyRetrieved;
-
+            OnLoadTotalMoneyRetrieved();
             OnLoadStackerAmounts();
         }
 
@@ -84,6 +83,34 @@ namespace ULALA.ViewModels
                     await dialog.ShowAsync();
 
                     OnLoadStackerAmounts();
+                }
+            });
+        }
+
+        private void OnLoadTotalMoneyRetrieved()
+        {
+            HandleAsyncCall(async () =>
+            {
+                if (this.MoneyRetrieval != null)
+                {
+                    this.StackerTotalAmount = this.MoneyRetrieval.Data.TotalMoneyRetrieved;
+
+                    ContentDialog dialog = new ContentDialog();
+                    dialog.Title = new InfoBar()
+                    {
+                        IsOpen = true,
+                        IsIconVisible = true,
+                        IsClosable = false,
+                        Severity = InfoBarSeverity.Warning,
+                        Title = "El stacker ha sido removido",
+                        Message = "Se ha vaciado el Stacker y Cash Box",
+                        HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Stretch,
+                        VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Stretch
+                    };
+
+                    dialog.PrimaryButtonText = "OK";
+
+                    await dialog.ShowAsync();
                 }
             });
         }
