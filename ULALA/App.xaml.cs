@@ -197,19 +197,9 @@ namespace ULALA
 
             RegisterNavigationPages(navigationManager);
 
+            InitializeZeusConnection();
             InitializeManager<ISQLDependencyManager>();
             InitializeManager<IZeusManager>();
-
-            InitializeZeusConnection();
-        }
-
-        private void ConfigureZeusConnectionService()
-        {
-            var zeusManager = new ZeusManager();
-            m_container.BuildUp(zeusManager);
-            m_container.RegisterInstance<IZeusManager>(zeusManager);
-
-            zeusManager.OnStartListening();
         }
 
         //private void ConfigureDBListener()

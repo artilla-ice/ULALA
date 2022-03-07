@@ -42,6 +42,8 @@ namespace ULALA.Services.Zeus
 
         public Task Initialize()
         {
+            StartListening();
+
             SubscribeToEvents();
 
             this.EventAggregator.GetEvent<StartListeningForResponseReceivedEvent>().Publish(new StartListeningForResponseReceivedEventArgs());
@@ -52,6 +54,7 @@ namespace ULALA.Services.Zeus
         {
             IPAddress ipAddress = IPAddress.Parse(GetLocalIPAddress());//IPAddress.Parse("10.37.140.220");
             IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 2021);//new IPEndPoint(ipAddress, 1989);
+
 
             try
             {
@@ -78,7 +81,7 @@ namespace ULALA.Services.Zeus
             }
         }
 
-        public Task RequestMoneyInsertion()
+        public Task RequestMoneyInsertion(double amountInsertion = -1)
         {
 
             if (m_client != null && m_client.Connected)
@@ -87,6 +90,7 @@ namespace ULALA.Services.Zeus
                 using (var streamWriter = new StreamWriter(networkStream, Encoding.ASCII))
                 using (var writer = new JsonTextWriter(streamWriter))
                 {
+                    var insertionAmount = (amountInsertion == -1) ? DefaultMaxInsertionAmount : amountInsertion;
                     writer.WriteStartObject();
                     {
                         writer.WritePropertyName("version");
@@ -96,7 +100,7 @@ namespace ULALA.Services.Zeus
                         writer.WritePropertyName("params");
                         writer.WriteStartObject();
                         writer.WritePropertyName("amount");
-                        writer.WriteValue(DefaultMaxInsertionAmount);
+                        writer.WriteValue(insertionAmount);
                         writer.WriteEndObject();
                         writer.WritePropertyName("id");
                         writer.WriteValue(1);
@@ -120,7 +124,12 @@ namespace ULALA.Services.Zeus
         {
             OnCommand("finishInsertion", 2);
 
-            //TODO: verificar el response del emulador que sea igual al dinero que se registro (en el viewmodel)
+            this.EventAggregator.GetEvent<StartListeningForResponseReceivedEvent>().Publish(new StartListeningForResponseReceivedEventArgs
+            {
+                Response = "result",
+                EvenType = "commandResponse",
+                ResponseId = 2
+            });
 
             return Task.CompletedTask;
         }
@@ -165,7 +174,7 @@ namespace ULALA.Services.Zeus
 
         public Task FinishDispenseSession()
         {
-            OnCommand("finishDispenseSession", 2);
+            OnCommand("finishDispenseSession", 12);
 
             this.EventAggregator.GetEvent<StartListeningForResponseReceivedEvent>().Publish(new StartListeningForResponseReceivedEventArgs
             {
@@ -244,7 +253,7 @@ namespace ULALA.Services.Zeus
                         if (!networkStream.DataAvailable)
                             return Task.FromResult(result);
 
-                        var json = serializer.Deserialize(reader).ToString();//\"totalMoneyInserted
+                        var json = serializer.Deserialize(reader).ToString();
                         var jObject = JObject.Parse(json);
                         if (jObject != null)
                         {
@@ -267,7 +276,7 @@ namespace ULALA.Services.Zeus
                             if (jToken != null)
                             {
                                 //verify eventType
-                                if(jsonResponseValue == "event"
+                                if (jsonResponseValue == "event"
                                      && eventType != jToken.Value<string>("type"))
                                 {
                                     eventType = jToken.Value<string>("type");
@@ -282,7 +291,7 @@ namespace ULALA.Services.Zeus
                                 {
                                     var args = jToken.ToObject<MoneyRetrievalResponse>();
                                     this.EventAggregator.GetEvent<MoneyRetrievalEvent>()
-                                        .Publish(new MoneyRetrievalEventEventArgs() { Result =  args});
+                                        .Publish(new MoneyRetrievalEventEventArgs() { Result = args });
 
                                 }
                                 else if (eventType == "commandResponse")
@@ -304,6 +313,7 @@ namespace ULALA.Services.Zeus
                                                 if (firstPropertyName == "totalMoneyInserted")
                                                 {
                                                     objResult = jToken.ToObject<FinishInsertionResponse>();
+                                                    eventType = firstPropertyName;
                                                 }
                                                 else if (firstPropertyName == "totalMoneyDispensed")
                                                 {

@@ -9,6 +9,7 @@ using ULALA.Infrastructure.Events;
 using ULALA.Infrastructure.PubSub;
 using ULALA.Services.Contracts.Events.MoneyInserted;
 using ULALA.Services.Contracts.Zeus.DTO.CashDispension;
+using ULALA.Services.Contracts.Zeus.DTO.CashInsertion;
 using ULALA.UI.Core.MVVM;
 using Windows.UI.Xaml.Controls;
 using Xamarin.Forms;
@@ -57,7 +58,8 @@ namespace ULALA.ViewModels
         {
             HandleAsyncCall(async () =>
             {
-                await this.ZeusManager.StartMoneyInsertion();
+                if(TotalChargeAmount > 0)
+                    await this.ZeusManager.StartMoneyInsertion(this.TotalChargeAmount);
             });
         }
 
@@ -106,6 +108,8 @@ namespace ULALA.ViewModels
                 OnFinishDispenseSession((FinishDispenseResponse)args.Result);
             else if (args.CommandId == "moneyDispensedEvent")
                 OnMoneyDispensed((MoneyMovementEvent)args.Result);
+            else if (args.CommandId == "totalMoneyInserted")
+                OnVerifyTotalInsertedAmount((FinishInsertionResponse)args.Result);
             else if (args.CommandId == "commandResponse")
             {
                 var isValidResult = typeof(bool) == args.Result.GetType();
@@ -170,7 +174,7 @@ namespace ULALA.ViewModels
 
         private void GetStartMoneyDispensionSessionCommandResponse(bool result)
         {
-            this.ZeusManager.IsInsertSessionOpen = result;
+            this.ZeusManager.IsInsertSessionOpen = false ;
             if(result)
             {
                 this.EventAggregator.GetEvent<StartListeningForResponseReceivedEvent>().Publish(new StartListeningForResponseReceivedEventArgs
@@ -219,7 +223,7 @@ namespace ULALA.ViewModels
                     {
                         await this.ZeusManager.CloseDispenseSession();
                     });
-                }
+                    }
 
                 //Log dispensed denominations
 
@@ -233,36 +237,49 @@ namespace ULALA.ViewModels
             if (currentInsertedMoney != null)
             {
                 this.InsertedAmount += currentInsertedMoney.Data[0].Value;
-                if (m_insertedAmount >= m_totalChargeAmount)
+                if (InsertedAmount >= TotalChargeAmount)
                 {
                     HandleAsyncCall(async () =>
                     {
                         await this.ZeusManager.CloseMoneyInsertion();
-
-                        if (this.ExchangeAmount > 0)
-                            await this.ZeusManager.StartDispenseMoneySession(this.ExchangeAmount);
-                        else
-                        {
-                            ContentDialog dialog = new ContentDialog();
-                            dialog.Title = new InfoBar()
-                            {
-                                IsOpen = true,
-                                IsIconVisible = true,
-                                IsClosable = false,
-                                Severity = InfoBarSeverity.Success,
-                                Title = "Pago recibido con éxito!",
-                                Message = "Presione Salir",
-                                HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Stretch,
-                                VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Stretch
-                            };
-
-                            dialog.PrimaryButtonText = "OK";
-
-                            await dialog.ShowAsync();
-                        }
                     });
                 }
             }
+        }
+
+        private void OnVerifyTotalInsertedAmount(FinishInsertionResponse args)
+        {
+            HandleAsyncCall(async () =>
+            {
+                if (InsertedAmount != args.TotalMoneyInserted)
+                    InsertedAmount = args.TotalMoneyInserted;
+
+                if(args.TotalMoneyInserted >= this.TotalChargeAmount)
+                {
+                    if (this.ExchangeAmount > 0)
+                        await this.ZeusManager.StartDispenseMoneySession(this.ExchangeAmount);
+                    else
+                    {
+                        ContentDialog dialog = new ContentDialog();
+                        dialog.Title = new InfoBar()
+                        {   
+                            IsOpen = true,
+                            IsIconVisible = true,
+                            IsClosable = false,
+                            Severity = InfoBarSeverity.Success,
+                            Title = "Pago recibido con éxito!",
+                            Message = "Presione Salir",
+                            HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Stretch,
+                            VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Stretch
+                        };
+
+                        dialog.PrimaryButtonText = "OK";
+
+                        await dialog.ShowAsync();
+                    }
+                }
+            });
+           
         }
 
         private bool m_isInserting = false;

@@ -20,7 +20,7 @@ namespace ULALA.Services.Contracts.Zeus
         Task<Status> GetGeneralStatus();
         Task<CashTotalsResponse> RequestCashTotals();
         Task<MoneyRetrievalResponse> RetrieveStackerValues();
-        Task RequestMoneyInsertion();
+        Task RequestMoneyInsertion(double amountInsertion = -1);
         //Task<T> OnStartListeningForEvent<T>(string expectedResponse = "event");
         Task FinishMoneyInsertion();
         Task<bool> RequestDispenseSession(double amount);

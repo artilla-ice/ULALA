@@ -56,9 +56,9 @@ namespace ULALA.Core.Zeus
 
         }
 
-        public Task StartMoneyInsertion()
+        public Task StartMoneyInsertion(double amountInsertion = -1)
         {
-            this.ZeusConnectionService.RequestMoneyInsertion();
+            this.ZeusConnectionService.RequestMoneyInsertion(amountInsertion);
 
             return Task.CompletedTask;
         }

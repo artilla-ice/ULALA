@@ -115,7 +115,7 @@
                         Grid.Column="1"
                         Width="140"
                         Height="40"
-                        Content="Configuración" 
+                        Content="Configuración"
                         Command="{Binding ConfigurationCommand}"/>
                     <Button
                         Grid.Column="2"
